@@ -12,7 +12,7 @@ mkalias ()
       echo -e "    search [search term]    search aliases"
       echo -e "    ls                      list all aliases"
       echo -e "    rm [alias name]         remove an alias"
-      echo -e "    wd                      make alias using current working directory"
+      echo -e "    wd                      make alias name from current working directory"
       echo -e "    open                    view the mkalias file in Finder"
       echo -e ""
       echo -e "be sure to source the alias file in your .bashrc or .bash_profile"

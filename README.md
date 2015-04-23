@@ -12,10 +12,10 @@ mkalias [alias name]
 mkalias [option]
 
 options:
-    search  [search term]
-    ls      list all aliases
-    rm      remove an alias
-    wd      make alias using current dirname
+    search [search term]    search aliases
+    ls                      list all aliases
+    rm [alias name]         remove an alias
+    wd                      make alias using current dirname
 
 be sure to source the alias file in your .bashrc or .bash_profile
     "echo "source ~/.mkalias/alias.txt" >> ~/.bash_profile"

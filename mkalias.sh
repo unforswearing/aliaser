@@ -12,7 +12,8 @@ mkalias ()
       echo -e "    search [search term]    search aliases"
       echo -e "    ls                      list all aliases"
       echo -e "    rm [alias name]         remove an alias"
-      echo -e "    wd                      make alias using current dirname"
+      echo -e "    wd                      make alias using current working directory"
+      echo -e "    open                    view the mkalias file in Finder"
       echo -e ""
       echo -e "be sure to source the alias file in your .bashrc or .bash_profile"
       echo -e "    'echo \"source ~/.mkalias/alias.txt\" >> ~/.bash_profile'"
@@ -29,7 +30,7 @@ mkalias ()
     elif [[ "$1" == "ls" ]]; then
       sort -d ~/.mkalias/alias.txt;
     elif [[ "$1" == "rm" ]]; then
-      grep --color=auto -i -v "$2" ~/.mkalias/alias.txt > mktmp.txt;
+      grep -i -v "$2" ~/.mkalias/alias.txt > mktmp.txt;
       cat mktmp.txt > ~/.mkalias/alias.txt;
       rm mktmp.txt;
       echo "alias \""$2"\" removed";
@@ -43,7 +44,7 @@ mkalias ()
       if [[ "$2" == "" ]]; then
         echo "mkalias search needs an alias name to search for";
       else
-        grep --color=auto -i "$2" ~/.mkalias/alias.txt;
+        grep -i "$2" ~/.mkalias/alias.txt;
       fi;
     elif [[ "$1" == "help" ]]; then
       helpp;

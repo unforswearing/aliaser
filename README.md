@@ -8,8 +8,11 @@ Another directory traversal tool. Inspired by [bashmarks](https://github.com/huy
 ## Usage  
 
 ```
-mkalias [alias name]	make aliases
-    search    [search term]	search aliases
+mkalias [alias name]
+mkalias [option]
+
+options:
+    search  [search term]
     ls      list all aliases
     rm      remove an alias
     wd      make alias using current dirname

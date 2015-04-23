@@ -16,11 +16,12 @@ Aliases created via `mkalias` are available immediately after creation, meaning 
 More options:  
 
 ```
-    search [search term]    search aliases
-    ls                      list all aliases
-    rm [alias name]         remove an alias
-    wd                      make alias name from current working directory
-    open                    view the mkalias file in Finder
+mkalais
+        search [search term]    search aliases
+        ls                      list all aliases
+        rm [alias name]         remove an alias
+        wd                      make alias name from current working directory
+        open                    view the mkalias file in Finder
 ```
 
 Type `mkalias help` for the full usage text.  

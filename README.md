@@ -9,7 +9,7 @@ Another directory traversal tool. Inspired by [bashmarks](https://github.com/huy
 
 `cd` to a directory and make some aliases. For example: `cd ~/scripts; mkalias myscripts`
 
-When `mkalias` is run for the first time it will create a `.mkalias` directory that contains the alias text file. Use `mkalias open` to view the contents of this file. 
+When `mkalias` is run for the first time it will create a `.mkalias` directory that contains the alias text file. Use `mkalias open` to view the this file in Finder. 
 
 Aliases created via `mkalias` are available immediately after creation, meaning no more sourcing your bash profile to get an alias to work. 
 

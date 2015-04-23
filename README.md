@@ -16,7 +16,7 @@ Aliases created via `mkalias` are available immediately after creation, meaning 
 More options:  
 
 ```
-mkalais
+mkalias
         search [search term]    search aliases
         ls                      list all aliases
         rm [alias name]         remove an alias

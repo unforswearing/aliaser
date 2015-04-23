@@ -16,19 +16,14 @@ Aliases created via `mkalias` are available immediately after creation, meaning 
 More options:  
 
 ```
-mkalias [alias name]
-mkalias [option]
-
-options:
     search [search term]    search aliases
     ls                      list all aliases
     rm [alias name]         remove an alias
     wd                      make alias using current dirname
     open                    view the mkalias file in Finder
-
-be sure to source the alias file in your .bashrc or .bash_profile
-    "echo "source ~/.mkalias/alias.txt" >> ~/.bash_profile"
 ```
+
+Type `mkalias help` for the full usage text.  
 
 ## Installation  
 

@@ -5,17 +5,17 @@ mkalias ()
 
   helpp ()
     {
-       echo -e "mkalias - quickly make aliases for frequently traveled directories"
-       printf '\n'
-       echo -e "usage:"
-       echo -e "  mkalias [<alias name>]	make aliases"
-       echo -e "    search [<search term>]	search aliases"
-       echo -e "    ls	list all aliases"
-       echo -e "    rm	remove an alias"
-       echo -e "    wd make alias using current dirname"
-       printf '\n'
-       echo -e "be sure to source the alias file in your .bashrc or .bash_profile"
-       echo -e "    'echo \"source ~/.mkalias/alias.txt\" >> ~/.bash_profile'" 
+      echo -e "mkalias [alias name]"
+      echo -e "mkalias [option]"
+      echo -e ""
+      echo -e "options:"
+      echo -e "    search [search term]    search aliases"
+      echo -e "    ls                      list all aliases"
+      echo -e "    rm [alias name]         remove an alias"
+      echo -e "    wd                      make alias using current dirname"
+      echo -e ""
+      echo -e "be sure to source the alias file in your .bashrc or .bash_profile"
+      echo -e "    'echo \"source ~/.mkalias/alias.txt\" >> ~/.bash_profile'"
     }
 
     mkdir -p ~/.mkalias || exit 1;

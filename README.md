@@ -22,7 +22,9 @@ be sure to source the alias file in your .bashrc or .bash_profile
     "echo "source ~/.mkalias/alias.txt" >> ~/.bash_profile"
 ```
 
-When `mkalias` is run for the first time it will create a `.mkalias` directory that contains the alias text file. Use `mkalias open` to view the contents of this file.   
+When `mkalias` is run for the first time it will create a `.mkalias` directory that contains the alias text file. Use `mkalias open` to view the contents of this file. 
+
+Aliases created via `mkalias` are available immediately after creation, meaning no more sourcing your bash profile to get an alias to work. 
 
 ## Installation  
 

@@ -19,7 +19,7 @@ More options:
     search [search term]    search aliases
     ls                      list all aliases
     rm [alias name]         remove an alias
-    wd                      make alias using current dirname
+    wd                      make alias using current working directory
     open                    view the mkalias file in Finder
 ```
 

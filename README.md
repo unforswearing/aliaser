@@ -32,4 +32,4 @@ This script is a function called `mkalias` which can be sourced in your bash pro
 
 ## License 
 
-To do what thou wilt shall be the whole of the license. 
+MIT

@@ -28,7 +28,7 @@ Type `mkalias help` for the full usage text.
 
 ## Installation  
 
-This script is a function called `mkalias` which can be sourced in your bash profile (as seen in the usage above) or added to your bash profile or anywhere else you keep those types of things. 
+This script is a function called `mkalias` which can be sourced in your bash profile (`source ~/.mkalias/mkalias.txt`), added to your bash profile, or stored anywhere else you keep those types of things. 
 
 ## License 
 

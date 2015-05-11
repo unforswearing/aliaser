@@ -36,7 +36,8 @@ mkalias ()
       echo "alias \""$2"\" removed";
       . ~/.mkalias/alias.txt;
     elif [[ "$1" == "wd" ]]; then
-      name=$(basename $(pwd)); dir=$(pwd)
+      name=$(basename $(pwd))
+      dir=$(pwd|sed 's/ /\\ /')
       echo "alias $name='cd $dir'" >> ~/.mkalias/alias.txt;
       echo "alias \"$name\" created for $(pwd)";
       . ~/.mkalias/alias.txt;
@@ -49,7 +50,7 @@ mkalias ()
     elif [[ "$1" == "help" ]]; then
       helpp;
     else
-      echo "alias "$1"='cd $(pwd|sed 's/ /\\/')'" >> ~/.mkalias/alias.txt;
+      echo "alias "$1"='cd $(pwd|sed 's/ /\\ /')'" >> ~/.mkalias/alias.txt;
       echo "alias \""$1"\" created for $(pwd)";
       . ~/.mkalias/alias.txt;
     fi

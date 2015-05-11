@@ -11,7 +11,7 @@ Another directory traversal tool. Inspired by [bashmarks](https://github.com/huy
 
 When `mkalias` is run for the first time it will create a `.mkalias` directory that contains the alias text file. Use `mkalias open` to view the this file in Finder. 
 
-Aliases created via `mkalias` are available immediately after creation, meaning no need to `source ~/.bash_profile` to get an alias to work. 
+Add `source ~/.mkalias/mkalias.txt` to your `bash_profile ` before creating your first alias. Aliases created via `mkalias` are available immediately. 
 
 More options:  
 
@@ -28,7 +28,7 @@ Type `mkalias help` for the full usage text.
 
 ## Installation  
 
-This script is a function called `mkalias` which can be sourced in your bash profile (`source ~/.mkalias/mkalias.txt`), added to your bash profile, or stored anywhere else you keep those types of things. 
+This script is a function called `mkalias` which can added to your bash profile as an alias or function, or stored anywhere else you keep those types of things. 
 
 ## License 
 

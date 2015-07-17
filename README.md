@@ -2,9 +2,6 @@
 
 Another directory traversal tool. Inspired by [bashmarks](https://github.com/huyng/bashmarks), but way less intelligent.  
 
-![gif](https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example.gif)
-
-
 ## Usage  
 
 `cd` to a directory and make some aliases. For example: `cd ~/scripts; aliaser myscripts`

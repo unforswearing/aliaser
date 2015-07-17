@@ -32,7 +32,11 @@ Type `aliaser help` for the full usage text.
 
 ## Installation  
 
-This script is a function called `aliaser` which can added to your bash profile as an alias or function, or stored anywhere else you keep those types of things. 
+This script is a function called `aliaser` which can added to your bash profile as an alias or function, or stored anywhere else you keep those types of things.   
+
+## Bugs  
+
+There are probably lots. Let me know if you find some.   
 
 ## License 
 

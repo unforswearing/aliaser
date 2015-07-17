@@ -1,6 +1,4 @@
 #!/bin/sh
-aliaser ()
-{
 set -eo pipefail
 IFS=$'\n\t'
 
@@ -35,6 +33,7 @@ case "$1" in
  		     else 
     			echo "EDITOR not set. Opening with default app..."; 
     			open ~/.aliaser/alias.txt;
+				. ~/.aliaser/alias.txt
  		     fi
 			 exit 1
 	;;
@@ -56,6 +55,7 @@ case "$1" in
      			  echo "aliaser search needs an alias name to search for";
   			   else
     			   grep -i "$2" ~/.aliaser/alias.txt;
+				   . ~/.aliaser/alias.txt
   			   fi;
 			   exit 1
 	;;
@@ -74,4 +74,3 @@ else
     echo "alias \""$1"\" created for $(pwd)";
 	. ~/.aliaser/alias.txt;
 fi
-}

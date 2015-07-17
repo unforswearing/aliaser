@@ -1,34 +1,41 @@
-# mkalias  
+# aliaser  
 
 Another directory traversal tool. Inspired by [bashmarks](https://github.com/huyng/bashmarks), but way less intelligent.  
 
-![gif](https://raw.githubusercontent.com/unforswearing/mkalias/master/mkalias-example.gif)
+![gif](https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example.gif)
 
 
 ## Usage  
 
-`cd` to a directory and make some aliases. For example: `cd ~/scripts; mkalias myscripts`
+`cd` to a directory and make some aliases. For example: `cd ~/scripts; aliaser myscripts`
 
-When `mkalias` is run for the first time it will create a `.mkalias` directory that contains the alias text file. Use `mkalias open` to view the this file in Finder. 
+When `aliaser` is run for the first time it will create a `.aliaser` directory that contains the alias text file. Use `aliaser open` to view the this file in Finder. 
 
-Add `source ~/.mkalias/mkalias.txt` to your `bash_profile ` before creating your first alias. Aliases created via `mkalias` are available immediately. 
+Add `source ~/.aliaser/aliaser.txt` to your `bash_profile ` before creating your first alias. Aliases created via `aliaser` are available immediately. 
 
 More options:  
 
 ```
-mkalias
-        search [search term]    search aliases
-        ls                      list all aliases
-        rm [alias name]         remove an alias
-        wd                      make alias name from current working directory
-        open                    view the mkalias file in Finder
+aliaser [option] [alias name]
+
+options:
+	-s, search [search term]     search aliases
+	-l, ls, list                 list all aliases
+	-r, rm,remove [alias name]   remove an alias
+	-d, wd, dir                  make alias name from current working directory
+	-o, open                     view the aliaser file in Finder
+	-e, edit                     edit alias.txt in EDITOR (or default application)
+	-h, help                     print this help text and exit
+
+be sure to source the alias file in your .bashrc or .bash_profile
+	'echo \"source ~/.aliaser/alias.txt\" >> ~/.bash_profile'
 ```
 
-Type `mkalias help` for the full usage text.  
+Type `aliaser help` for the full usage text.  
 
 ## Installation  
 
-This script is a function called `mkalias` which can added to your bash profile as an alias or function, or stored anywhere else you keep those types of things. 
+This script is a function called `aliaser` which can added to your bash profile as an alias or function, or stored anywhere else you keep those types of things. 
 
 ## License 
 

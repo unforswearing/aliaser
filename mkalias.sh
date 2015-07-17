@@ -1,57 +1,74 @@
 #!/bin/sh
+set -eo pipefail
+IFS=$'\n\t'
 
-mkalias ()
+helpp ()
 {
+	cat <<EOF
+aliaser [option] [alias name]
 
-  helpp ()
-    {
-      echo -e "mkalias [alias name]"
-      echo -e "mkalias [option]"
-      echo -e ""
-      echo -e "options:"
-      echo -e "    search [search term]    search aliases"
-      echo -e "    ls                      list all aliases"
-      echo -e "    rm [alias name]         remove an alias"
-      echo -e "    wd                      make alias name from current working directory"
-      echo -e "    open                    view the mkalias file in Finder"
-      echo -e ""
-      echo -e "be sure to source the alias file in your .bashrc or .bash_profile"
-      echo -e "    'echo \"source ~/.mkalias/alias.txt\" >> ~/.bash_profile'"
-    }
+options:
+	-s, search [search term]     search aliases
+	-l, ls, list                 list all aliases
+	-r, rm,remove [alias name]   remove an alias
+	-d, wd, dir                  make alias name from current working directory
+	-o, open                     view the aliaser file in Finder
+	-e, edit                     edit alias.txt in EDITOR (or default application)
+	-h, help                     print this help text and exit
 
-    mkdir -p ~/.mkalias || exit 1;
-
-    if [[ "$1" != "$(echo $1 | sed 's/[^A-Za-z0-9_-]//g')" ]]; then
-      echo "name is not valid.";
-    elif [[ "$1" == "" ]]; then
-      echo "mkalias needs an alias name. type 'mkalias help' to view the available commands";
-    elif [[ "$1" == "open" ]]; then
-      open ~/.mkalias
-    elif [[ "$1" == "ls" ]]; then
-      sort -d ~/.mkalias/alias.txt;
-    elif [[ "$1" == "rm" ]]; then
-      grep -i -v "$2" ~/.mkalias/alias.txt > mktmp.txt;
-      cat mktmp.txt > ~/.mkalias/alias.txt;
-      rm mktmp.txt;
-      echo "alias \""$2"\" removed";
-      . ~/.mkalias/alias.txt;
-    elif [[ "$1" == "wd" ]]; then
-      name=$(basename $(pwd))
-      dir=$(pwd|sed 's/ /\\ /')
-      echo "alias $name='cd $dir'" >> ~/.mkalias/alias.txt;
-      echo "alias \"$name\" created for $(pwd)";
-      . ~/.mkalias/alias.txt;
-    elif [[ "$1" == "search" ]]; then
-      if [[ "$2" == "" ]]; then
-        echo "mkalias search needs an alias name to search for";
-      else
-        grep -i "$2" ~/.mkalias/alias.txt;
-      fi;
-    elif [[ "$1" == "help" ]]; then
-      helpp;
-    else
-      echo "alias "$1"='cd $(pwd|sed 's/ /\\ /')'" >> ~/.mkalias/alias.txt;
-      echo "alias \""$1"\" created for $(pwd)";
-      . ~/.mkalias/alias.txt;
-    fi
+be sure to source the alias file in your .bashrc or .bash_profile
+	'echo \"source ~/.aliaser/alias.txt\" >> ~/.bash_profile'
+EOF
+exit 1
 }
+
+mkdir -p ~/.aliaser || exit 1;
+
+case "$1" in 
+	-h|--help|help) helpp;;
+	-o|open) open ~/.aliaser; exit 1;;
+	-l|ls|list) sort -d ~/.aliaser/alias.txt; exit 1;;
+	-e|edit) if [[ "$EDITOR" =~ ^[a-z] ]]; then
+    			"$EDITOR" ~/.aliaser/alias.txt;
+ 		     else 
+    			echo "EDITOR not set. Opening with default app..."; 
+    			open ~/.aliaser/alias.txt;
+ 		     fi
+			 exit 1
+	;;
+	-r|rm|remove) grep -i -v "$2" ~/.aliaser/alias.txt > mktmp.txt;
+		          cat mktmp.txt > ~/.aliaser/alias.txt;
+		          rm mktmp.txt;
+		          echo "alias \""$2"\" removed";
+		          . ~/.aliaser/alias.txt;
+				  exit 1
+	;;
+	-d|wd|dir) name=$(basename $(pwd))
+		 	   dir=$(pwd|sed 's/ /\\ /')
+			   echo "alias $name='cd $dir'" >> ~/.aliaser/alias.txt;
+			   echo "alias \"$name\" created for $(pwd)";
+			   . ~/.aliaser/alias.txt;	
+			   exit 1	
+	;; 
+	-s|search) if [[ "$2" == "" ]]; then
+     			  echo "aliaser search needs an alias name to search for";
+  			   else
+    			   grep -i "$2" ~/.aliaser/alias.txt;
+  			   fi;
+			   exit 1
+	;;
+esac
+
+if [[ "$1" == "" ]]; then
+	echo "aliaser needs an alias name. type 'aliaser help' to view the available commands";
+elif [[ "$1" =~ ^-([a-c]|[f-g]|[i-k]|[m-n]|[p-r]|[t-z]) ]]; then
+   echo "alias name is not valid. Please do not use '-' before alias names.";
+   exit 1;
+elif [[ "$1" =~ ([--.]|[\(.]|[\).]|[\/.]|[\\.]|[\..]|[\=.]|[\+.]|[\{.]|[\}.]|[\".]|[\?.]|[\,.]|[\,.]|[\<.]|[\>.]) ]]; then
+   echo "alias name is not valid. Please do not use '$(echo "$1" | sed 's/[^[:punct:]]//g')' in alias names.";
+   exit 1;
+else
+	echo "alias "$1"='cd $(pwd|sed 's/ /\\ /')'" >> ~/.aliaser/alias.txt;
+    echo "alias \""$1"\" created for $(pwd)";
+	. ~/.aliaser/alias.txt;
+fi

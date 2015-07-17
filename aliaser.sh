@@ -1,4 +1,6 @@
 #!/bin/sh
+aliaser ()
+{
 set -eo pipefail
 IFS=$'\n\t'
 
@@ -72,3 +74,4 @@ else
     echo "alias \""$1"\" created for $(pwd)";
 	. ~/.aliaser/alias.txt;
 fi
+}

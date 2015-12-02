@@ -1,10 +1,8 @@
 #!/bin/sh
-{
 set -eo pipefail
 IFS=$'\n\t'
 
-helpp ()
-{
+helpp () {
 	cat <<EOF
 aliaser [option] [alias name]
 
@@ -75,4 +73,4 @@ else
     echo "alias \""$1"\" created for $(pwd)";
 	. ~/.aliaser/alias.txt;
 fi
-}
+

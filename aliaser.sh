@@ -58,6 +58,8 @@ case "$1" in
   			   fi;
 			   exit 0
 	;;
+        # -c|command) echo "alias la='"$2"'" >> ~/.aliaser/alias.txt;
+	# ;;
 esac
 
 if [[ "$1" == "" ]]; then

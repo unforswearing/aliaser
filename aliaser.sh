@@ -23,14 +23,14 @@ exit 0
 
 mkdir -p ~/.aliaser || exit 0;
 
-case "$1" in 
+case "$1" in
 	-h|--help|help) helpp;;
 	-o|open) open ~/.aliaser; exit 0;;
 	-l|ls|list) sort -d ~/.aliaser/alias.txt; exit 0;;
 	-e|edit) if [[ "$EDITOR" =~ ^[a-z] ]]; then
     			"$EDITOR" ~/.aliaser/alias.txt;
- 		     else 
-    			echo "EDITOR not set. Opening with default app..."; 
+ 		     else
+    			echo "EDITOR not set. Opening with default app...";
     			open ~/.aliaser/alias.txt;
 				. ~/.aliaser/alias.txt
  		     fi
@@ -47,9 +47,9 @@ case "$1" in
 		 	   dir=$(pwd|sed 's/ /\\ /')
 			   echo "alias $name='cd $dir'" >> ~/.aliaser/alias.txt;
 			   echo "alias \"$name\" created for $(pwd)";
-			   . ~/.aliaser/alias.txt;	
-			   exit 0	
-	;; 
+			   . ~/.aliaser/alias.txt;
+			   exit 0
+	;;
 	-s|search) if [[ "$2" == "" ]]; then
      			  echo "aliaser search needs an alias name to search for";
   			   else
@@ -58,7 +58,7 @@ case "$1" in
   			   fi;
 			   exit 0
 	;;
-        # -c|command) echo "alias la='"$2"'" >> ~/.aliaser/alias.txt;
+    # -c|command) echo "alias la='"$2"'" >> ~/.aliaser/alias.txt;
 	# ;;
 esac
 
@@ -75,4 +75,3 @@ else
     echo "alias \""$1"\" created for $(pwd)";
 	. ~/.aliaser/alias.txt;
 fi
-

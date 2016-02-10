@@ -3,7 +3,7 @@ IFS=$'\n\t'
 
 helpp () {
 	cat <<EOF
-aliaser [option] [alias name]
+aliaser <option> [alias name]
 
 options:
 	-s, search [search term]     search aliases

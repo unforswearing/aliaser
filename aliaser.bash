@@ -20,6 +20,20 @@ be sure to source the alias file in your .bashrc or .bash_profile
 EOF
 }
 
+# error checking, not implemented. 
+_test_() {
+	local illegal
+	local i
+
+	illegal=( "," "\." "\!" "\@" "\#" "\$" "\%" "\^" "\&" "\*" "\(" "\)" "\+" "\=" "\?" "\{" "\}" "\[" "\]" "\|" "\~" )
+	for i in "${illegal[@]}"; do
+		if [[ "$2" =~ ^$i ]]; then
+			echo "Illegal Character ("$i"). Exiting..."
+			exit
+		fi
+	done
+}
+
 config=""${HOME}"/.aliaser.cfg"
 
 if [[ ! -f "$config" ]]; then

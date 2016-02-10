@@ -1,3 +1,5 @@
+# ! This documentation is out of date. Full rewrite coming soon  
+
 # aliaser
 
 Another directory traversal tool. Inspired by [bashmarks](https://github.com/huyng/bashmarks), but way less intelligent.

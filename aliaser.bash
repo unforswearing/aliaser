@@ -6,21 +6,21 @@ helpp () {
 aliaser <option> [alias name]
 
 options:
-	-s, search [search term]     search aliases
-	-l, ls, list                 list all aliases
-	-r, rm,remove [alias name]   remove an alias
-	-d, wd, dir                  make alias name from current working directory
-	-o, open                     view the aliaser file in Finder
-	-e, edit                     edit alias.txt in EDITOR (or default application)
-	-n, name					 create alias "Name" for "Directory"
-	-c, command					 create alias "Name" for "Command"
-	-h, help                     print this help text and exit
+	-s, search [search term]		search aliases
+	-l, ls, list		list all aliases
+	-r, rm,remove [alias name]		remove an alias
+	-d, wd, dir		make alias name from current working directory
+	-o, open		view the aliaser file in Finder
+	-e, edit		edit alias.txt in EDITOR (or default application)
+	-n, name		create alias "Name" for "Directory"
+	-c, command		create alias "Name" for "Command"
+	-h, help		print this help text and exit
 
 be sure to source the alias file in your .bashrc or .bash_profile
 EOF
 }
 
-# error checking, not implemented. 
+# error checking, not implemented.
 _test_() {
 	local illegal
 	local i

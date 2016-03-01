@@ -1,4 +1,15 @@
-# ! This documentation is out of date. Full rewrite coming soon  
+# Deprecated
+
+After learning more about `bash` I found that much of the functionality of `aliaser` was built in. In particular, the following commands do exactly what `aliaser` was built for:  
+
+- `shopt -s autocd`: when set, you simply have to enter the directory name to navigate. The directory you type must be a subdirectory of your current location. 
+- `shopt -s cdable_vars`: this command allows you to export variables to easily navigate to your favorite paths. This perhaps is easier in aliaser, as the paths are added to a file you specify with `aliaser -d`, however, this is trivial. 
+
+`shopt` is useful for other things as well. [Take a look at this page](http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html) if you're unfamiliar.  
+
+`aliaser` was a fun experiment, and perhaps will see an update or rewrite sometime soon (I think `aliaser` is a pretty decent alias manager, but not so great alias creator). If you are interested, the latest and (maybe) final update of `aliaser` starts below. 
+
+---
 
 # aliaser
 

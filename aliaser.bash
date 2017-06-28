@@ -34,15 +34,15 @@ _test_() {
 	done
 }
 
-config=""${HOME}"/.aliaser.cfg"
+config=""${HOME}"/.aliaser.conf"
 
 if [[ ! -f "$config" ]]; then
     read -r -p "Enter the path to your alias file: " aliasfile
-    echo "alias-file="$aliasfile"" > ""${HOME}"/.aliaser.cfg"
+    echo "alias_file="$aliasfile"" > ""${HOME}"/.aliaser.conf"
     echo ""$aliasfile" set as alias file."
 fi
 
-file=$(awk -F '=' '{print $2}' ""${HOME}"/.aliaser.cfg")
+file=$(awk -F '=' '{print $2}' ""${HOME}"/.aliaser.conf")
 filedir=$(dirname "$file")
 filename=$(basename "$file")
 

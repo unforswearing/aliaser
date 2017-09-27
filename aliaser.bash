@@ -220,10 +220,6 @@ _named() {
 }
 
 _search() {
-	shopt -s cdable_vars
-	shopt -s expand_aliases
-	set -P
-
 	if [[ "$2" == "" ]]; then
 		printf "aliaser search needs an alias name to search for";
 
@@ -259,14 +255,14 @@ _search() {
 			);
 
 			local trigger=$(echo $toexec | awk -F ' ' '{print $1}')
-			local directory=$(echo $toexec | sed 's/cd //g' | sed "s|~|/Users/$(whoami)|g" | wrapquotes)
+			local directory=$(echo $toexec | sed 's/cd //g') # | sed "s|~|/Users/$(whoami)|g" | wrapquotes)
 			local aliasname=$(echo "$comm" | awk -F '=' '{print $1}' | awk -F ' ' '{print $2}')
 
 			if [[ $trigger == "cd" ]]; then
 				# navigating to a directory does not work
 				# eval $(echo $aliasname)
 				# cd "$directory" || echo "unable to navigate to $directory"
-				cd $directory
+				pushd $directory
 
 			else 
 				# executing commands does work
@@ -275,8 +271,8 @@ _search() {
 
 		}
 
-		# choosefromlist
-		listresults
+		choosefromlist
+		# listresults
 
     fi
 }

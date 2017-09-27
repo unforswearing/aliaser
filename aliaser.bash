@@ -224,27 +224,40 @@ _search() {
 
 	if [[ "$2" == "" ]]; then
 		printf "aliaser search needs an alias name to search for";
-	else	
+
+	else 
+		srch="$2"
+
+		listresults() {
+			echo "Search results for \""$srch"\":"
+			echo "-------------------------------"
+			grep -i "$srch" "$file"
+			echo
+
+		}
 		results() { 
 			grep -i "$2" "$file" | sed "s/\#.*//g" | grep -v '^$' | tr '\n' '\|'
+
 		}
 
 		choosefromlist() {
 			listbox -t "Search results for "\"$2\""" -o "$(results "$@")" -r comm
 			toexec=$(echo "$comm" | awk -F '=' '{print $2}' | sed "s/'//g")
 			trigger=$(echo $toexec | awk -F ' ' '{print $1}')
-			directory=$(echo $toexec | sed 's/cd //g;s/^/"/g;s/$/"/g')
+			directory=$(echo $toexec | sed 's/cd //g;s/^/"/g;s/$/"/g' | sed "s|~|/Users/$(whoami)|g")
 
 			if [[ $trigger == "cd" ]]; then 
-				# this doesn't wanna work
-				eval pushd "$directory" 
+				# navigating to a directory does not work
+				pushd "$directory" 
 			else 
+				# executing commands does work
 				eval "$toexec"
 			fi
+
 		}
 
-		echo "Search results for "\"$2\"":"
-		grep -i "$2" "$file"
+		listresults
+		# choosefromlist
     fi
 }
 

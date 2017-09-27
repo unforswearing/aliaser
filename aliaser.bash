@@ -38,7 +38,7 @@ config=""${HOME}"/.aliaser.conf"
 
 if [[ ! -f "$config" ]]; then
     read -r -p "Enter the path to your alias file: " aliasfile
-    echo "alias_file="$aliasfile"" > ""${HOME}"/.aliaser.conf"
+    echo "alias_file=$aliasfile" > ""${HOME}"/.aliaser.conf"
     echo ""$aliasfile" set as alias file."
 fi
 

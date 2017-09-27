@@ -224,15 +224,7 @@ _search() {
 
 	if [[ "$2" == "" ]]; then
 		printf "aliaser search needs an alias name to search for";
-	else
-# 		results() { 
-# 			grep -i "$2" "$file" | \
-# 			sed "s/\#.*//g;s/'//g;s/cd //g" | \
-# 			grep -v '^$' | awk -F '=' '{print $2}' | \
-# 			tr '\n' '\|'
-# 		}
-#       aliasname=$(echo "$dir" | awk -F '=' '{print $1}' | awk -F ' ' '{print $2}')
-	
+	else	
 		results() { 
 			grep -i "$2" "$file" | sed "s/\#.*//g" | grep -v '^$' | tr '\n' '\|'
 		}

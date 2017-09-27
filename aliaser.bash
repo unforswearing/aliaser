@@ -220,14 +220,16 @@ _named() {
 }
 
 _search() {
+	shopt -s cdable_vars
 	shopt -s expand_aliases
+	set -P
 
 	if [[ "$2" == "" ]]; then
 		printf "aliaser search needs an alias name to search for";
 
 	else 
-		srch="$2"
-
+		local srch="$2"
+		
 		listresults() {
 			echo "Search results for \""$srch"\":"
 			echo "-------------------------------"
@@ -235,20 +237,37 @@ _search() {
 			echo
 
 		}
-		results() { 
-			grep -i "$2" "$file" | sed "s/\#.*//g" | grep -v '^$' | tr '\n' '\|'
-
-		}
 
 		choosefromlist() {
-			listbox -t "Search results for "\"$2\""" -o "$(results "$@")" -r comm
-			toexec=$(echo "$comm" | awk -F '=' '{print $2}' | sed "s/'//g")
-			trigger=$(echo $toexec | awk -F ' ' '{print $1}')
-			directory=$(echo $toexec | sed 's/cd //g;s/^/"/g;s/$/"/g' | sed "s|~|/Users/$(whoami)|g")
+			results() { 
+				grep -i "$srch" "$file" | sed "s/\#.*//g" | grep -v '^$' | tr '\n' '\|'
+			
+			}
 
-			if [[ $trigger == "cd" ]]; then 
+			listbox -t "Search results for "\"$srch\""" -o "$(results "$@")" -r comm
+
+			wrapquotes() {
+				sed 's/^/"/g;s/$/\"/g'
+			}
+
+
+			local toexec=$(
+				echo "$comm" | \
+				awk -F '=' '{print $2}' | \
+				sed "s/'//g" | \
+				sed "s|~|/Users/$(whoami)|g"
+			);
+
+			local trigger=$(echo $toexec | awk -F ' ' '{print $1}')
+			local directory=$(echo $toexec | sed 's/cd //g' | sed "s|~|/Users/$(whoami)|g" | wrapquotes)
+			local aliasname=$(echo "$comm" | awk -F '=' '{print $1}' | awk -F ' ' '{print $2}')
+
+			if [[ $trigger == "cd" ]]; then
 				# navigating to a directory does not work
-				pushd "$directory" 
+				# eval $(echo $aliasname)
+				# cd "$directory" || echo "unable to navigate to $directory"
+				cd $directory
+
 			else 
 				# executing commands does work
 				eval "$toexec"
@@ -256,8 +275,9 @@ _search() {
 
 		}
 
-		listresults
 		# choosefromlist
+		listresults
+
     fi
 }
 

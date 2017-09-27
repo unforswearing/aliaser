@@ -34,15 +34,18 @@ _test_() {
 	done
 }
 
-config=""${HOME}"/.aliaser.conf"
+config=""${HOME}"/.aliaser/aliaser.conf"
+
+# previous=""${HOME}"/.aliaser/previous.dir"
+# pwd > "$previous"
 
 if [[ ! -f "$config" ]]; then
     read -r -p "Enter the path to your alias file: " aliasfile
-    echo "alias_file=$aliasfile" > ""${HOME}"/.aliaser.conf"
+    echo "alias_file=$aliasfile" > ""${HOME}"/.aliaser/aliaser.conf"
     echo ""$aliasfile" set as alias file."
 fi
 
-file=$(awk -F '=' '{print $2}' ""${HOME}"/.aliaser.conf")
+file=$(awk -F '=' '{print $2}' ""${HOME}"/.aliaser/aliaser.conf")
 filedir=$(dirname "$file")
 filename=$(basename "$file")
 
@@ -103,6 +106,11 @@ _command() {
     echo "Alias "$2" created for "$3""
 }
 
+
+# create tmp alias: aliaser tmp "docs" dir
+# remove tmp alias: aliser tmp rm "docs"
+# allow returning to previous dir: aliaser back
+
 case "$1" in
 	-h|--help|help|"") helpp; . "$file";;
 	-o|open) _open; . "$file";;
@@ -113,4 +121,5 @@ case "$1" in
     -n|name) _named "$@"; . "$file";;
 	-s|search) _search "$@"; . "$file";;
     -c|command) _command "$@"; . "$file";;
+	# -b|back|last) cd "$(cat "$previous")";;
 esac

@@ -10,7 +10,7 @@ Another directory traversal tool. Inspired by [bashmarks](https://github.com/huy
 This script is a function called `aliaser` which can added to your bash profile as an alias or function, or stored anywhere else you keep those types of things. 
 
 ```bash
-source /path/to/aliaser.bash`  
+source /path/to/aliaser.bash   
 ```
 
 <br>
@@ -20,7 +20,7 @@ source /path/to/aliaser.bash`
 Navigate to a directory and make some aliases: 
 
 ```bash
-$ cd ~/scripts; aliaser -d myscripts` 
+$ cd ~/scripts; aliaser -d myscripts  
 ``` 
 
 Or create an alias for a command immediately after execution:  

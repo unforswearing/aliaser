@@ -25,7 +25,9 @@ examples:
 
 
 be sure to source the alias file in your .bashrc or .bash_profile
+
 EOF
+
   }
 
   # https://github.com/gko/listbox

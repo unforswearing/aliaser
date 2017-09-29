@@ -149,12 +149,14 @@ EOF
     listen
   }
 
-  # error checking, not implemented.
+  # illegal character checking, not implemented.
   _test_() {
     local illegal
     local i
 
-    illegal=( "," "\." "\!" "\@" "\#" "\$" "\%" "\^" "\&" "\*" "\(" "\)" "\+" "\=" "\?" "\{" "\}" "\[" "\]" "\|" "\~" )
+    illegal=( "," "\." "\!" "\@" "\#" "\$" "\%" "\^" "\&" \
+              "\*" "\(" "\)" "\+" "\=" "\?" "\{" "\}" "\[" "\]" "\|" "\~" );
+
     for i in "${illegal[@]}"; do
       if [[ "$2" =~ ^$i ]]; then
         echo "Illegal Character ("$i"). Exiting..."
@@ -163,56 +165,54 @@ EOF
     done
   }
 
+  ########################################
   config=""${HOME}"/.aliaser/aliaser.conf"
-
-  # Beginnings of a 'back' command. need to figure out directory tracking (is it worth it?)
-  # previous=""${HOME}"/.aliaser/previous.dir"
-  # pwd > "$previous"
+  ########################################
 
   if [[ ! -f "$config" ]]; then
-      read -r -p "Enter the path to your alias file: " aliasfile
-      echo "alias_file=$aliasfile" > ""${HOME}"/.aliaser/aliaser.conf"
-      echo ""$aliasfile" set as alias file."
+    read -r -p "Enter the path to your alias file: " aliasfile
+    echo "alias_file=$aliasfile" > "$config"
+    echo ""$aliasfile" set as alias file."
   fi
 
-  file=$(awk -F '=' '{print $2}' ""${HOME}"/.aliaser/aliaser.conf")
+  file=$(awk -F '=' '{print $2}' "$config")
   filedir=$(dirname "$file")
   filename=$(basename "$file")
 
   _open() {
-      find ""$filedir"/" -type f -name "$filename" -exec open {} +
-      echo "Opening "$file""
+    find ""$filedir"/" -type f -name "$filename" -exec open {} +
+    echo "Opening "$file""
   }
 
   _list() {
-      # cat "$file"
-      echo "Printing aliases"
-      sleep .2
-      find "$filedir/" -type f -name "$filename" -exec cat {} +;
+    # cat "$file"
+    echo "Printing aliases"
+    sleep .2
+    find "$filedir/" -type f -name "$filename" -exec cat {} +;
   }
 
   _edit() {
-      find ""$filedir"/" -type f -name "$filename" -exec "$EDITOR" {} +
+    find ""$filedir"/" -type f -name "$filename" -exec "$EDITOR" {} +
   }
 
   _remove() {
-      grep -iv "$2" "$file" > .arm.tmp
-      cat .arm.tmp > "$file"
-      rm .arm.tmp
+    grep -iv "$2" "$file" > .arm.tmp
+    cat .arm.tmp > "$file"
+    rm .arm.tmp
 
-      echo "Removed "$2" from aliases"
+    echo "Removed "$2" from aliases"
   }
 
   _dir() {
     local name
-      local dir
+    local dir
 
-      name=$(basename "$(pwd)")
-      dir=$(pwd|sed 's/ /\\ /')
+    name=$(basename "$(pwd)")
+    dir=$(pwd|sed 's/ /\\ /')
 
     printf "alias "$name"='cd "$dir"'" >> "$file";
-      printf '\n' >> "$file"
-      echo "Alias for "$dir" added to "$file""
+    printf '\n' >> "$file"
+    echo "Alias for "$dir" added to "$file""
   }
 
   _named() {
@@ -228,6 +228,7 @@ EOF
     else 
       local srch="$2"
       
+      # unused for now choosefromlist seems to work on home laptop
       listresults() {
         echo "Search results for \""$srch"\":"
         echo "-------------------------------"
@@ -242,12 +243,7 @@ EOF
         
         }
 
-        listbox -t "Search results for "\"$srch\""" -o "$(results "$@")" -r comm
-
-        wrapquotes() {
-          sed 's/^/"/g;s/$/\"/g'
-        }
-
+        listbox -t "Search results for "\"$srch\""" -o "$(results "$@")CANCEL SEARCH" -r comm -a "⇨"
 
         local toexec=$(
           echo "$comm" | \
@@ -257,14 +253,11 @@ EOF
         );
 
         local trigger=$(echo $toexec | awk -F ' ' '{print $1}')
-        local directory=$(echo $toexec | sed 's/cd //g') # | sed "s|~|/Users/$(whoami)|g" | wrapquotes)
-        local aliasname=$(echo "$comm" | awk -F '=' '{print $1}' | awk -F ' ' '{print $2}')
+        local directory=$(echo $toexec | sed 's/cd //g')
 
         if [[ $trigger == "cd" ]]; then
-          # navigating to a directory does not work
-          # eval $(echo $aliasname)
-          # cd "$directory" || echo "unable to navigate to $directory"
-          pushd $directory
+          # navigating to a directory works ONLY on home laptop
+          pushd $directory > /dev/null 2>&1
 
         else 
           # executing commands does work
@@ -273,8 +266,8 @@ EOF
 
       }
 
-      # choosefromlist
-      listresults
+      choosefromlist
+      # listresults
 
       fi
   }
@@ -284,10 +277,6 @@ EOF
       echo "alias "$2"='"$3"'" >> "$file";
       echo "Alias "$2" created for "$3""
   }
-
-
-  # create tmp alias: aliaser tmp "docs" dir
-  # remove tmp alias: aliser tmp rm "docs"
 
   case "$1" in
     -h|--help|help|"") helpp; . "$file";;
@@ -299,6 +288,5 @@ EOF
     -n|name) _named "$@"; . "$file";;
     -s|search) _search "$@"; . "$file";;
     -c|command) _command "$@"; . "$file";;
-    # -b|back|last) cd "$(cat "$previous")";;
   esac
 }

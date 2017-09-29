@@ -8,15 +8,21 @@ aliaser() {
 aliaser <option> [alias name]
 
 options:
-  -s, search [search term]	search aliases
-  -l, ls, list			list all aliases
-  -r, rm,remove [alias name]	remove an alias
-  -d, wd, dir			make alias name from current working directory
-  -o, open			view the aliaser file in Finder
-  -e, edit			edit alias.txt in EDITOR (or default application)
-  -n, name			create alias "Name" for "Directory"
-  -c, command			create alias "Name" for "Command"
-  -h, help			print this help text and exit
+  -h|help         display this help message
+  -o|open         open the alias file with the default gui editor (e.g. TextEdit)
+  -l|list         list aliases saved in alias file
+  -e|edit         edit alias file in $EDITOR
+  -r|rm           remove alias from alias file
+  -d|dir          create an alias from the current directory (alias name is basename)
+  -n|name         create an alias with a user defined name
+  -s|search       search alias file and execute selection
+  -a|searchall    search all aliases system wide and execute selection
+  -c|command      create an alias from the previous command with a user defined name
+
+examples:
+  aliaser rm "aliasname"      remove alias named "aliasname" from alias file
+  aliaser -n "favoritedir"    add an alias named "favoritedir" to alias file
+
 
 be sure to source the alias file in your .bashrc or .bash_profile
 EOF
@@ -222,6 +228,12 @@ EOF
   }
 
   _search() {
+    if [[ "$1" == "-a" ]] || [[ "$1" == "searchall" ]]; then
+      unset file;
+      alias > ~/.aliaser/aliaserall.tmp
+      file=~/.aliaser/aliaserall.tmp
+    fi
+
     if [[ "$2" == "" ]]; then
       printf "aliaser search needs an alias name to search for";
 
@@ -232,7 +244,7 @@ EOF
       listresults() {
         echo "Search results for \""$srch"\":"
         echo "-------------------------------"
-        grep -i "$srch" "$file"
+        grep -i "$srch" $file
         echo
 
       }
@@ -267,9 +279,9 @@ EOF
       }
 
       choosefromlist
-      # listresults
 
-      fi
+    fi
+
   }
 
   _command() {
@@ -287,6 +299,7 @@ EOF
     -d|wd|dir) _dir; . "$file";;
     -n|name) _named "$@"; . "$file";;
     -s|search) _search "$@"; . "$file";;
+    -a|searchall) _search "$@"; . "$file";;
     -c|command) _command "$@"; . "$file";;
   esac
 }

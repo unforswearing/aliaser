@@ -3,7 +3,7 @@
 Another directory traversal tool. Inspired by [bashmarks](https://github.com/huyng/bashmarks), but way less intelligent.
 
 ![example](https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example.gif)
-<br /><br />
+<br><br>
 
 ## Installation
 
@@ -37,24 +37,33 @@ When `aliaser` is run for the first time it will create a `.aliaser` directory t
 
 Add `source ~/.aliaser/aliaser.txt` to your `bash_profile ` before creating your first alias. Aliases created via `aliaser` are available immediately.
 
-More options:
+<br>
+
+Typing `aliaser help` produces the following help text:  
 
 ```
 aliaser <option> [alias name]
 
 options:
-	-s, search [search term]     search aliases
-	-l, ls, list                 list all aliases
-	-r, rm,remove [alias name]   remove an alias
-	-d, wd, dir                  make alias name from current working directory
-	-o, open                     view the aliaser file in Finder
-	-e, edit                     edit alias.txt in EDITOR (or default application)
-	-n, name		     create alias "Name" for "Directory"
-	-c, command		     create alias "Name" for "Command"
-	-h, help                     print this help text and exit
+  -h|help         display this help message
+  -o|open         open the alias file with the default gui editor (e.g. TextEdit)
+  -l|list         list aliases saved in alias file
+  -e|edit         edit alias file in /usr/local/bin/micro
+  -r|rm           remove alias from alias file
+  -d|dir          create an alias from the current directory (alias name is basename)
+  -n|name         create an alias with a user defined name
+  -s|search       search alias file and execute selection
+  -a|searchall    search all aliases system wide and execute selection
+  -c|command      create an alias from the previous command with a user defined name
+
+examples:
+  aliaser rm "aliasname"      remove alias named "aliasname" from alias file
+  aliaser -n "favoritedir"    add an alias named "favoritedir" to alias file
+
 
 be sure to source the alias file in your .bashrc or .bash_profile
 ```
+<br>
 
 Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to generate a list of results. `aliaser` will navigate to or execute the selected option. For example:
 
@@ -68,8 +77,6 @@ Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to gen
   alias bashscripts='cd ~/Documents/Shared/Scripts/-Bash'
   CANCEL SEARCH
 ```
-
-Type `aliaser help` for the full usage text.
 
 <br>
 

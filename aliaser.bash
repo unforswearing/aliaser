@@ -287,9 +287,14 @@ EOF
   }
 
   _command() {
-      printf '\n' >> "$file"
-      echo "alias "$2"='"$3"'" >> "$file";
-      echo "Alias "$2" created for "$3""
+    # printf '\n' >> "$file"
+    function _cralias () {
+      history | tail -n 2 | sort -r | tail -n 1 | awk '{first=$1; $1=""; print $0; }' | \
+        sed 's/^ //g'
+    }
+    
+    echo "alias "$2"='$(_cralias)'" >> "$file";
+    echo "Alias "$2" created for $(_cralias)"
   }
 
   case "$1" in

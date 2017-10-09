@@ -208,6 +208,8 @@ EOF
     cat .arm.tmp > "$file"
     rm .arm.tmp
 
+    unalias "$2"
+
     echo "Removed "$2" from aliases"
   }
 

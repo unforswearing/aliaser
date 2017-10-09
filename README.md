@@ -82,7 +82,7 @@ Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to gen
 
 ##  Why? 
 
-I continually learn more about `bash` and in the process, found a few interesting was to navigate the shell:  
+Originally, I wanted to create a script that would allow me to simply type in the directory name (or command alias) to navigate (or execute) without having to remember a list of options aside from those needed to set up the aliases. I believe I was successful, and in the process of creating `aliaser`, I found a few other interesting was to navigate the shell:  
 
 - `shopt -s autocd`: when set, you simply have to enter the directory name to navigate. The directory you type must be a subdirectory of your current location. 
 - `shopt -s cdable_vars`: this command allows you to export variables to easily navigate to your favorite paths. This perhaps is easier in aliaser, as the paths are added to a file you specify with `aliaser -d`, however, this is trivial. 

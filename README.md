@@ -15,29 +15,7 @@ source /path/to/aliaser.bash
 
 <br>
 
-## Usage
-
-Navigate to a directory and make some aliases: 
-
-```bash
-$ cd ~/scripts; aliaser -d myscripts  
-``` 
-
-Or create an alias for a command immediately after execution:  
-
-```bash
-# command
-$ b=1; while [ $b -le 2 ]; do tput flash; sleep .02; b=$((b + 1)); done 
-
-# create alias for command
-$ aliaser -c "flash_terminal"
-```
-
-When `aliaser` is run for the first time it will create a `.aliaser` directory that contains the alias text file. Use `aliaser open` to view the this file in Finder.
-
-Add `source ~/.aliaser/aliaser.txt` to your `bash_profile ` before creating your first alias. Aliases created via `aliaser` are available immediately.
-
-<br>
+## Usage 
 
 Typing `aliaser help` produces the following help text:  
 
@@ -62,8 +40,27 @@ examples:
 
 
 be sure to source the alias file in your .bashrc or .bash_profile
+``` 
+
+When `aliaser` is run for the first time it will create a `.aliaser` directory that contains the alias text file. Use `aliaser open` to view the this file in Finder.
+
+Add `source ~/.aliaser/aliaser.txt` to your `bash_profile ` before creating your first alias. Aliases created via `aliaser` are available immediately.
+
+After sourcing `aliaser`, you can navigate to a directory and make some aliases: 
+
+```bash
+$ cd ~/scripts; aliaser -d myscripts  
+``` 
+
+Or create an alias for a command immediately after execution:  
+
+```bash
+# command
+$ b=1; while [ $b -le 2 ]; do tput flash; sleep .02; b=$((b + 1)); done 
+
+# create alias for command
+$ aliaser -c "flash_terminal"
 ```
-<br>
 
 Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to generate a list of results. `aliaser` will navigate to or execute the selected option. For example:
 
@@ -93,4 +90,12 @@ Originally, I wanted to create a script that would allow me to simply type in th
 ## Bugs
 
 `aliaser` is decently stable at this point, but please get in touch if you experience issues. 
+
+`aliaser` has been tested extensively on MacOS, but should work on most Linux distros.
+
+<br>
+
+## To Do  
+
+- [ ] Update gif 
 

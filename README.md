@@ -7,11 +7,13 @@ Another directory traversal tool. Inspired by [bashmarks](https://github.com/huy
 
 ## Installation
 
-This script is a function called `aliaser` which can added to your bash profile as an alias or function, or stored anywhere else you keep those types of things. 
-
 ```bash
-source /path/to/aliaser.bash   
+$ git clone https://github.com/unforswearing/aliaser.git aliaser
+$ cd aliaser
+$ echo "source $(pwd)/aliaser.bash" >> ~/.bash_profile
 ```
+
+Or download the zip and manually move to whever you store your scripts, dotfiles, or bash functions. 
 
 <br>
 

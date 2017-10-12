@@ -188,7 +188,11 @@ EOF
   filename=$(basename "$file")
 
   _open() {
-    find ""$filedir"/" -type f -name "$filename" -exec open {} +
+    if [[ $(uname -s) == "Linux" ]]; then open="$(which xdg-open)";
+    else open="$(which open)";
+    fi
+
+    find ""$filedir"/" -type f -name "$filename" -exec "$open" {} +
     echo "Opening "$file""
   }
 

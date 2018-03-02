@@ -57,11 +57,11 @@ $ cd ~/scripts; aliaser -d myscripts
 Or create an alias for a command immediately after execution:  
 
 ```bash
-# command
-$ b=1; while [ $b -le 2 ]; do tput flash; sleep .02; b=$((b + 1)); done 
+  # command
+  $ b=1; while [ $b -le 2 ]; do tput flash; sleep .02; b=$((b + 1)); done 
 
-# create alias for command
-$ aliaser -c "flash_terminal"
+  # create alias for command
+  $ aliaser -c "flash_terminal"
 ```
 
 Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to generate a list of results. `aliaser` will navigate to or execute the selected option. For example:

@@ -177,6 +177,7 @@ EOF
   config=""${HOME}"/.aliaser/aliaser.conf"
   ########################################
 
+  # see issue: https://github.com/unforswearing/aliaser/issues/4
   if [[ ! -f "$config" ]]; then
     read -r -p "Enter the path to your alias file: " aliasfile
     echo "alias_file=$aliasfile" > "$config"

@@ -99,5 +99,5 @@ Originally, I wanted to create a script that would allow me to simply type in th
 
 ## To Do  
 
-- [ ] Update gif 
+- [x] Update gif 
 

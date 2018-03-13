@@ -1,8 +1,8 @@
 # aliaser
 
-Another directory traversal tool. Inspired by [bashmarks](https://github.com/huyng/bashmarks), but way less intelligent.
+An alias management / directory navigation tool.
 
-![example](https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example.gif)
+![example](https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example-new.gif)
 <br><br>
 
 ## Installation

@@ -7,7 +7,6 @@ An alias management / directory navigation tool.
 <hr>
 <br><br>
 
-
 ## Installation
 
 ```bash

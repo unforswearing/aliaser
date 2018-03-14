@@ -14,15 +14,15 @@ options:
   -e|edit         edit alias file in $EDITOR
   -r|rm           remove alias from alias file
   -d|dir          create an alias from the current directory (alias name is basename)
-  -n|name         create an alias with a user defined name
+  -n|name         create an alias from the current directory with a user defined name
   -s|search       search alias file and execute selection
   -a|searchall    search all aliases system wide and execute selection
   -c|command      create an alias from the previous command with a user defined name
 
 examples:
   aliaser rm "aliasname"      remove alias named "aliasname" from alias file
-  aliaser -n "favoritedir"    add an alias named "favoritedir" to alias file
-
+  aliaser -n "favoritedir"    add an alias for the current directory named 
+                              "favoritedir" to alias file
 
 be sure to source the alias file in your .bashrc or .bash_profile
 

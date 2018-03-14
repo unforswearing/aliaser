@@ -5,7 +5,7 @@ An alias management / directory navigation tool.
 <hr>
 <img src="https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example-new.gif">
 <hr>
-<br><br>
+<br>
 
 ## Installation
 

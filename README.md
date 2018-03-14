@@ -2,7 +2,7 @@
 
 An alias management / directory navigation tool.
 
-<img src="https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example-new.gif" border="1" style="padding: 10px">
+<img src="https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example-new.gif" style="border: 1px solid black; padding: 10px">
 <br><br>
 
 ## Installation

@@ -7,20 +7,6 @@ An alias management / directory navigation tool.
 <hr>
 <br>
 
-## Installation
-
-```bash
-$ git clone https://github.com/unforswearing/aliaser.git aliaser
-$ cd aliaser
-$ echo "source $(pwd)/aliaser.bash" >> ~/.bash_profile
-```
-
-Or download the zip and manually move to whever you store your scripts, dotfiles, or bash functions. 
-
-<br>
-
-## Usage 
-
 Typing `aliaser help` produces the following help text:  
 
 ```
@@ -81,26 +67,4 @@ Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to gen
 ```
 
 <br>
-
-##  Why? 
-
-Originally, I wanted to create a script that would allow me to simply type in the directory name (or command alias) to navigate (or execute) without having to remember a list of options aside from those needed to set up the aliases. I believe I was successful, and in the process of creating `aliaser`, I found a few other interesting was to navigate the shell:  
-
-- `shopt -s autocd`: when set, you simply have to enter the directory name to navigate. The directory you type must be a subdirectory of your current location. 
-- `shopt -s cdable_vars`: this command allows you to export variables to easily navigate to your favorite paths. This perhaps is easier in aliaser, as the paths are added to a file you specify with `aliaser -d`, however, this is trivial. 
-- `shopt` is also useful for many other things -- [take a look at this page](http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html) if you're unfamiliar.  
-
-<br>
-
-## Bugs
-
-`aliaser` is decently stable at this point, but please get in touch if you experience issues. 
-
-`aliaser` has been tested extensively on MacOS, but should work on most Linux distros.
-
-<br>
-
-## To Do  
-
-- [x] Update gif 
 

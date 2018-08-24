@@ -231,9 +231,9 @@ EOF
   }
 
   _named() {
-      echo "alias "$2"='cd "$3"'" >> "$file"
+      echo "alias "$2"='cd "$(pwd)"'" >> "$file"
       printf '\n' >> "$file"
-      echo "Alias for "$2" created for "$3""
+      echo "Alias for "$2" created for "$(pwd)""
   }
 
   _search() {

@@ -61,7 +61,9 @@ Or create an alias for a command immediately after execution:
 <br>  
 
 
-Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to generate a list of results. `aliaser` will navigate to or execute the selected option. For example:
+Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to generate a list of results. `aliaser` will execute the selected option.   
+
+For example:  
 
 ```
 > aliaser search script

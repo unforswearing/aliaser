@@ -6,6 +6,8 @@
 
 <br>
 
+## Usage  
+
 Typing `aliaser help` produces the following help text:  
 
 ```
@@ -34,6 +36,8 @@ be sure to source the alias file in your .bashrc or .bash_profile
 
 <br>
 
+## Running Aliaser  
+
 When `aliaser` is run for the first time it will create a `.aliaser` directory that contains the alias text file. Use `aliaser open` to view the this file in your default `.txt` file editor. You may also use `aliaser edit` to edit this file in your terminal.
 
 Add `source ~/.aliaser/aliaser.txt` to your `bash_profile ` before creating your first alias. Aliases created via `aliaser` are available immediately.
@@ -52,7 +56,10 @@ Or create an alias for a command immediately after execution:
 
   # create alias for command
   $ aliaser -c "flash_terminal"
-```
+```  
+
+<br>  
+
 
 Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to generate a list of results. `aliaser` will navigate to or execute the selected option. For example:
 

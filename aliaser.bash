@@ -37,19 +37,6 @@ EOF
       key="$1"
 
       case $key in
-        -h|--help)
-          echo "choose from list of options"
-          echo "Usage: listbox [options]"
-          echo "Example:"
-          echo "  listbox -t title -o \"option 1|option 2|option 3\" -r resultVariable -a '>'"
-          echo "Options:"
-          echo "  -h, --help                         help"
-          echo "  -t, --title                        list title"
-          echo "  -o, --options \"option 1|option 2\"  listbox options"
-          echo "  -r, --result <var>                 result variable"
-          echo "  -a, --arrow <symbol>               selected option symbol"
-          return 0
-          ;;
         -o|--options)
           local OIFS=$IFS;
           IFS="|";
@@ -162,8 +149,10 @@ EOF
     local illegal
     local i
 
-    illegal=( "," "\." "\!" "\@" "\#" "\$" "\%" "\^" "\&" \
-              "\*" "\(" "\)" "\+" "\=" "\?" "\{" "\}" "\[" "\]" "\|" "\~" );
+    illegal=( 
+      "," "\." "\!" "\@" "\#" "\$" "\%" "\^" "\&" \
+      "\*" "\(" "\)" "\+" "\=" "\?" "\{" "\}" "\[" "\]" "\|" "\~" 
+    );
 
     for i in "${illegal[@]}"; do
       if [[ "$2" =~ ^$i ]]; then
@@ -260,11 +249,13 @@ EOF
 
       choosefromlist() {
         results() { 
-          grep -i "$srch" "$file" | sed "s/\#.*//g" | grep -v '^$' | tr '\n' '\|'
+          grep -i "$srch" "$file" | sed "s/\#.*//g" | \
+            grep -v '^$' | tr '\n' '\|'
         
         }
 
-        listbox -t "Search results for "\"$srch\""" -o "$(results "$@")CANCEL SEARCH" -r comm -a "⇨"
+        listbox -t "Search results for "\"$srch\""" \
+          -o "$(results "$@")CANCEL SEARCH" -r comm -a "⇨"
 
         local toexec=$(
           echo "$comm" | \
@@ -295,13 +286,15 @@ EOF
 
   _command() {
     # printf '\n' >> "$file"
-    function _cralias () {
-      history | tail -n 2 | sort -r | tail -n 1 | awk '{first=$1; $1=""; print $0; }' | \
-        sed 's/^ //g'
-    }
-    
-    echo "alias "$2"='$(_cralias)'" >> "$file";
-    echo "Alias "$2" created for $(_cralias)"
+    _cralias=$(
+      history | tail -n 2 | sort -r | tail -n 1 | awk '{first=$1; $1=""; print $0; }' | sed 's/^ //g'
+    )
+
+    [[ $(echo _cralias) =~ \' ]]  && \
+      echo "alias "$2"=\"$_cralias\"" >> "$file" || \
+      echo "alias "$2"='$_cralias'" >> "$file"
+
+    echo "alias "$2" created for \"$_cralias\""
   }
 
   case "$1" in

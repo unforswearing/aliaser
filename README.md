@@ -1,10 +1,9 @@
 # aliaser
 
-An alias management / directory navigation tool.
+> An alias management / directory navigation tool.
 
-<hr>
 <img src="https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example-new.gif">
-<hr>
+
 <br>
 
 Typing `aliaser help` produces the following help text:  
@@ -32,6 +31,8 @@ examples:
 
 be sure to source the alias file in your .bashrc or .bash_profile
 ``` 
+
+<br>
 
 When `aliaser` is run for the first time it will create a `.aliaser` directory that contains the alias text file. Use `aliaser open` to view the this file in your default `.txt` file editor. You may also use `aliaser edit` to edit this file in your terminal.
 

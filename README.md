@@ -6,9 +6,9 @@
 
 <br>
 
-## Usage  
+## Usage
 
-Typing `aliaser help` produces the following help text:  
+Typing `aliaser help` produces the following help text:
 
 ```
 aliaser <option> [alias name]
@@ -17,7 +17,7 @@ options:
   -h|help         display this help message
   -o|open         open the alias file with the default gui editor (e.g. TextEdit)
   -l|list         list aliases saved in alias file
-  -e|edit         edit alias file in /usr/local/bin/micro
+  -e|edit         edit alias file in $EDITOR
   -r|rm           remove alias from alias file
   -d|dir          create an alias from the current directory (alias name is basename)
   -n|name         create an alias from the current directory with a user defined name
@@ -32,38 +32,38 @@ examples:
 
 
 be sure to source the alias file in your .bashrc or .bash_profile
-``` 
+```
 
 <br>
 
-## Running Aliaser  
+## Running Aliaser
 
 When `aliaser` is run for the first time it will create a `.aliaser` directory that contains the alias text file. Use `aliaser open` to view the this file in your default `.txt` file editor. You may also use `aliaser edit` to edit this file in your terminal.
 
 Add `source ~/.aliaser/aliaser.txt` to your `bash_profile ` before creating your first alias. Aliases created via `aliaser` are available immediately.
 
-After sourcing `aliaser`, you can navigate to a directory and make some aliases: 
+After sourcing `aliaser`, you can navigate to a directory and make some aliases:
 
 ```bash
-$ cd ~/scripts; aliaser -d myscripts  
-``` 
+$ cd ~/scripts; aliaser -d myscripts
+```
 
-Or create an alias for a command immediately after execution:  
+Or create an alias for a command immediately after execution:
 
 ```bash
   # command
-  $ b=1; while [ $b -le 2 ]; do tput flash; sleep .02; b=$((b + 1)); done 
+  $ b=1; while [ $b -le 2 ]; do tput flash; sleep .02; b=$((b + 1)); done
 
   # create alias for command
   $ aliaser -c "flash_terminal"
-```  
+```
 
-<br>  
+<br>
 
 
-Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to generate a list of results. `aliaser` will execute the selected option.   
+Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to generate a list of results. `aliaser` will execute the selected option.
 
-For example:  
+For example:
 
 ```
 > aliaser search script

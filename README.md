@@ -30,7 +30,6 @@ examples:
   aliaser -n "favoritedir"    add an alias for the current directory named
                               "favoritedir" to alias file
 
-
 be sure to source the alias file in your .bashrc or .bash_profile
 ```
 

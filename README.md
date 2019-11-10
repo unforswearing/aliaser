@@ -5,6 +5,7 @@
 <img src="https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example-new.gif">
 
 <br>
+
 ## Installation
 
 Aliaser is a single bash function, so you can clone / download this repo and source the file directly:
@@ -14,7 +15,7 @@ Aliaser is a single bash function, so you can clone / download this repo and sou
 > cd aliaser
 > source aliaser.bash
 
-``
+```
 
 <br>
 

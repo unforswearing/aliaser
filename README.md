@@ -11,9 +11,9 @@
 Aliaser is a single bash function, so you can clone / download this repo and source the file directly:
 
 ```bash
-> git clone https://github.com/unforswearing/aliaser.git .
-> cd aliaser
-> source aliaser.bash
+$ git clone https://github.com/unforswearing/aliaser.git .
+$ cd aliaser
+$ source aliaser.bash
 
 ```
 

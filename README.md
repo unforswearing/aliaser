@@ -13,7 +13,7 @@ Aliaser is a single bash function, so you can clone / download this repo and sou
 ```bash
 $ git clone https://github.com/unforswearing/aliaser.git .
 $ cd aliaser
-$ source aliaser.bash
+$ source aliaser
 
 ```
 

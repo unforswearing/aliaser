@@ -17,6 +17,13 @@ Aliaser is a single bash function, so you can clone / download this repo and sou
 
 ```
 
+Or install with [basher](https://github.com/basherpm/basher)
+
+```
+$ basher install unforswearing/aliaser
+$ include unforswearing/aliaser aliaser
+```
+
 <br>
 
 ## Usage

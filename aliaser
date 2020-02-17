@@ -238,8 +238,11 @@ EOF
 
         }
 
+        results
+        sleep 1000
+
         if [[ $(command -v fzf) ]]; then
-          comm="$(results "$@" | fzf)"
+          comm="$(results "$@" | tr '\|' '\n' | fzf)"
         else
           listbox -t "Search results for \"$srch\"" \
             -o "$(results "$@")CANCEL SEARCH" -r comm -a "⇨"

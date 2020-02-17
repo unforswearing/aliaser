@@ -238,9 +238,6 @@ EOF
 
         }
 
-        results "$@" | tr '\|' '\n'
-        sleep 1000
-
         if [[ $(command -v fzf) ]]; then
           comm="$(results "$@" | tr '\|' '\n' | fzf)"
         else

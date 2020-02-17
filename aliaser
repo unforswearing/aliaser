@@ -21,7 +21,7 @@ options:
 
 examples:
   aliaser rm "aliasname"      remove alias named "aliasname" from alias file
-  aliaser -n "favoritedir"    add an alias for the current directory named 
+  aliaser -n "favoritedir"    add an alias for the current directory named
                               "favoritedir" to alias file
 
 be sure to source the alias file in your .bashrc or .bash_profile
@@ -42,9 +42,9 @@ EOF
           IFS="|";
           # check if zsh/bash
           if [ -n "$ZSH_VERSION" ]; then
-            IFS=$'\n' opts=($(echo "$2" | tr "|" "\n"))
+            IFS=$'\n' opts=("$(echo "$2" | tr "|" "\n")")
           else
-            IFS="|" read -a opts <<< "$2";
+            IFS="|" read -r -a opts <<< "$2";
           fi
           IFS=$OIFS;
           shift
@@ -83,7 +83,7 @@ EOF
     fi
 
     draw() {
-      local idx=0 
+      local idx=0
       for it in "${opts[@]}"
       do
         local str="";
@@ -144,33 +144,15 @@ EOF
     listen
   }
 
-  # illegal character checking, not implemented.
-  _test_() {
-    local illegal
-    local i
-
-    illegal=( 
-      "," "\." "\!" "\@" "\#" "\$" "\%" "\^" "\&" \
-      "\*" "\(" "\)" "\+" "\=" "\?" "\{" "\}" "\[" "\]" "\|" "\~" 
-    );
-
-    for i in "${illegal[@]}"; do
-      if [[ "$2" =~ ^$i ]]; then
-        echo "Illegal Character ("$i"). Exiting..."
-        exit
-      fi
-    done
-  }
-
   ########################################
-  config=""${HOME}"/.aliaser/aliaser.conf"
+  config="${HOME}/.aliaser/aliaser.conf"
   ########################################
 
   # see issue: https://github.com/unforswearing/aliaser/issues/4
   if [[ ! -f "$config" ]]; then
     read -r -p "Enter the path to your alias file: " aliasfile
     echo "alias_file=$aliasfile" > "$config"
-    echo ""$aliasfile" set as alias file."
+    echo "$aliasfile set as alias file."
   fi
 
   file=$(awk -F '=' '{print $2}' "$config")
@@ -178,12 +160,14 @@ EOF
   filename=$(basename "$file")
 
   _open() {
-    if [[ $(uname -s) == "Linux" ]]; then open="$(which xdg-open)";
-    else open="$(which open)";
+    if [[ $(uname -s) == "Linux" ]]; then 
+      open="$(command -v xdg-open)";
+    else 
+      open="$(command -v open)";
     fi
 
-    find ""$filedir"/" -type f -name "$filename" -exec "$open" {} +
-    echo "Opening "$file""
+    find "$filedir/" -type f -name "$filename" -exec "$open" {} +
+    echo "Opening $file"
   }
 
   _list() {
@@ -194,7 +178,7 @@ EOF
   }
 
   _edit() {
-    find ""$filedir"/" -type f -name "$filename" -exec "$EDITOR" {} +
+    find "$filedir/" -type f -name "$filename" -exec "$EDITOR" {} +
   }
 
   _remove() {
@@ -204,7 +188,7 @@ EOF
 
     unalias "$2"
 
-    echo "Removed "$2" from aliases"
+    echo "Removed $2 from aliases"
   }
 
   _dir() {
@@ -214,15 +198,15 @@ EOF
     name=$(basename "$(pwd)")
     dir=$(pwd|sed 's/ /\\ /')
 
-    printf "alias "$name"='cd "$dir"'" >> "$file";
+    printf "alias %s='cd %s'" "${name}" "${dir}" >> "$file";
     printf '\n' >> "$file"
-    echo "Alias for "$dir" added to "$file""
+    echo "Alias for $dir added to $file"
   }
 
   _named() {
-      echo "alias "$2"='cd "$(pwd)"'" >> "$file"
+      echo "alias $2='cd $(pwd)'" >> "$file"
       printf '\n' >> "$file"
-      echo "Alias for "$2" created for "$(pwd)""
+      echo "Alias for $2 created for $(pwd)"
   }
 
   _search() {
@@ -235,12 +219,12 @@ EOF
     if [[ "$2" == "" ]]; then
       printf "aliaser search needs an alias name to search for";
 
-    else 
+    else
       local srch="$2"
-      
+
       # unused for now choosefromlist seems to work on home laptop
       listresults() {
-        echo "Search results for \""$srch"\":"
+        echo "Search results for \"$srch\":"
         echo "-------------------------------"
         grep -i "$srch" $file
         echo
@@ -248,40 +232,39 @@ EOF
       }
 
       choosefromlist() {
-        results() { 
+        results() {
           grep -i "$srch" "$file" | sed "s/\#.*//g" | \
             grep -v '^$' | tr '\n' '\|'
-        
+
         }
 
-        listbox -t "Search results for "\"$srch\""" \
+        listbox -t "Search results for \"$srch\"" \
           -o "$(results "$@")CANCEL SEARCH" -r comm -a "⇨"
 
-        local toexec=$(
+        comm="${comm}"
+
+        local toexec; toexec=$(
           echo "$comm" | \
           awk -F '=' '{print $2}' | \
           sed "s/'//g" | \
           sed "s|~|/Users/$(whoami)|g"
         );
 
-        local trigger=$(echo $toexec | awk -F ' ' '{print $1}')
-        local directory=$(echo $toexec | sed 's/cd //g')
+        local trigger; trigger="$(echo "$toexec" | awk -F ' ' '{print $1}')"
+        local directory; directory="${toexec//cd /}"
 
         if [[ $trigger == "cd" ]]; then
           # navigating to a directory works ONLY on home laptop
-          pushd $directory > /dev/null 2>&1
-
-        else 
+          { pushd "${directory}" > /dev/null 2>&1; } || \
+            echo "unable to navigate to ${directory}"
+        else
           # executing commands does work
           eval "$toexec"
         fi
-
       }
 
-      choosefromlist
-
+      choosefromlist "$@"
     fi
-
   }
 
   _command() {
@@ -290,23 +273,25 @@ EOF
       history | tail -n 2 | sort -r | tail -n 1 | awk '{first=$1; $1=""; print $0; }' | sed 's/^ //g'
     )
 
-    [[ $(echo _cralias) =~ \' ]]  && \
-      echo "alias "$2"=\"$_cralias\"" >> "$file" || \
-      echo "alias "$2"='$_cralias'" >> "$file"
+    [[ $(printf _cralias) =~ \' ]]  && \
+      echo "alias $2=\"$_cralias\"" >> "$file" || \
+      echo "alias $2='$_cralias'" >> "$file"
 
-    echo "alias "$2" created for \"$_cralias\""
+    echo "alias $2 created for \"$_cralias\""
   }
 
   case "$1" in
-    -h|--help|help|"") helpp; . "$file";;
-    -o|open) _open; . "$file";;
-    -l|ls|list) _list; . "$file";;
-    -e|edit) _edit; . "$file";;
-    -r|rm|remove) _remove "$@"; . "$file";;
-    -d|wd|dir) _dir; . "$file";;
-    -n|name) _named "$@"; . "$file";;
-    -s|search) _search "$@"; . "$file";;
-    -a|searchall) _search "$@"; . "$file";;
-    -c|command) _command "$@"; . "$file";;
+    -h|--help|help|"") helpp  ;;
+    -o|open) _open ;;
+    -l|ls|list) _list ;;
+    -e|edit) _edit ;;
+    -r|rm|remove) _remove "$@" ;;
+    -d|wd|dir) _dir ;;
+    -n|name) _named "$@" ;;
+    -s|search) _search "$@" ;;
+    -a|searchall) _search "$@" ;;
+    -c|command) _command "$@" ;;
   esac
+
+  source "$file"
 }

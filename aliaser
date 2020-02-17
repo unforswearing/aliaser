@@ -238,7 +238,7 @@ EOF
 
         }
 
-        results
+        results "$@" | tr '\|' '\n'
         sleep 1000
 
         if [[ $(command -v fzf) ]]; then

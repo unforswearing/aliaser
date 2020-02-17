@@ -239,7 +239,7 @@ EOF
         }
 
         if [[ $(command -v fzf) ]]; then
-          comm="$(results "$@" | tr '\|' '\n' | fzf --with-nth=1..3)"
+          comm="$(results "$@" | tr '\|' '\n' | fzf --preview 'echo  {q}')"
         else
           listbox -t "Search results for \"$srch\"" \
             -o "$(results "$@")CANCEL SEARCH" -r comm -a "⇨"

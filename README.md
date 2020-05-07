@@ -80,9 +80,11 @@ Or create an alias for a command immediately after execution:
 <br>
 
 
-Note that `aliaser search` uses [listbox](https://github.com/gko/listbox) to generate a list of results. `aliaser` will execute the selected option.
+Note that `aliaser search` looks for [`fzf`](https://github.com/junegunn/fzf) to use when generating a list of results.
 
-For example:
+If `fzf` is not installed, aliaser will default to [`listbox`](https://github.com/gko/listbox) which is embedded in the aliaser script.
+
+Listbox example:
 
 ```
 > aliaser search script

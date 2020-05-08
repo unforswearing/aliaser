@@ -24,7 +24,7 @@ $ brew install unforswearing/dist/aliaser
 $ source aliaser
 ```
 
-You may also want to source aliaser in your `bash_profile` or other config.
+You may also want to source aliaser in your `bash_profile` or other config. For more information, see the "Running Aliaser" section below.
 
 <br>
 

@@ -30,6 +30,10 @@ You may also want to source aliaser in your `bash_profile` or other config. For 
 
 ## Usage
 
+When `aliaser` is run for the first time it will create a `.aliaser` directory that contains the alias text file. Use `aliaser open` to view the this file in your default `.txt` file editor. You may also use `aliaser edit` to edit this file in your terminal.
+
+Add `source ~/.aliaser/aliaser.txt` to your `bash_profile ` before creating your first alias. Aliases created via `aliaser` are available immediately.
+
 Typing `aliaser help` produces the following help text:
 
 ```
@@ -55,49 +59,24 @@ examples:
 be sure to source the alias file in your .bashrc or .bash_profile
 ```
 
-<br>
-
-## Running Aliaser
-
-When `aliaser` is run for the first time it will create a `.aliaser` directory that contains the alias text file. Use `aliaser open` to view the this file in your default `.txt` file editor. You may also use `aliaser edit` to edit this file in your terminal.
-
-Add `source ~/.aliaser/aliaser.txt` to your `bash_profile ` before creating your first alias. Aliases created via `aliaser` are available immediately.
-
 After sourcing `aliaser`, you can navigate to a directory and make some aliases:
 
 ```bash
-$ cd ~/scripts; aliaser -d myscripts
+$ cd ~/scripts
+$ aliaser -d myscripts
 ```
 
-Or create an alias for a command immediately after execution:
+Or create an alias for the previously executed command:
 
 ```bash
-  # command
-  $ b=1; while [ $b -le 2 ]; do tput flash; sleep .02; b=$((b + 1)); done
+# execute a command command
+$ b=1; while [ $b -le 2 ]; do tput flash; sleep .02; b=$((b + 1)); done
 
-  # create alias for command
-  $ aliaser -c "flash_terminal"
+# create alias for previously executed command
+$ aliaser -c "flash_terminal"
 ```
 
-<br>
-
-
-Note that `aliaser search` looks for [`fzf`](https://github.com/junegunn/fzf) to use when generating a list of results.
-
-If `fzf` is not installed, aliaser will default to [`listbox`](https://github.com/gko/listbox) which is embedded in the aliaser script.
-
-Listbox example:
-
-```
-> aliaser search script
-
-  Search results for "script"
-  ---------------------------
-⇨ alias scripts='cd ~/Documents/Shared/Scripts'
-  alias googleappsscript='cd ~/Documents/Shared/Scripts/-GoogleAppsScript'
-  alias bashscripts='cd ~/Documents/Shared/Scripts/-Bash'
-  CANCEL SEARCH
-```
+`aliaser` will use [`fzf`](https://github.com/junegunn/fzf) if it is installed and in your $PATH. Otherwise, `aliaser` will default to [`listbox`](https://github.com/gko/listbox) which is embedded in the aliaser script.
 
 <br>
 

@@ -17,12 +17,14 @@ $ source aliaser
 
 ```
 
-Or install with [basher](https://github.com/basherpm/basher)
+MacOs users can install with Homebrew. This puts aliaser in your $PATH by default (/usr/local/bin/aliaser)
 
 ```
-$ basher install unforswearing/aliaser
-$ include unforswearing/aliaser aliaser
+$ brew install unforswearing/dist/aliaser
+$ source aliaser
 ```
+
+You may also want to source aliaser in your `bash_profile` or other config.
 
 <br>
 

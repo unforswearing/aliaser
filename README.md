@@ -8,6 +8,7 @@
 </details>
 
 <br>
+> *Aliaser is being rewritten in Python. See 'aliaser.py' for progress*
 
 ## Installation
 

@@ -1,23 +1,58 @@
+"""
+Aliaser - alias management tool for the command line.
+
+The python version of aliaser is a work in progress and is missing
+the 'aliaser --search' command
+
+This script also needs error checking
+
+I also may want to start using a json file for config
+
+Features to add:
+- 'aliaser -h <command>' to provide instructions and examples for <command>
+- Append to bashrc / bash_profile by default
+  - alias files are separate from config, so the script could append
+    any file that is sourced when the terminal loads
+- Archive aliases on Github or Gitlab (and maybe BitBucket, etc)
+- Read aliases from the above services
+- User created add-ons that can be written in any language
+  - something like 'aliaser --addon "addOn.js" --addon-lang "javascript"'
+  - the above would store the script name and location in 'config' for use
+  - whenever aliaser runs again --> 'aliaser --run-addon "addOn"'
+- Possibly add some terminal navigation tools
+  - navigate to a folder n levels up or down a dir tree
+  - navigate to a dir based on a pattern / glob
+  - etc
+"""
+
 import argparse
 import os
 import sys
 
+# Aliaser arguments are somewhat mutually exclusive, so
+# make sure there are only 3 arguments (This could probably
+# be improved)
 if len(sys.argv) > 3:
   print("aliaser only accepts one argument")
   print("use 'aliaser --help' to view options")
   sys.exit()
 
 ### CONFIG ----------------------
+# config may change to a json file
 def readfile(file_path):
   with open(file_path, "r+") as file:
     return file.read()
 
 # check if aliaser dir exists, if not, create it
 # i think os.path.join() would make this cross-platform?
+# --> relying on bash history makes script only available on
+# MacOs / Linux / maybe WSL (https://docs.microsoft.com/en-us/windows/wsl/about)
 aliaser_dir = os.path.join(os.path.expanduser("~"), ".aliaser")
 aliaser_config = os.path.join(aliaser_dir, "aliaser.conf")
 aliaser_filepath = os.path.join(aliaser_dir,  "aliaser.txt")
 
+# create the directory if it doesn't exist
+# ask the user for permission first
 if not os.path.isdir(aliaser_dir):
   os.mkdir(aliaser_dir)
 
@@ -32,13 +67,12 @@ if not os.path.isdir(aliaser_dir):
     file.write(f"alias_file={file_location}")
     file.close()
 
+# get the contents of the aliaser config file
 aliaser_config = readfile(aliaser_config).split("=")[-1]
 
 ### ARGS -------------------------
 
 # def main():
-# maybe user argparse to get rid of the large help_text function
-# cut the first two items out of sys.argv
 parser_desc = "aliaser: an alias management / directory navigation tool"
 parser = argparse.ArgumentParser(description=parser_desc)
 
@@ -65,7 +99,7 @@ parser.add_argument("-c", "--command", help=help_text["command"], metavar="ALIAS
 args = parser.parse_args().__dict__
 
 ### EXECUTOR FUNCTIONS ----------
-
+# -l / --list
 def print_list(_):
   tmp_file = open(aliaser_filepath, "r")
   tmp_contents = tmp_file.read()
@@ -74,21 +108,28 @@ def print_list(_):
   tmp_file.close()
   sys.exit()
 
-def search_list(_):
-  print("search")
-
+# -e / --edit
 def edit_list(_):
   editor = os.environ["EDITOR"]
   os.system(f"{editor} {aliaser_filepath}")
 
   sys.exit()
 
-get_current_dir = lambda:os.getcwd()
-get_basename = lambda x:get_current_dir(x)
+# -s / --search
+def search_list(alias_name):
+  """
+  - find alias_name in aliaser.txt
+  - if there is more than one result, present a list of options
+    - fzf would be nice, but I want this script to have no libraries
+  - if found, ask to execute
+  - exit script
+  """
+  pass
 
+# -d / --dir
 def dir_alias(_):
-  current_dir = get_current_dir()
-  folder_name = get_basename(current_dir)
+  current_dir = os.getcwd()
+  folder_name = os.path.basename(current_dir)
 
   if _ != None: folder_name = _
 
@@ -102,6 +143,7 @@ def dir_alias(_):
 
   sys.exit()
 
+# -r / --remove
 def remove_alias(alias_name):
   tmp_file = open(aliaser_filepath, "r")
   contents = tmp_file.readlines()
@@ -111,10 +153,11 @@ def remove_alias(alias_name):
       if f"{alias_name}=" not in line:
         tmp.write(line)
 
+# -n / --name
 def name_alias(alias_name):
   dir_alias(alias_name)
 
-
+# -c / --command
 def command_alias(alias_name):
   hist = open(os.path.join(os.path.expanduser("~"), ".bash_history"), "r")
   hist_list = hist.readlines()
@@ -128,6 +171,8 @@ def command_alias(alias_name):
 
   sys.exit()
 
+# This needs work
+# loop through args to extract options
 for o in args.keys():
   """
   Namespace(command=None, dir=None, edit=None, list=None,

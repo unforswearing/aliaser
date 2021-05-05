@@ -3,11 +3,11 @@ on:
     branches:
       - main
 
-name: 'Trigger: Push action'
+name: 'shellcheck'
 
 jobs:
   shellcheck:
-    name: Shellcheck
+    name: shellcheck
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

@@ -22,14 +22,7 @@ $ source aliaser
 
 ```
 
-MacOs users can install with Homebrew. This puts aliaser in your $PATH by default (/usr/local/bin/aliaser)
-
-```
-$ brew install unforswearing/dist/aliaser
-$ source aliaser
-```
-
-You may also want to source aliaser in your `bash_profile` or other config. For more information, see the "Running Aliaser" section below.
+For persistent use you may source `aliaser` from your `.bashrc`, `.bash_profile` or other config. For more information, see the "Usage" section below.
 
 <br>
 

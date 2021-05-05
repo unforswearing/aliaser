@@ -9,7 +9,7 @@
 
 <br>
 
-> *Aliaser will soon be rewritten in Python for fun*
+> *Aliaser will soon be rewritten in Python, mostly for fun*
 
 ## Installation
 

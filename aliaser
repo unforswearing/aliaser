@@ -297,6 +297,5 @@ EOF
     -c|command) _command "$@" ;;
   esac
 
-  # shellcheck source=/dev/null.
-  source "${file}"
+  eval <(file)
 }

@@ -245,11 +245,7 @@ EOF
             -o "$(results "$@")CANCEL SEARCH" -r comm -a "⇨"
         fi
         
-<<<<<<< HEAD
         # comm="${comm}"
-=======
-        comm="${comm}"
->>>>>>> 23f9c5823c7be449e92bff1f9ebe8bab7447ac0e
 
         local toexec; toexec=$(
           echo "$comm" | \
@@ -301,9 +297,5 @@ EOF
     -c|command) _command "$@" ;;
   esac
 
-<<<<<<< HEAD
   eval <(file)
-=======
-  source "$file"
->>>>>>> 23f9c5823c7be449e92bff1f9ebe8bab7447ac0e
 }

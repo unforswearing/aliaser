@@ -1,6 +1,9 @@
-# aliaser
+[![shellcheck](https://github.com/unforswearing/aliaser/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/unforswearing/aliaser/actions/workflows/shellcheck.yml)
 
-> An alias management / directory navigation tool.
+aliaser
+===
+
+*An alias management / directory navigation tool.*
 
 <details>
 <summary>Demo</summary>
@@ -9,7 +12,6 @@
 
 <br>
 
-> *Aliaser will soon be rewritten in Python, mostly for fun*
 
 ## Installation
 

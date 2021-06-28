@@ -31,12 +31,10 @@
     "url": "https://github.com/unforswearing/aliaser/issues"
   },
   "homepage": "https://github.com/unforswearing/aliaser#readme",
-  {
-    "os": [
-      "darwin",
-      "linux"
-    ]
-  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
   "funding": {
     "type" : "individual",
     "url" : "https://www.unforswearing.com/#/"

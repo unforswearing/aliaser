@@ -1,0 +1,34 @@
+{
+  "name": "aliaser-bash",
+  "version": "1.0.0",
+  "description": "An alias management / directory navigation tool. Tested on MacOS and Ubuntu using Bash and Zsh.",
+  "main": "aliaser",
+  "scripts": {
+    "test": "aliaser --help"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unforswearing/aliaser.git"
+  },
+  "keywords": [
+    "alias",
+    "management",
+    "directory",
+    "navigation",
+    "command",
+    "aliasing",
+    "project",
+    "management",
+    "dotfiles",
+    "cli",
+    "mac",
+    "aliases",
+    "aliaser"
+  ],
+  "author": "unforswearing",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/unforswearing/aliaser/issues"
+  },
+  "homepage": "https://github.com/unforswearing/aliaser#readme"
+}

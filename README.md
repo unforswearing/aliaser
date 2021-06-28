@@ -24,6 +24,14 @@ $ source aliaser
 
 ```
 
+Or using `npm`:
+
+```bash
+$ npm install -g aliaser-bash
+
+```
+
+
 For persistent use you may source `aliaser` from your `.bashrc`, `.bash_profile` or other config. For more information, see the "Usage" section below.
 
 <br>

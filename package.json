@@ -1,6 +1,6 @@
 {
   "name": "aliaser-bash",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An alias management / directory navigation tool. Tested on MacOS and Ubuntu using Bash and Zsh.",
   "main": "aliaser",
   "scripts": {

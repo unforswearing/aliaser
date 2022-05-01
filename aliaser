@@ -1,5 +1,3 @@
-#!/bin/bash
-
 aliaser() {
   IFS=$'\n\t'
 
@@ -27,20 +25,16 @@ examples:
 be sure to source the alias file in your .bashrc or .bash_profile
 
 EOF
-
   }
 
-  # https://github.com/gko/listbox
   listbox() {
-    while [[ $# -gt 0 ]]
-    do
+    while [[ $# -gt 0 ]]; do
       key="$1"
 
       case $key in
         -o|--options)
           local OIFS=$IFS;
           IFS="|";
-          # check if zsh/bash
           if [ -n "$ZSH_VERSION" ]; then
             IFS=$'\n' opts=("$(echo "$2" | tr "|" "\n")")
           else
@@ -125,7 +119,6 @@ EOF
             draw
           fi
         elif [[ $key = "" ]]; then
-          # check if zsh/bash
           if [ -n "$ZSH_VERSION" ]; then
             choice=$((choice+1))
           fi
@@ -144,11 +137,8 @@ EOF
     listen
   }
 
-  ########################################
   config="${HOME}/.aliaser/aliaser.conf"
-  ########################################
 
-  # see issue: https://github.com/unforswearing/aliaser/issues/4
   if [[ ! -f "$config" ]]; then
     read -r -p "Enter the path to your alias file: " aliasfile
     echo "alias_file=$aliasfile" > "$config"
@@ -160,9 +150,9 @@ EOF
   filename=$(basename "$file")
 
   _open() {
-    if [[ $(uname -s) == "Linux" ]]; then 
+    if [[ $(uname -s) == "Linux" ]]; then
       open="$(command -v xdg-open)";
-    else 
+    else
       open="$(command -v open)";
     fi
 
@@ -171,7 +161,6 @@ EOF
   }
 
   _list() {
-    # cat "$file"
     echo "Printing aliases"
     sleep .2
     find "$filedir/" -type f -name "$filename" -exec cat {} +;
@@ -222,7 +211,6 @@ EOF
     else
       local srch="$2"
 
-      # unused for now choosefromlist seems to work on home laptop
       listresults() {
         echo "Search results for \"$srch\":"
         echo "-------------------------------"
@@ -244,8 +232,6 @@ EOF
           listbox -t "Search results for \"$srch\"" \
             -o "$(results "$@")CANCEL SEARCH" -r comm -a "⇨"
         fi
-        
-        # comm="${comm}"
 
         local toexec; toexec=$(
           echo "$comm" | \
@@ -258,11 +244,9 @@ EOF
         local directory; directory="${toexec//cd /}"
 
         if [[ $trigger == "cd" ]]; then
-          # navigating to a directory works ONLY on home laptop
           { pushd "${directory}" > /dev/null 2>&1; } || \
             echo "unable to navigate to ${directory}"
         else
-          # executing commands does work
           eval "$toexec"
         fi
       }
@@ -272,7 +256,6 @@ EOF
   }
 
   _command() {
-    # printf '\n' >> "$file"
     _cralias=$(
       history | tail -n 2 | sort -r | tail -n 1 | awk '{first=$1; $1=""; print $0; }' | sed 's/^ //g'
     )

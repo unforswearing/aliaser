@@ -124,7 +124,12 @@ function append_current_dir(dirname)
   }
 end
 
-function filter_aliases(search_name)
+function find_alias(search_name)
+  
+end
+
+-- find_and_exec_alias()
+function find_and_exec_alias(search_name)
   local ts = template.source_file
   local found_commands = {}
   for _name, _command in pairs(A) do
@@ -142,8 +147,4 @@ function filter_aliases(search_name)
   end
   return found_commands
 end
--- filter_aliases("lsprojects")
-
-function search_and_exec_aliases(search_name)
-
-end
+-- find_and_exec_alias("lsprojects")

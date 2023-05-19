@@ -128,8 +128,8 @@ function filter_aliases(search_name)
   local ts = template.source_file
   local found_commands = {}
   for _name, _command in pairs(A) do
-    if fzy.has_match(search_name, _name) then
     -- if _name == search_name then
+    if fzy.has_match(search_name, _name) then
       table.insert(found_commands, _command)
       print(ts{ name = _name, command = _command })
     end
@@ -143,3 +143,7 @@ function filter_aliases(search_name)
   return found_commands
 end
 -- filter_aliases("lsprojects")
+
+function search_and_exec_aliases(search_name)
+
+end

@@ -1,0 +1,2 @@
+run-help=man
+which-command=whence

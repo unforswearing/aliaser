@@ -1,94 +1,68 @@
-[![shellcheck](https://github.com/unforswearing/aliaser/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/unforswearing/aliaser/actions/workflows/shellcheck.yml)
+# aliaser
 
-aliaser
-===
+> `aliaser` is a self-editing config-free alias management tool.
 
-*An alias management / directory navigation tool.*
+`aliaser` consists of a single bash function that stores aliases inside the script file itself. Take a look at [aliaser.sh](aliaser.sh) to see how this works -- aliases are stored at the bottom of the script file.
 
-<details>
-<summary>Demo</summary>
-<img src="https://raw.githubusercontent.com/unforswearing/aliaser/master/aliaser-example-new.gif">
-</details>
-
-<br>
-
+`aliaser` is written in `bash`, tested interactively in `zsh` and passes most `shellcheck` tests.
 
 ## Installation
 
-Aliaser is a single bash function, so you can clone / download this repo and source the file directly:
+Clone this repo, move `aliaser` to live with your dotfiles (or wherever you prefer), and source `aliaser/aliaser.sh` to get started.
 
 ```bash
 $ git clone https://github.com/unforswearing/aliaser.git .
-$ cd aliaser
-$ source aliaser
-
+$ source aliaser.sh
+$ aliaser help
 ```
 
-Or using `npm`:
-
-```bash
-$ npm install -g aliaser-bash
+For persistent use you may source `aliaser` from your `.bashrc`, `.zshrc` or other shell configuration files.
 
 ```
-
-
-For persistent use you may source `aliaser` from your `.bashrc`, `.bash_profile` or other config. For more information, see the "Usage" section below.
-
-<br>
+# in your $dotfiles:
+export ALIASER_SOURCE="path/to/aliaser/aliaser.sh"
+source "$ALIASER_SOURCE"
+```
 
 ## Usage
 
-When `aliaser` is run for the first time it will create a `.aliaser` directory that contains the alias text file. Use `aliaser open` to view the this file in your default `.txt` file editor. You may also use `aliaser edit` to edit this file in your terminal.
-
-Add `source ~/.aliaser/aliaser.txt` to your `bash_profile` before creating your first alias. Aliases created via `aliaser` are available immediately.
-
-Typing `aliaser help` produces the following help text:
+Typing `aliaser help` prints  help documentation, including the following list of options:
 
 ```
-aliaser <option> [alias name]
-
-options:
-  -h|help         display this help message
-  -o|open         open the alias file with the default gui editor (e.g. TextEdit)
-  -l|list         list aliases saved in alias file
-  -e|edit         edit alias file in $EDITOR
-  -r|rm           remove alias from alias file
-  -d|dir          create an alias from the current directory (alias name is basename)
-  -n|name         create an alias from the current directory with a user defined name
-  -s|search       search alias file and execute selection
-  -a|searchall    search all aliases system wide and execute selection
-  -c|command      create an alias from the previous command with a user defined name
-
-examples:
-  aliaser rm "aliasname"      remove alias named "aliasname" from alias file
-  aliaser -n "favoritedir"    add an alias for the current directory named
-                              "favoritedir" to alias file
-
-be sure to source the alias file in your .bashrc or .bash_profile
+Options:
+  help     display this help message
+  open     open the alias file with the default gui editor (e.g. TextEdit)
+  list     list aliases saved in alias file
+  edit     edit alias file in ${EDITOR}
+  dir      create an alias from the current directory (alias name is basename)
+  lastcmd  create an alias from the previous command in your history
+  search   search alias file and execute selection
 ```
 
-After sourcing `aliaser`, you can navigate to a directory and make some aliases:
+## Examples
 
-```bash
-$ cd ~/scripts
-$ aliaser -d myscripts
+### Create an alias from the current dir
+
+```command
+$ aliaser dir "project_dir" "$HOME/projects"
+
+Added: alias 'project_dir':
+  > cd "/Users/unforswearing/projects"# aliaser
 ```
 
-Or create an alias for the previously executed command:
+### Create an alias from the last command in your history
 
-```bash
-# execute a command command
-$ b=1 && \
-> while [ $b -le 2 ]; do
->   tput flash; sleep .02;
->   b=$((b + 1));
-> done
+```command
+$ sleep 2 && echo awake
 
-# create alias for previously executed command
-$ aliaser -c "flash_terminal"
+awake
+
+$ aliaser lastcmd "wakeup"
+
+Added: alias 'wakeup':
+  > "sleep 2 && echo awake"
 ```
 
-`aliaser` will use [`fzf`](https://github.com/junegunn/fzf) if it is installed and in your $PATH. Otherwise, `aliaser` will default to [`listbox`](https://github.com/gko/listbox) which is embedded in the aliaser script.
+## To Do
 
-<br>
-
+- [ ] Add some sort of error checking.

@@ -1,6 +1,6 @@
 # aliaser
 
-> `aliaser` is a self-editing config-free alias management tool.
+> `aliaser` is a self-editing alias management tool.
 
 `aliaser` consists of a single bash function that stores aliases inside the script file itself. Take a look at [aliaser.sh](aliaser.sh) to see how this works -- aliases are stored at the bottom of the script file.
 

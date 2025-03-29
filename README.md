@@ -43,7 +43,7 @@ Options:
 
 ### Create an alias from the current dir
 
-```command
+```cmd
 $ aliaser dir "project_dir" "$HOME/projects"
 
 Added: alias 'project_dir':
@@ -52,7 +52,7 @@ Added: alias 'project_dir':
 
 ### Create an alias from the last command in your history
 
-```command
+```cmd
 $ sleep 2 && echo awake
 
 awake

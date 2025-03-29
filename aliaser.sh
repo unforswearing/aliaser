@@ -33,10 +33,10 @@ function aliaser() {
     echo "The 'aliaser' function can only work when the '\$ALIASER_SOURCE'"
     echo "environment variable is set. Please add the following code to your dotfiles:"
     echo
-    echo "ALIASER_SOURCE=\"path/to/aliaser\""
+    echo "ALIASER_SOURCE=\"path/to/aliaser.sh\""
     echo "source \"\$ALIASER_SOURCE\""
     echo
-    echo "Or run 'export ALIASER_SOURCE=\"path/to/aliaser\"' before executing"
+    echo "Or run 'export ALIASER_SOURCE=\"path/to/aliaser.sh\"' before executing"
     echo "the 'aliaser' command."
     return
   }

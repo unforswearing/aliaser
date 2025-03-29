@@ -64,7 +64,7 @@ Options:
   Running 'aliaser' without a flag will allow you to save aliases to this script in
   a slightly more traditional manner:
 
-    \# note: the entire alias must be quoted
+    # note: the entire alias must be quoted
     aliaser "cd_home_ls='cd \$HOME && ls'"
 
 Source/Bugs:
@@ -157,3 +157,6 @@ EOF
 ## ---------------
 
 ##::~ Aliases ~::##
+
+alias projects_dir='cd "$HOME/projects"'
+alias wakeup='sleep 2 && echo awake'

@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/unforswearing/aliaser/actions/workflows/build.yml/badge.svg)](https://github.com/unforswearing/aliaser/actions/workflows/build.yml)
+[![Build Status](https://github.com/unforswearing/aliaser/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/unforswearing/aliaser/actions/workflows/shellcheck.yml)
 
 # aliaser
 

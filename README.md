@@ -10,7 +10,7 @@
 
 ## Installation
 
-Clone this repo, move `aliaser` to live with your dotfiles (or wherever you prefer), and source `aliaser/aliaser.sh` to get started.
+Clone this repo and source `aliaser/aliaser.sh` to get started.
 
 ```bash
 $ git clone https://github.com/unforswearing/aliaser.git .
@@ -18,7 +18,7 @@ $ source aliaser.sh
 $ aliaser help
 ```
 
-For persistent use you may source `aliaser` from your `.bashrc`, `.zshrc` or other shell configuration files.
+For persistent use you may source `aliaser` from your `.bashrc`, `.zshrc` or other shell configuration files. The `aliaser` script must know its own location, so be sure to set up the `ALIASER_SOURCE` environment variable so that it points to `aliaser.sh`.
 
 ```bash
 # in your $dotfiles:

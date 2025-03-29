@@ -10,7 +10,7 @@
 
 Clone this repo and source `aliaser/aliaser.sh` to get started.
 
-```bash
+```console
 $ git clone https://github.com/unforswearing/aliaser.git .
 $ source aliaser.sh
 $ aliaser help
@@ -49,7 +49,7 @@ Options:
 
 Running 'aliaser' without an option flag will allow you to save aliases to this script in a slightly more traditional manner:
 
-```bash
+```console
 # note: the entire alias must be quoted
 aliaser "cd_home_ls='cd $HOME && ls'"
 ```
@@ -60,7 +60,7 @@ aliaser "cd_home_ls='cd $HOME && ls'"
 
 ### Create an alias from the current dir
 
-```cmd
+```console
 $ aliaser dir "project_dir" "$HOME/projects"
 
 Added: alias 'project_dir':
@@ -69,7 +69,7 @@ Added: alias 'project_dir':
 
 ### Create an alias from the last command in your history
 
-```cmd
+```console
 $ sleep 2 && echo awake
 
 awake

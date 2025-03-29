@@ -52,13 +52,14 @@ Description:
     source "\$ALIASER_SOURCE"
 
 Options:
-  help     display this help message
-  open     open the alias file with the default gui editor (e.g. TextEdit)
-  list     list aliases saved in alias file
-  edit     edit alias file in \${EDITOR}
-  dir      create an alias from the current directory (alias name is basename)
-  lastcmd  create an alias from the previous command in your history
-  search   search alias file and execute selection
+  help      display this help message
+  open      open the alias file with the default gui editor (e.g. TextEdit)
+  list      list aliases saved in alias file
+  edit      edit alias file in \${EDITOR}
+  dir       create an alias from the current directory (alias name is basename)
+  lastcmd   create an alias from the previous command in your history
+  search    search alias file and execute selection
+  clearall  remove all aliases from this alias file
 
   Running 'aliaser' without a flag will allow you to save aliases to this script in
   a slightly more traditional manner:
@@ -135,6 +136,13 @@ EOF
     echo "[DEBUG]"
     # echo "${aliaser_self}"
     ;;
+  clearall)
+    header="$(_decoded_header)"
+    # shellcheck disable=SC2016
+    gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
+    echo "${header}" >> "${aliaser_self}"
+    echo "All aliases have been deleted."
+  ;;
   *)
     # aliaser "zsh_config='cd ~/zsh-config'"
     eval "alias ${*}"
@@ -149,9 +157,3 @@ EOF
 ## ---------------
 
 ##::~ Aliases ~::##
-
-alias print_files='ls'
-alias lszf='ls | fzf'
-alias project_dir='cd "/Users/unforswearing/projects"'
-alias wakeup='sleep 2 && echo "awake"'
-alias choco='echo late'

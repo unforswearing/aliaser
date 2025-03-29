@@ -30,14 +30,17 @@ Typing `aliaser help` prints  help documentation, including the following list o
 
 ```
 Options:
-  help     display this help message
-  open     open the alias file with the default gui editor (e.g. TextEdit)
-  list     list aliases saved in alias file
-  edit     edit alias file in ${EDITOR}
-  dir      create an alias from the current directory (alias name is basename)
-  lastcmd  create an alias from the previous command in your history
-  search   search alias file and execute selection
+  help      display this help message
+  open      open the alias file with the default gui editor (e.g. TextEdit)
+  list      list aliases saved in alias file
+  edit      edit alias file in \${EDITOR}
+  dir       create an alias from the current directory (alias name is basename)
+  lastcmd   create an alias from the previous command in your history
+  search    search alias file and execute selection
+  clearall  remove all aliases from this alias file
 ```
+
+`aliaser` has some example aliases stored at the bottom of the script to show how `aliaser` stores aliases. You can remove these by running `aliaser clearall`
 
 ## Examples
 

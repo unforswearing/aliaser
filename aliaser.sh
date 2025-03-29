@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck shell=bash
 # This script uses the `sh` extension but aims to be compatible with zsh and bash:
 #   - zsh 5.9 (x86_64-apple-darwin24.0)
 #   - GNU bash, version 3.2.57(1)-release (x86_64-apple-darwin24)
@@ -27,7 +28,6 @@
 # add to .{bash|zsh}rc:
 # ALIASER_SOURCE="path/to/aliaser"
 # source "$ALIASER_SOURCE"
-
 function aliaser() {
   test -z ${ALIASER_SOURCE+x} && {
     echo "The 'aliaser' function can only work when the '\$ALIASER_SOURCE'"
@@ -77,13 +77,14 @@ EOF
   aliaser_self="${ALIASER_SOURCE}"
 
   _list() {
-    sed -n '/\#\#\:\:\~ Aliases \~\:\:\#\#/,$p' "${aliaser_self}"
+   # shellcheck disable=SC2016
+   gsed -n '/\#\#\:\:\~ Aliases \~\:\:\#\#/,$p' "${aliaser_self}"
   }
   # _encoded_header() {
   #  echo "IyM6On4gQWxpYXNlcyB+OjojIw=="
   # }
   _decoded_header() {
-    echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D
+    echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | /usr/bin/base64 -D
   }
   flag="${1}"
   case "${flag}" in
@@ -101,7 +102,7 @@ EOF
     header="$(_decoded_header)"
     # shellcheck disable=SC2016
     gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
-    cat "${tmp_aliases_list}" >>"${aliaser_self}"
+    /bin/cat "${tmp_aliases_list}" >>"${aliaser_self}"
     /bin/rm "${tmp_aliases_list}"
     # shellcheck disable=SC1090
     source "${aliaser_self}"
@@ -120,7 +121,12 @@ EOF
     ;;
   lastcmd)
     # aliaser lastcmd "name"
-    prev=$(history | tail -n 1 | awk '{first=$1; $1=""; print $0;}' | awk '{$1=$1}1')
+    prev=$(
+      history |
+      /usr/bin/tail -n 1 |
+      /usr/bin/awk '{first=$1; $1=""; print $0;}' |
+      /usr/bin/awk '{$1=$1}1'
+    )
     composed_alias="alias ${2}='${prev}'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${aliaser_self}"
@@ -131,11 +137,18 @@ EOF
   search)
     # aliaser search <query>
     query="${2}"
-    _list | awk '/'"${query}"'/'
+    _list | /usr/bin/awk '/'"${query}"'/'
     ;;
   debug)
     echo "[DEBUG]"
-    # echo "${aliaser_self}"
+    debug_cmd_types() {
+      type -a sed
+      type -a awk
+      type -a cat
+      type -a rm
+      type -a tail
+    }
+    debug_cmd_types
     ;;
   clearall)
     header="$(_decoded_header)"

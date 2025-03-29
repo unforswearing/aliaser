@@ -6,8 +6,6 @@
 
 `aliaser` consists of a single bash function that stores aliases inside the script file itself. Take a look at [aliaser.sh](aliaser.sh) to see how this works -- aliases are stored at the bottom of the script file.
 
-`aliaser` is written in `bash`, tested interactively in `zsh` and passes most `shellcheck` tests.
-
 ## Installation
 
 Clone this repo and source `aliaser/aliaser.sh` to get started.
@@ -25,6 +23,14 @@ For persistent use you may source `aliaser` from your `.bashrc`, `.zshrc` or oth
 export ALIASER_SOURCE="path/to/aliaser/aliaser.sh"
 source "$ALIASER_SOURCE"
 ```
+
+### Dependencies
+
+> [!IMPORTANT]
+> `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. `aliaser` has not been tested on any Linux-based systems.
+
+
+This script relies on `gnu-sed` and is used as `gsed` internally.
 
 ## Usage
 
@@ -75,10 +81,22 @@ Added: alias 'wakeup':
   > "sleep 2 && echo awake"
 ```
 
-## To Do
+## To Do / Roadmap
 
 - [ ] Add some sort of error checking.
-- [ ] Add a method to back up the aliaser script
-    - May not be necessary: `aliaser list > aliases.sh`
-- [ ] Add a way to create temporary aliases
-    - Just use the default `alias` command?
+    - Error if more args than expected
+    - Check exit status
+    - Run shellcheck against newly created aliases?
+    - Etc?
+- [ ] Add method to bulk add new aliases from a file.
+    - `aliaser addbulk "bash_aliases.sh"`
+- [ ] Add an internal method to update aliaser
+    - `aliaser updateself`
+      - Curl script from github
+      - Check if update is needed (via script version, or etc (TBD))
+      - If update needed
+          - Export aliases to temporary file
+          - Replace aliaser.sh with new version
+          - Import aliases to new aliaser.sh script
+          - Confirm success
+      - If no update needed, confirm script is latest version.

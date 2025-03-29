@@ -33,13 +33,20 @@ Typing `aliaser help` prints  help documentation, including the following list o
 ```
 Options:
     help      display this help message
-    open      open the alias file with the default gui editor (e.g. TextEdit)
     list      list aliases saved in alias file
-    edit      edit alias file in ${EDITOR}
     dir       create an alias to cd to a directory with a nickname
     lastcmd   create an alias from the previous command in your history
+    edit      edit alias file in ${EDITOR}
     search    search alias file and execute selection
+    open      open the 'aliaser.sh' script in ${EDITOR}
     clearall  remove all aliases from this alias file
+```
+
+Running 'aliaser' without an option flag will allow you to save aliases to this script in a slightly more traditional manner:
+
+```bash
+# note: the entire alias must be quoted
+aliaser "cd_home_ls='cd $HOME && ls'"
 ```
 
 `aliaser` has some example aliases stored at the bottom of the script to show how `aliaser` stores aliases. Run `aliaser clearall` to remove these examples before adding your own aliases.
@@ -71,3 +78,7 @@ Added: alias 'wakeup':
 ## To Do
 
 - [ ] Add some sort of error checking.
+- [ ] Add a method to back up the aliaser script
+    - May not be necessary: `aliaser list > aliases.sh`
+- [ ] Add a way to create temporary aliases
+    - Just use the default `alias` command?

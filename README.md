@@ -18,7 +18,7 @@ $ aliaser help
 
 For persistent use you may source `aliaser` from your `.bashrc`, `.zshrc` or other shell configuration files.
 
-```
+```bash
 # in your $dotfiles:
 export ALIASER_SOURCE="path/to/aliaser/aliaser.sh"
 source "$ALIASER_SOURCE"

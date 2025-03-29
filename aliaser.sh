@@ -30,12 +30,14 @@
 
 function aliaser() {
   test -z ${ALIASER_SOURCE+x} && {
-    echo "The 'aliaser' function can only work with the '\$ALIASER_SOURCE'"
-    echo "environment variable. Please add the following code to your dotfiles:"
+    echo "The 'aliaser' function can only work when the '\$ALIASER_SOURCE'"
+    echo "environment variable is set. Please add the following code to your dotfiles:"
     echo
-    echo "  ALIASER_SOURCE=\"path/to/aliaser\""
-    echo " source \"\$ALIASER_SOURCE\""
+    echo "ALIASER_SOURCE=\"path/to/aliaser\""
+    echo "source \"\$ALIASER_SOURCE\""
     echo
+    echo "Or run 'export ALIASER_SOURCE=\"path/to/aliaser\"' before executing"
+    echo "the 'aliaser' command."
     return
   }
 
@@ -152,6 +154,8 @@ EOF
     echo
     ;;
   esac
+  # Backup aliaser somewhere just in case (actual location TBD)
+  # cat "${aliaser_self}" > "${aliaser_self}.bkp"
 }
 
 ## ---------------

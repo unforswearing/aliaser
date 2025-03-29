@@ -47,7 +47,7 @@ Options:
 $ aliaser dir "project_dir" "$HOME/projects"
 
 Added: alias 'project_dir':
-  > cd "/Users/unforswearing/projects"# aliaser
+  > cd "/Users/unforswearing/projects"
 ```
 
 ### Create an alias from the last command in your history

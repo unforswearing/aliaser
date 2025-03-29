@@ -42,7 +42,7 @@ Options:
     clearall  remove all aliases from this alias file
 ```
 
-`aliaser` has some example aliases stored at the bottom of the script to show how `aliaser` stores aliases. You can remove these by running `aliaser clearall`
+`aliaser` has some example aliases stored at the bottom of the script to show how `aliaser` stores aliases. Run `aliaser clearall` to remove these examples before adding your own aliases.
 
 ## Examples
 

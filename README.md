@@ -26,11 +26,10 @@ source "$ALIASER_SOURCE"
 
 ### Dependencies
 
+This script relies on `gnu-sed` and is used as `gsed` internally.
+
 > [!IMPORTANT]
 > `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. `aliaser` has not been tested on any Linux-based systems.
-
-
-This script relies on `gnu-sed` and is used as `gsed` internally.
 
 ## Usage
 

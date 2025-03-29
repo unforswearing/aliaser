@@ -1,3 +1,5 @@
+[![Build Status](https://github.com/unforswearing/aliaser/actions/workflows/build.yml/badge.svg)](https://github.com/unforswearing/aliaser/actions/workflows/build.yml)
+
 # aliaser
 
 > `aliaser` is a self-editing alias management tool.

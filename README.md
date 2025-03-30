@@ -84,7 +84,9 @@ Double quote the entire argument to ensure your aliases are not mangled by the s
 aliaser "cd_home_ls='cd $HOME && ls'"
 ```
 
-### Searching for aliases
+### Listing and searching for aliases
+
+Use `aliaser list` to print a list of the aliases currently stored in the script.
 
 The `aliaser search <query>` command will allow you to search your aliases for items matchin `query`. `aliaser` will print the result of the search, or a warning if no match was found. If there is more than one search result, `aliaser` will use `fzf` to let you select between the available matches.
 

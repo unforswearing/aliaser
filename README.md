@@ -54,20 +54,21 @@ Options:
 
 Aliases can be added to the `aliaser.sh` script using the folling commands:
 
-- `aliaser dir <name> <path>`
-
 Create an alias that will navigate to the provided path when executed using 'name'.
 
-- `aliaser lastcmd `
+- `aliaser dir <name> <path>`
 
 Create an alias from the last command in your shell history.
 
-- `aliaser <name='command'>`
+- `aliaser lastcmd `
 
 Running `aliaser` without an option flag will allow you to save aliases to this script in a slightly more traditional manner:
 
+- `aliaser <name='command'>`
+
+Double quote the entire argument to ensure your aliases are not mangled by the script.
+
 ```console
-# note: the entire alias must be quoted
 aliaser "cd_home_ls='cd $HOME && ls'"
 ```
 

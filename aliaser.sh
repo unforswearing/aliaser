@@ -52,7 +52,7 @@ Options:
     dir       create an alias to cd to a directory with a nickname
     lastcmd   create an alias from the previous command in your history
     edit      edit alias file in ${EDITOR}
-    search    search alias file, print and select matches
+    search    search alias file, select and print matches
     open      open the 'aliaser.sh' script in ${EDITOR}
     clearall  remove all aliases from this alias file
 

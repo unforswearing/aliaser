@@ -45,7 +45,7 @@ Options:
     dir       create an alias with 'name' that will cd to 'path'
     lastcmd   create an alias from the previous command in your history
     edit      edit alias file in ${EDITOR}
-    search    search aliases, print and select matches
+    search    search aliases, select and print matches
     open      open the 'aliaser.sh' script in ${EDITOR}
     clearall  remove all aliases from this alias file
 ```

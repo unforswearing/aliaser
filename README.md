@@ -6,7 +6,7 @@
 
 ## About
 
-This tool was created to manage persistent aliases on `bash` / `zsh`.
+This tool was created to manage persistent aliases when using `bash` or `zsh` interactively.
 
 `aliaser` consists of a single bash function that stores its own aliases. Each alias crated with `aliaser` is appended to the bottom of the `aliaser.sh` script itself. When you source `aliaser.sh` you also source all of the aliases created with the script.
 

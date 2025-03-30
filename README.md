@@ -10,6 +10,9 @@ This tool was created to manage persistent aliases when using `bash` or `zsh` in
 
 `aliaser` consists of a single bash function that stores its own aliases. Each alias crated with `aliaser` is appended to the [bottom of the `aliaser.sh` script itself](aliaser.sh#L178). When you source `aliaser.sh` you also source all of the aliases created with the script. Please see [aliaser.sh](aliaser.sh) to see how this works.
 
+> [!IMPORTANT]
+> `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. This script has not been tested on any Linux-based systems.
+
 ## Installation
 
 Clone this repo and source `aliaser/aliaser.sh` to get started.
@@ -29,9 +32,6 @@ source "$ALIASER_SOURCE"
 ```
 
 ## Dependencies
-
-> [!IMPORTANT]
-> `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. This script has not been tested on any Linux-based systems.
 
 `aliaser` will warn you if either or both of these tools are not found in your environment:
 

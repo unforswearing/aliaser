@@ -8,7 +8,7 @@
 # shellcheck enable=require-double-brackets
 # shellcheck enable=require-variable-braces
 
-# aliaser is a config-free alias management tool.
+# aliaser is a self-editing alias management tool.
 function aliaser() {
   command -v gsed >|/dev/null 2>&1 || {
     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."

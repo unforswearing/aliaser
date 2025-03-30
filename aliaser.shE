@@ -9,7 +9,7 @@
 # shellcheck enable=require-variable-braces
 
 # aliaser is a self-editing alias management tool.
-##:: aliaser-version=v2.1.0
+##:: aliaser-version=v2.0.6
 function aliaser() {
   command -v gsed >|/dev/null 2>&1 || {
     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."

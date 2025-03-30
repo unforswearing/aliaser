@@ -36,7 +36,7 @@ source "$ALIASER_SOURCE"
 `aliaser` will warn you if either or both of these tools are not found in your environment:
 
 - [`fzf`](https://github.com/junegunn/fzf)
-- [`gnu-sed`](https://www.gnu.org/software/sed/)
+- [`gnu-sed`](https://www.gnu.org/software/sed/) (as `gsed` on MacOS)
 
 ## Usage
 

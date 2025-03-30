@@ -50,7 +50,19 @@ Options:
     clearall  remove all aliases from this alias file
 ```
 
-### Running `aliaser` without an option flag
+### Adding aliases
+
+Aliases can be added to the `aliaser.sh` script using the folling commands:
+
+- `aliaser dir <name> <path>`
+
+Create an alias that will navigate to the provided path when executed using 'name'.
+
+- `aliaser lastcmd `
+
+Create an alias from the last command in your shell history.
+
+- `aliaser <name='command'>`
 
 Running `aliaser` without an option flag will allow you to save aliases to this script in a slightly more traditional manner:
 
@@ -59,9 +71,19 @@ Running `aliaser` without an option flag will allow you to save aliases to this 
 aliaser "cd_home_ls='cd $HOME && ls'"
 ```
 
-### Editing aliases and the `aliaser.sh` script
+### Searching for aliases
 
-If find that an alias has been accidentally mangled, use `aliaser edit` to modify your aliases. You may also use `aliaser open` to modify the `aliaser.sh` script directly, debug your aliases, or improve the code.
+The `aliaser search <query>` command will allow you to search your aliases for items matchin `query`. `aliaser` will print the result of the search, or a warning if no match was found. If there is more than one search result, `aliaser` will use `fzf` to let you select between the available matches.
+
+### Editing and removing aliases
+
+The `aliaser edit` command can be used to add new aliases manually, or remove aliases from your list. This is especially useful if you would like to enter multiple aliases at once.
+
+`aliaser` does not have a builtin command to remove individual aliases from the list. Please use `aliaser edit` to modify individual entries. You may use `aliaser clearall` to remove all aliases from the list.
+
+### Debugging and modifications
+
+If you find that an alias has been accidentally mangled, use the `aliaser edit` command to modify any alias stored in the script. You may also use `aliaser open` to modify the `aliaser.sh` script directly, debug your aliases, or improve the code.
 
 ## Examples
 

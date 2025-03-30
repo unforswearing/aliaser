@@ -4,6 +4,8 @@
 
 > `aliaser` is a self-editing alias management tool.
 
+## About
+
 `aliaser` consists of a single bash function that stores its own aliases. Each alias crated with `aliaser` is appended to the bottom of the `aliaser.sh` script itself. When you source `aliaser.sh` you also source all of the aliases created with the script.
 
 ## Installation

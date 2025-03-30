@@ -54,17 +54,25 @@ Options:
 
 Aliases can be added to the `aliaser.sh` script using the folling commands:
 
-Create an alias that will navigate to the provided path when executed using 'name'.
+#### Create an alias that will navigate to the provided path when executed using 'name'.
 
-- `aliaser dir <name> <path>`
+```
+aliaser dir <name> <path>
+```
 
-Create an alias from the last command in your shell history.
+#### Create an alias from the last command in your shell history.
 
-- `aliaser lastcmd <name>`
+```
+aliaser lastcmd <name>
+```
+
+#### Create an alias without an option flag
 
 Running `aliaser` without an option flag will allow you to save aliases to this script in a slightly more traditional manner:
 
-- `aliaser <name='command'>`
+```
+aliaser <name='command'>
+```
 
 Double quote the entire argument to ensure your aliases are not mangled by the script.
 

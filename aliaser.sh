@@ -103,7 +103,7 @@ EOF
     # shellcheck disable=SC2016
     gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
     /bin/cat "${tmp_aliases_list}" >>"${aliaser_self}"
-    /bin/rm "${tmp_aliases_list}"
+    # /bin/rm "${tmp_aliases_list}"
     # shellcheck disable=SC1090
     source "${aliaser_self}"
     echo "Updated aliases."

@@ -60,7 +60,7 @@ Create an alias that will navigate to the provided path when executed using 'nam
 
 Create an alias from the last command in your shell history.
 
-- `aliaser lastcmd `
+- `aliaser lastcmd <name>`
 
 Running `aliaser` without an option flag will allow you to save aliases to this script in a slightly more traditional manner:
 

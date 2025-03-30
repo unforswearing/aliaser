@@ -1,12 +1,5 @@
 #!/bin/bash
 # shellcheck shell=bash
-# This script uses the `sh` extension but aims to be compatible with zsh and bash:
-#   - zsh 5.9 (x86_64-apple-darwin24.0)
-#   - GNU bash, version 3.2.57(1)-release (x86_64-apple-darwin24)
-#
-# Tested interactively in zsh and bash shells. See bin/build.sh for unit tests,
-# \shellcheck, and formatting.
-#
 
 # Enable some optional \shellcheck checks:
 # shellcheck enable=add-default-case
@@ -15,19 +8,7 @@
 # shellcheck enable=require-double-brackets
 # shellcheck enable=require-variable-braces
 
-# Can I make aliaser modify its own source code to store links,
-# rather than using a config directory? -> Yes!
-
 # aliaser is a config-free alias management tool.
-
-# usage: source aliaser.sh && aliaser help
-
-# requires gnu-sed (gsed on macos)
-
-# clone repo, move files to dotfiles
-# add to .{bash|zsh}rc:
-# ALIASER_SOURCE="path/to/aliaser"
-# source "$ALIASER_SOURCE"
 function aliaser() {
   command -v gsed >|/dev/null 2>&1 || {
     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."

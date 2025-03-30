@@ -21,8 +21,10 @@ test -z "${newversion+x}" && {
 
 echo "$newversion" > version
 
-gsed -iE "s/aliaser-version=.*/aliaser-version=${newversion}/" aliaser.sh
+# gsed -i "s/aliaser-version=.*/aliaser-version=${newversion}/" aliaser.sh
 
 cat tmp.aliaser.build > "aliaser.sh"
 
 echo "aliaser.sh build complete."
+
+rm tmp.aliaser.build

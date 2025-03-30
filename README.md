@@ -24,12 +24,15 @@ export ALIASER_SOURCE="path/to/aliaser/aliaser.sh"
 source "$ALIASER_SOURCE"
 ```
 
-### Dependencies
-
-This script relies on `gnu-sed` and is used as `gsed` internally.
+## Dependencies
 
 > [!IMPORTANT]
-> `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. `aliaser` has not been tested on any Linux-based systems.
+> `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. This script has not been tested on any Linux-based systems.
+
+`aliaser` will warn you if either or both of these tools are not found in your environment:
+
+- [`fzf`](https://github.com/junegunn/fzf)
+- [`gnu-sed`](https://www.gnu.org/software/sed/)
 
 ## Usage
 
@@ -39,10 +42,10 @@ Typing `aliaser help` prints  help documentation, including the following list o
 Options:
     help      display this help message
     list      list aliases saved in alias file
-    dir       create an alias to cd to a directory with a nickname
+    dir       create an alias with 'name' that will cd to 'path'
     lastcmd   create an alias from the previous command in your history
     edit      edit alias file in ${EDITOR}
-    search    search alias file and execute selection
+    search    search aliases, print and select matches
     open      open the 'aliaser.sh' script in ${EDITOR}
     clearall  remove all aliases from this alias file
 ```
@@ -79,6 +82,27 @@ $ aliaser lastcmd "wakeup"
 Added: alias 'wakeup':
   > "sleep 2 && echo awake"
 ```
+<!--
+### Search for an alias and use the matching command in a script
+
+In your terminal:
+
+```console
+$ shfmt -i 2
+$ aliaser lastcmd "format"
+```
+
+Use the `format` alias in a script:
+
+```bash
+# new_script.sh
+source aliaser.sh
+
+# use 'format'
+"$EDITOR" ./build.sh
+build_formatted=$(aliaser search "format" "./build.sh")
+```
+-->
 
 ## To Do / Roadmap
 

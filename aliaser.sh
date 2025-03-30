@@ -29,6 +29,18 @@
 # ALIASER_SOURCE="path/to/aliaser"
 # source "$ALIASER_SOURCE"
 function aliaser() {
+  command -v gsed >|/dev/null 2>&1 || {
+    echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
+    echo "https://www.gnu.org/software/sed/"
+    return
+  }
+
+  command -v fzf >|/dev/null 2>&1 || {
+    echo "'fzf' not found. aliaser requires FZF for use with the 'search' option."
+    echo "https://github.com/junegunn/fzf"
+    return
+  }
+
   test -z ${ALIASER_SOURCE+x} && {
     echo "The 'aliaser' function can only work when the '\$ALIASER_SOURCE'"
     echo "environment variable is set. Please add the following code to your dotfiles:"
@@ -59,7 +71,7 @@ Options:
     dir       create an alias to cd to a directory with a nickname
     lastcmd   create an alias from the previous command in your history
     edit      edit alias file in ${EDITOR}
-    search    search alias file and execute selection
+    search    search alias file, print and select matches
     open      open the 'aliaser.sh' script in ${EDITOR}
     clearall  remove all aliases from this alias file
 
@@ -137,16 +149,26 @@ EOF
   search)
     # aliaser search <query>
     query="${2}"
-    _list | /usr/bin/awk '/'"${query}"'/'
+    matches=$(_list | /usr/bin/awk '/'"${query}"'/')
+    test -z "${matches}" && {
+      echo "No match found for '${query}'"
+      return
+    }
+    printf '%s\n' "${matches}" |
+      grep -v "$(_decoded_header)" |
+      fzf --disabled --select-1 --exit-0 |
+      awk -F= '{print $2}' |
+      sd "\'" ""
     ;;
   debug)
     echo "[DEBUG]"
     debug_cmd_types() {
-      type -a sed
+      type -a gsed
       type -a awk
       type -a cat
       type -a rm
       type -a tail
+      type -a fzf
     }
     debug_cmd_types
     ;;

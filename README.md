@@ -20,7 +20,7 @@ $ source aliaser.sh
 $ aliaser help
 ```
 
-For persistent use you may source `aliaser` from your `.bashrc`, `.zshrc` or other shell configuration files. The `aliaser` script must know its own location, so be sure to set up the `ALIASER_SOURCE` environment variable so that it points to `aliaser.sh`.
+For persistent use you may source `aliaser` from your `.bashrc`, `.zshrc`, or other shell configuration files. The `aliaser` script must know its own location, so be sure to set up the `ALIASER_SOURCE` environment variable so that it points to `aliaser.sh`.
 
 ```bash
 # in your $dotfiles:

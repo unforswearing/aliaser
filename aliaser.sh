@@ -136,19 +136,20 @@ EOF
       return
     }
     printf '%s\n' "${matches}" |
-      grep -v "$(_decoded_header)" |
+      /usr/bin/grep -v "$(_decoded_header)" |
       fzf --disabled --select-1 --exit-0 |
-      awk -F= '{print $2}' |
-      sd "\'" ""
+      /usr/bin/awk -F= '{print $2}' |
+      gsed 's/'\'//g'
     ;;
   debug)
     echo "[DEBUG]"
     debug_cmd_types() {
-      type -a gsed
-      type -a awk
       type -a cat
+      type -a awk
+      type -a grep
       type -a rm
       type -a tail
+      type -a gsed
       type -a fzf
     }
     debug_cmd_types

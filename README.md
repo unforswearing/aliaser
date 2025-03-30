@@ -50,16 +50,22 @@ Options:
     clearall  remove all aliases from this alias file
 ```
 
-Running 'aliaser' without an option flag will allow you to save aliases to this script in a slightly more traditional manner:
+### Running `aliaser` without an option flag
+
+Running `aliaser` without an option flag will allow you to save aliases to this script in a slightly more traditional manner:
 
 ```console
 # note: the entire alias must be quoted
 aliaser "cd_home_ls='cd $HOME && ls'"
 ```
 
-`aliaser` has some example aliases stored at the bottom of the script to show how `aliaser` stores aliases. Run `aliaser clearall` to remove these examples before adding your own aliases.
+### Editing aliases and the `aliaser.sh` script
+
+If find that an alias has been accidentally mangled, use `aliaser edit` to modify your aliases. You may also use `aliaser open` to modify the `aliaser.sh` script directly, debug your aliases, or improve the code.
 
 ## Examples
+
+`aliaser` has some example aliases stored at the bottom of the script to show how `aliaser` stores aliases. Run `aliaser clearall` to remove these examples before adding your own aliases.
 
 ### Create an alias from the current dir
 
@@ -82,6 +88,28 @@ $ aliaser lastcmd "wakeup"
 Added: alias 'wakeup':
   > "sleep 2 && echo awake"
 ```
+
+## To Do / Roadmap
+
+- [ ] Add some sort of error checking.
+    - Error if more args than expected
+    - Check exit status
+    - Run shellcheck against newly created aliases?
+    - Etc?
+- [ ] Add method to bulk add new aliases from a file.
+    - `aliaser addbulk "bash_aliases.sh"`
+- [ ] Add an internal method to update aliaser
+    - `aliaser updateself`
+      - Curl script from github
+      - Check if update is needed (via script version, or etc (TBD))
+      - If update needed
+          - Export aliases to temporary file
+          - Replace aliaser.sh with new version
+          - Import aliases to new aliaser.sh script
+          - Confirm success
+      - If no update needed, confirm script is latest version.
+
+
 <!--
 ### Search for an alias and use the matching command in a script
 
@@ -103,23 +131,3 @@ source aliaser.sh
 build_formatted=$(aliaser search "format" "./build.sh")
 ```
 -->
-
-## To Do / Roadmap
-
-- [ ] Add some sort of error checking.
-    - Error if more args than expected
-    - Check exit status
-    - Run shellcheck against newly created aliases?
-    - Etc?
-- [ ] Add method to bulk add new aliases from a file.
-    - `aliaser addbulk "bash_aliases.sh"`
-- [ ] Add an internal method to update aliaser
-    - `aliaser updateself`
-      - Curl script from github
-      - Check if update is needed (via script version, or etc (TBD))
-      - If update needed
-          - Export aliases to temporary file
-          - Replace aliaser.sh with new version
-          - Import aliases to new aliaser.sh script
-          - Confirm success
-      - If no update needed, confirm script is latest version.

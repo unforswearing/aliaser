@@ -139,7 +139,7 @@ EOF
       /usr/bin/grep -v "$(_decoded_header)" |
       fzf --disabled --select-1 --exit-0 |
       /usr/bin/awk -F= '{print $2}' |
-      gsed 's/'\'//g'
+      gsed "s/\'//g"
     ;;
   debug)
     echo "[DEBUG]"
@@ -149,8 +149,8 @@ EOF
       type -a grep
       type -a rm
       type -a tail
-      type -a gsed
       type -a fzf
+      type -a gsed
     }
     debug_cmd_types
     ;;

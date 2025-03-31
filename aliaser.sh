@@ -9,34 +9,34 @@
 # shellcheck enable=require-variable-braces
 
 # aliaser is a self-editing alias management tool.
-##:: aliaser-version=v2.1.0
+##:: aliaser-version=v2.2.0
 function aliaser() {
-  command -v gsed >|/dev/null 2>&1 || {
-    echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
-    echo "https://www.gnu.org/software/sed/"
-    return
-  }
+	command -v gsed >|/dev/null 2>&1 || {
+		echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
+		echo "https://www.gnu.org/software/sed/"
+		return
+	}
 
-  command -v fzf >|/dev/null 2>&1 || {
-    echo "'fzf' not found. aliaser requires FZF for use with the 'search' option."
-    echo "https://github.com/junegunn/fzf"
-    return
-  }
+	command -v fzf >|/dev/null 2>&1 || {
+		echo "'fzf' not found. aliaser requires FZF for use with the 'search' option."
+		echo "https://github.com/junegunn/fzf"
+		return
+	}
 
-  test -z ${ALIASER_SOURCE+x} && {
-    echo "The 'aliaser' function can only work when the '\$ALIASER_SOURCE'"
-    echo "environment variable is set. Please add the following code to your dotfiles:"
-    echo
-    echo "ALIASER_SOURCE=\"path/to/aliaser.sh\""
-    echo "source \"\$ALIASER_SOURCE\""
-    echo
-    echo "Or run 'export ALIASER_SOURCE=\"path/to/aliaser.sh\"' before executing"
-    echo "the 'aliaser' command."
-    return
-  }
+	test -z ${ALIASER_SOURCE+x} && {
+		echo "The 'aliaser' function can only work when the '\$ALIASER_SOURCE'"
+		echo "environment variable is set. Please add the following code to your dotfiles:"
+		echo
+		echo "ALIASER_SOURCE=\"path/to/aliaser.sh\""
+		echo "source \"\$ALIASER_SOURCE\""
+		echo
+		echo "Or run 'export ALIASER_SOURCE=\"path/to/aliaser.sh\"' before executing"
+		echo "the 'aliaser' command."
+		return
+	}
 
-  helpp() {
-    cat <<EOF
+	helpp() {
+		cat <<EOF
 aliaser <option> [alias name]
 
 Description:
@@ -66,113 +66,113 @@ Options:
 Source:
   https://github.com/unforswearing/aliaser
 EOF
-  }
+	}
 
-  aliaser_self="${ALIASER_SOURCE}"
+	aliaser_self="${ALIASER_SOURCE}"
 
-  _list() {
-    # shellcheck disable=SC2016
-    gsed -n '/\#\#\:\:\~ Aliases \~\:\:\#\#/,$p' "${aliaser_self}"
-  }
-  # _encoded_header() {
-  #  echo "IyM6On4gQWxpYXNlcyB+OjojIw=="
-  # }
-  _decoded_header() {
-    echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | /usr/bin/base64 -D
-  }
-  flag="${1}"
-  case "${flag}" in
-  # aliaser help
-  help | -h) helpp ;;
-  # aliaser open
-  open) "${EDITOR}" "${aliaser_self}" ;;
-  # aliaser list
-  list) _list ;;
-  edit)
-    # aliaser edit
-    tmp_aliases_list="/tmp/aliaser_aliases_list.txt"
-    _list >"${tmp_aliases_list}"
-    "${EDITOR}" "${tmp_aliases_list}"
-    header="$(_decoded_header)"
-    # shellcheck disable=SC2016
-    gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
-    /bin/cat "${tmp_aliases_list}" >>"${aliaser_self}"
-    # /bin/rm "${tmp_aliases_list}"
-    # shellcheck disable=SC1090
-    source "${aliaser_self}"
-    echo "Updated aliases."
-    ;;
-  dir)
-    # aliaser dir "zsh_config" "~/zsh-config"
-    dirname="${2}"
-    dirpath="${3}"
-    composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
-    eval "${composed_alias}"
-    echo "${composed_alias}" >>"${aliaser_self}"
-    echo "Added: alias '${dirname}':"
-    echo "  > cd \"${dirpath}\""
-    echo
-    ;;
-  lastcmd)
-    # aliaser lastcmd "name"
-    prev=$(
-      history |
-        /usr/bin/tail -n 1 |
-        /usr/bin/awk '{first=$1; $1=""; print $0;}' |
-        /usr/bin/awk '{$1=$1}1'
-    )
-    composed_alias="alias ${2}='${prev}'"
-    eval "${composed_alias}"
-    echo "${composed_alias}" >>"${aliaser_self}"
-    echo "Added: alias '${2}':"
-    echo "  > \"${prev}\""
-    echo
-    ;;
-  search)
-    # aliaser search <query>
-    query="${2}"
-    matches=$(_list | /usr/bin/awk '/'"${query}"'/')
-    test -z "${matches}" && {
-      echo "No match found for '${query}'"
-      return
-    }
-    printf '%s\n' "${matches}" |
-      /usr/bin/grep -v "$(_decoded_header)" |
-      fzf --disabled --select-1 --exit-0 |
-      /usr/bin/awk -F= '{print $2}' |
-      gsed -E "s/^'//g;s/'$//g"
-    ;;
-  clearall)
-    header="$(_decoded_header)"
-    # shellcheck disable=SC2016
-    gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
-    echo "${header}" >>"${aliaser_self}"
-    echo "All aliases have been deleted."
-    ;;
-  debug)
-    echo "[DEBUG]"
-    debug_cmd_types() {
-      type -a cat
-      type -a awk
-      type -a grep
-      type -a rm
-      type -a tail
-      type -a fzf
-      type -a gsed
-    }
-    debug_cmd_types
-    ;;
-  *)
-    # aliaser "zsh_config='cd ~/zsh-config'"
-    eval "alias ${*}"
-    echo "alias ${*}" >>"${aliaser_self}"
-    echo "Added:"
-    echo "  > alias ${*}"
-    echo
-    ;;
-  esac
-  # Backup aliaser somewhere just in case (actual location TBD)
-  # cat "${aliaser_self}" > "${aliaser_self}.bkp"
+	_list() {
+		# shellcheck disable=SC2016
+		gsed -n '/\#\#\:\:\~ Aliases \~\:\:\#\#/,$p' "${aliaser_self}"
+	}
+	# _encoded_header() {
+	#  echo "IyM6On4gQWxpYXNlcyB+OjojIw=="
+	# }
+	_decoded_header() {
+		echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | /usr/bin/base64 -D
+	}
+	flag="${1}"
+	case "${flag}" in
+	# aliaser help
+	help | -h) helpp ;;
+	# aliaser open
+	open) "${EDITOR}" "${aliaser_self}" ;;
+	# aliaser list
+	list) _list ;;
+	edit)
+		# aliaser edit
+		tmp_aliases_list="/tmp/aliaser_aliases_list.txt"
+		_list >"${tmp_aliases_list}"
+		"${EDITOR}" "${tmp_aliases_list}"
+		header="$(_decoded_header)"
+		# shellcheck disable=SC2016
+		gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
+		/bin/cat "${tmp_aliases_list}" >>"${aliaser_self}"
+		# /bin/rm "${tmp_aliases_list}"
+		# shellcheck disable=SC1090
+		source "${aliaser_self}"
+		echo "Updated aliases."
+		;;
+	dir)
+		# aliaser dir "zsh_config" "~/zsh-config"
+		dirname="${2}"
+		dirpath="${3}"
+		composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
+		eval "${composed_alias}"
+		echo "${composed_alias}" >>"${aliaser_self}"
+		echo "Added: alias '${dirname}':"
+		echo "  > cd \"${dirpath}\""
+		echo
+		;;
+	lastcmd)
+		# aliaser lastcmd "name"
+		prev=$(
+			history |
+				/usr/bin/tail -n 1 |
+				/usr/bin/awk '{first=$1; $1=""; print $0;}' |
+				/usr/bin/awk '{$1=$1}1'
+		)
+		composed_alias="alias ${2}='${prev}'"
+		eval "${composed_alias}"
+		echo "${composed_alias}" >>"${aliaser_self}"
+		echo "Added: alias '${2}':"
+		echo "  > \"${prev}\""
+		echo
+		;;
+	search)
+		# aliaser search <query>
+		query="${2}"
+		matches=$(_list | /usr/bin/awk '/'"${query}"'/')
+		test -z "${matches}" && {
+			echo "No match found for '${query}'"
+			return
+		}
+		printf '%s\n' "${matches}" |
+			/usr/bin/grep -v "$(_decoded_header)" |
+			fzf --disabled --select-1 --exit-0 |
+			/usr/bin/awk -F= '{print $2}' |
+			gsed -E "s/^'//g;s/'$//g"
+		;;
+	clearall)
+		header="$(_decoded_header)"
+		# shellcheck disable=SC2016
+		gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
+		echo "${header}" >>"${aliaser_self}"
+		echo "All aliases have been deleted."
+		;;
+	debug)
+		echo "[DEBUG]"
+		debug_cmd_types() {
+			type -a cat
+			type -a awk
+			type -a grep
+			type -a rm
+			type -a tail
+			type -a fzf
+			type -a gsed
+		}
+		debug_cmd_types
+		;;
+	*)
+		# aliaser "zsh_config='cd ~/zsh-config'"
+		eval "alias ${*}"
+		echo "alias ${*}" >>"${aliaser_self}"
+		echo "Added:"
+		echo "  > alias ${*}"
+		echo
+		;;
+	esac
+	# Backup aliaser somewhere just in case (actual location TBD)
+	# cat "${aliaser_self}" > "${aliaser_self}.bkp"
 }
 
 ## ---------------

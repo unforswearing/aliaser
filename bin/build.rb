@@ -55,3 +55,4 @@ end
 collected_file = script_collector.join()
 File.write(script, collected_file)
 File.write("version", updated_version)
+File.delete(tmp_script)

@@ -21,7 +21,7 @@ if $?.exitstatus > 0
   exit 1
 end
 
-shfmt_result = `shfmt #{script}`
+shfmt_result = `shfmt -i 2 #{script}`
 if $?.exitstatus == 0
    # File.open(tmp_script, 'w') { |file| file.write(shfmt_result) }
    File.write(tmp_script, shfmt_result)

@@ -128,23 +128,7 @@ Added: alias 'wakeup':
 
 ## To Do / Roadmap
 
-- [ ] Add some sort of error checking.
-    - Error if more args than expected
-    - Check exit status
-    - Run shellcheck against newly created aliases?
-    - Etc?
-- [ ] Add method to bulk add new aliases from a file.
-    - `aliaser addbulk "bash_aliases.sh"`
-- [ ] Add an internal method to update aliaser
-    - `aliaser updateself`
-      - Curl script from github
-      - Check if update is needed (via script version, or etc (TBD))
-      - If update needed
-          - Export aliases to temporary file
-          - Replace aliaser.sh with new version
-          - Import aliases to new aliaser.sh script
-          - Confirm success
-      - If no update needed, confirm script is latest version.
+See [TODO.md](TODO.md)
 
 
 <!--

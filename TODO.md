@@ -1,3 +1,5 @@
+- [ ] Remove test / check for presence of `osascript`
+    - Not needed, not sure why I added this?
 - [ ] Add some sort of error checking.
     - Error if more args than expected
     - Check exit status

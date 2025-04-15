@@ -11,12 +11,12 @@
 # aliaser is a self-editing alias management tool.
 ##:: aliaser-version=v2.1.1
 function aliaser() {
-  command -v osascript >|/dev/null 2>&1 || {
-    echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
-    echo "https://www.gnu.org/software/sed/"
-    return
-  }
-
+#   command -v osascript >|/dev/null 2>&1 || {
+#     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
+#     echo "https://www.gnu.org/software/sed/"
+#     return
+#   }
+#
   command -v gsed >|/dev/null 2>&1 || {
     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
     echo "https://www.gnu.org/software/sed/"

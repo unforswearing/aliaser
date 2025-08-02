@@ -40,6 +40,8 @@ source "$ALIASER_SOURCE"
 
 ## Usage
 
+[View the `aliaser` example gif](example/aliaser_demo.gif)
+
 Typing `aliaser help` prints  help documentation, including the following list of options:
 
 ```

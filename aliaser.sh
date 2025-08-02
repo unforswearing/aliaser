@@ -11,12 +11,6 @@
 # aliaser is a self-editing alias management tool.
 ##:: aliaser-version=v2.1.1
 function aliaser() {
-#   command -v osascript >|/dev/null 2>&1 || {
-#     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
-#     echo "https://www.gnu.org/software/sed/"
-#     return
-#   }
-#
   command -v gsed >|/dev/null 2>&1 || {
     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
     echo "https://www.gnu.org/software/sed/"
@@ -168,7 +162,11 @@ EOF
     }
     debug_cmd_types
     ;;
+  "")
+    echo "Error: Empty argument. Run 'aliaser help' for assistance."
+    ;;
   *)
+
     # aliaser "zsh_config='cd ~/zsh-config'"
     eval "alias ${*}"
     echo "alias ${*}" >>"${aliaser_self}"

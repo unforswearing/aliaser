@@ -151,7 +151,7 @@ EOF
     # shellcheck disable=SC2016
     gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
     local aliaser_bkp="/tmp/aliaser_clearall.bkp"
-    cmd_aliaser_list >> "${aliaser_bkp}"
+    cmd_aliaser_list >>"${aliaser_bkp}"
     echo "${header}" >>"${aliaser_self}"
     echo "All aliases have been deleted."
     echo "A backup of your aliases has been saved to ${aliaser_bkp}."

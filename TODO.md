@@ -1,4 +1,6 @@
-- [ ] Remove test / check for presence of `osascript`
+Tasks to complete for aliaser version 3.0.0:
+
+- [x] Remove test / check for presence of `osascript`
     - Not needed, not sure why I added this?
 - [ ] Add some sort of error checking.
     - Error if more args than expected
@@ -17,3 +19,4 @@
           - Import aliases to new aliaser.sh script
           - Confirm success
       - If no update needed, confirm script is latest version.
+- [ ] Add Linux compatibility (test on Debian 13)

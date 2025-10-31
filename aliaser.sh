@@ -9,7 +9,7 @@
 # shellcheck enable=require-variable-braces
 
 # aliaser is a self-editing alias management tool.
-##:: aliaser-version=v2.1.1
+##:: aliaser-version=v2.2.0
 function aliaser() {
   flag="${1}"
   command -v gsed >|/dev/null 2>&1 || {
@@ -156,6 +156,8 @@ EOF
     echo "All aliases have been deleted."
     echo "A backup of your aliases has been saved to ${aliaser_bkp}."
   }
+  # --------------------------
+  ## Argument processing begins here:
   # $flag is set at the start of the aliaser function
   case "${flag}" in
   help | -h) helpp ;;

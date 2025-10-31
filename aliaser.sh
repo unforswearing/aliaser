@@ -11,6 +11,8 @@
 # aliaser is a self-editing alias management tool.
 ##:: aliaser-version=v2.1.1
 function aliaser() {
+  flag="${1}"
+
   command -v gsed >|/dev/null 2>&1 || {
     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
     echo "https://www.gnu.org/software/sed/"
@@ -80,15 +82,10 @@ EOF
   _decoded_header() {
     echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | /usr/bin/base64 -D
   }
-  flag="${1}"
-  case "${flag}" in
-  # aliaser help
-  help | -h) helpp ;;
-  # aliaser open
-  open) "${EDITOR}" "${aliaser_self}" ;;
-  # aliaser list
-  list) _list ;;
-  edit)
+
+  # ------------
+
+  cmd_aliaser_edit() {
     # aliaser edit
     tmp_aliases_list="/tmp/aliaser_aliases_list.txt"
     _list >"${tmp_aliases_list}"
@@ -101,7 +98,20 @@ EOF
     # shellcheck disable=SC1090
     source "${aliaser_self}"
     echo "Updated aliases."
-    ;;
+  }
+  cmd_aliaser_dir() {
+
+  }
+
+  # $flag is set at the start of the aliaser function
+  case "${flag}" in
+  # aliaser help
+  help | -h) helpp ;;
+  # aliaser open
+  open) "${EDITOR}" "${aliaser_self}" ;;
+  # aliaser list
+  list) _list ;;
+  edit) cmd_aliaser_edit ;;
   dir)
     # aliaser dir "zsh_config" "~/zsh-config"
     dirname="${2}"

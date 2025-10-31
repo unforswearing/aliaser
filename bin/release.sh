@@ -10,5 +10,4 @@ function release() {
   fi
   git tag -a "v${version}" -m "${message}"
   git push origin "v${version}"
-  npm publish
 }

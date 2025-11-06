@@ -53,6 +53,7 @@ File.open(tmp_script, "a+").each_line do |scriptline|
 end
 
 collected_file = script_collector.join()
+
 File.write(script, collected_file)
 File.write("version", updated_version)
 File.delete(tmp_script)

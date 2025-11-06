@@ -12,6 +12,7 @@
 ##:: aliaser-version=v2.2.0
 function aliaser() {
   flag="${1}"
+  # TODO: Consolidate dependency checks
   command -v gsed >|/dev/null 2>&1 || {
     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
     echo "https://www.gnu.org/software/sed/"
@@ -65,10 +66,12 @@ Source:
   https://github.com/unforswearing/aliaser
 EOF
   }
+  # TODO: readonly aliaser_self="${ALIASER_SOURCE}"
   aliaser_self="${ALIASER_SOURCE}"
   # _encoded_header() {
   #  echo "IyM6On4gQWxpYXNlcyB+OjojIw=="
   # }
+  # TODO: readonly encoded_header="IyM6On4gQWxpYXNlcyB+OjojIw=="
   _decoded_header() {
     echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | /usr/bin/base64 -D
   }
@@ -108,6 +111,7 @@ EOF
     source "${aliaser_self}"
     echo "Updated aliases."
   }
+  # TODO: Confirmation of newly created aliases should be a single function.
   cmd_aliaser_dir() {
     # aliaser dir "zsh_config" "~/zsh-config"
     dirname="${2}"
@@ -178,10 +182,7 @@ EOF
     echo "  > alias ${*}"
     ;;
   esac
-  # Backup aliaser somewhere just in case (actual location TBD)
-  # cat "${aliaser_self}" > "${aliaser_self}.bkp"
 }
-
 ## ---------------
 
 ##::~ Aliases ~::##

@@ -66,14 +66,10 @@ Source:
   https://github.com/unforswearing/aliaser
 EOF
   }
-  # TODO: readonly aliaser_self="${ALIASER_SOURCE}"
-  aliaser_self="${ALIASER_SOURCE}"
-  # _encoded_header() {
-  #  echo "IyM6On4gQWxpYXNlcyB+OjojIw=="
-  # }
-  # TODO: readonly encoded_header="IyM6On4gQWxpYXNlcyB+OjojIw=="
+  readonly aliaser_self="${ALIASER_SOURCE}"
+  readonly encoded_header="IyM6On4gQWxpYXNlcyB+OjojIw=="
   _decoded_header() {
-    echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | /usr/bin/base64 -D
+    echo "${encoded_header}" | /usr/bin/base64 -D
   }
   _aliaser_debug() {
     echo "[DEBUG]"

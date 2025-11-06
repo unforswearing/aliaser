@@ -9,7 +9,7 @@
 # shellcheck enable=require-variable-braces
 
 # aliaser is a self-editing alias management tool.
-##:: aliaser-version=v2.2.0
+##:: aliaser-version=v2.2.1
 function aliaser() {
   flag="${1}"
   # TODO: Consolidate dependency checks

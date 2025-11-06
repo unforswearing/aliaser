@@ -6,7 +6,6 @@ Tasks to complete for aliaser version 3.0.0:
 
 - [ ] Consolidate dependency checks.
 - [ ] Confirmation of newly created aliases should be a single function.
-- [ ] Make variables readonly where relevant.
 - [ ] Add some sort of error checking.
   - Error if more args than expected
   - Error if args are missing
@@ -35,3 +34,4 @@ Tasks to complete for aliaser version 3.0.0:
 
 - [x] Remove test / check for presence of `osascript`
   - Not needed, not sure why I added this?
+- [x] Make variables readonly where relevant.

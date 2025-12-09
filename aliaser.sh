@@ -78,9 +78,11 @@ EOF
   }
   readonly aliaser_self="${ALIASER_SOURCE}"
   readonly encoded_header="IyM6On4gQWxpYXNlcyB+OjojIw=="
+  # lib::decoded_header() {
   _decoded_header() {
     echo "${encoded_header}" | /usr/bin/base64 -D
   }
+  # lib::debug() {
   _aliaser_debug() {
     echo "[DEBUG]"
     debug_cmd_types() {
@@ -98,14 +100,17 @@ EOF
   # make a generic "error" function that will cover multiple scenarios?
   # colorize error output?
   # ------------
+  # lib::error.empty_arg() {
   error_empty_arg() {
     echo "Error: Empty argument. Run 'aliaser help' for assistance."
   }
   # ------------
+  # cmd::list() {
   cmd_aliaser_list() {
     # shellcheck disable=SC2016
     gsed -n '/\#\#\:\:\~ Aliases \~\:\:\#\#/,$p' "${aliaser_self}"
   }
+  # cmd::edit() {
   cmd_aliaser_edit() {
     # aliaser edit
     tmp_aliases_list="/tmp/aliaser_aliases_list.txt"
@@ -121,6 +126,7 @@ EOF
     echo "Updated aliases."
   }
   # TODO: Confirmation of newly created aliases should be a single function.
+  # cmd::dir() {
   cmd_aliaser_dir() {
     # aliaser dir "zsh_config" "~/zsh-config"
     dirname="${2}"
@@ -131,6 +137,7 @@ EOF
     echo "Added: alias '${dirname}':"
     echo "  > cd \"${dirpath}\""
   }
+  # cmd::lastcmd() {
   cmd_aliaser_lastcmd() {
     # aliaser lastcmd "name"
     prev=$(
@@ -145,6 +152,7 @@ EOF
     echo "Added: alias '${2}':"
     echo "  > \"${prev}\""
   }
+  # cmd::search() {
   cmd_aliaser_search() {
     # aliaser search <query>
     query="${2}"
@@ -159,6 +167,7 @@ EOF
       /usr/bin/awk -F= '{print $2}' |
       gsed -E "s/^'//g;s/'$//g"
   }
+  # cmd::clearall() {
   cmd_aliaser_clearall() {
     header="$(_decoded_header)"
     # shellcheck disable=SC2016

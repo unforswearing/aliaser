@@ -13,6 +13,15 @@
 function aliaser() {
   flag="${1}"
   # TODO: Consolidate dependency checks
+  # lib::check_dependencies() {
+  #   local requirements=("gsed" "fzf")
+  #   for item in "${requirements[@]}"; do
+  #     if ! command -v "${item}" >|/dev/null 2>&1; then
+  #       echo "'${item}' not found. aliaser on MacOS requires '${item}'"
+  #       return 1
+  #     fi
+  #   done
+  # }
   command -v gsed >|/dev/null 2>&1 || {
     echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
     echo "https://www.gnu.org/software/sed/"
@@ -34,6 +43,7 @@ function aliaser() {
     echo "the 'aliaser' command."
     return
   }
+  # lib::help() {
   helpp() {
     cat <<EOF
 aliaser <option> [alias name]
@@ -84,6 +94,9 @@ EOF
     }
     debug_cmd_types
   }
+  # ------------
+  # make a generic "error" function that will cover multiple scenarios?
+  # colorize error output?
   # ------------
   error_empty_arg() {
     echo "Error: Empty argument. Run 'aliaser help' for assistance."

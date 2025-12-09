@@ -43,6 +43,13 @@ function aliaser() {
     echo "the 'aliaser' command."
     return
   }
+  # lib::confirm_alias() {
+  #   local name="${1}"
+  #   local value="${2}"
+  #   echo "Added: alias '${alias_name} = ${alias_value}'"
+  #   echo
+  #  }
+  #
   # lib::help() {
   helpp() {
     cat <<EOF
@@ -100,6 +107,7 @@ EOF
   # make a generic "error" function that will cover multiple scenarios?
   # colorize error output?
   # ------------
+  # lib::error.missing_value() { ; }
   # lib::error.empty_arg() {
   error_empty_arg() {
     echo "Error: Empty argument. Run 'aliaser help' for assistance."
@@ -134,6 +142,7 @@ EOF
     composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${aliaser_self}"
+    # lib::confirm_alias "${dirname}" "${dirpath}"
     echo "Added: alias '${dirname}':"
     echo "  > cd \"${dirpath}\""
   }
@@ -149,6 +158,7 @@ EOF
     composed_alias="alias ${2}='${prev}'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${aliaser_self}"
+    # lib::confirm_alias "${2}" "${prev}"
     echo "Added: alias '${2}':"
     echo "  > \"${prev}\""
   }

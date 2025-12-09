@@ -110,7 +110,13 @@ EOF
   # make a generic "error" function that will cover multiple scenarios?
   # colorize error output?
   # ------------
-  # lib::error.missing_value() { ; }
+  # lib::error.missing_value() {
+  #   if [[ -z "${1}" || -z "${2}" ]]; then
+  #     echo "Error: Missing Value."
+  #     return 1
+  #   fi
+  # }
+  #
   # lib::error.empty_arg() {
   error_empty_arg() {
     echo "Error: Empty argument. Run 'aliaser help' for assistance."
@@ -124,7 +130,7 @@ EOF
   # cmd::edit() {
   cmd_aliaser_edit() {
     # aliaser edit
-    tmp_aliases_list="/tmp/aliaser_aliases_list.txt"
+    tmp_aliases_list="/tmp/aliaser_aliases_list_${$}.txt"
     _list >"${tmp_aliases_list}"
     "${EDITOR}" "${tmp_aliases_list}"
     header="$(_decoded_header)"

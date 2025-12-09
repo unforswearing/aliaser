@@ -71,9 +71,9 @@ Options:
     list      list aliases saved in alias file
     dir       create an alias to cd to a directory with a nickname
     lastcmd   create an alias from the previous command in your history
-    edit      edit alias file in ${EDITOR}
+    edit      edit alias file in '\$EDITOR' (${EDITOR:=unset})
     search    search alias file, select and print matches
-    open      open the 'aliaser.sh' script in ${EDITOR}
+    open      open the 'aliaser.sh' script in '\$EDITOR' (${EDITOR:=unset})
     clearall  remove all aliases from this alias file
 
   Running 'aliaser' without an option flag will allow you to save aliases

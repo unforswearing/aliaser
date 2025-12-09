@@ -148,6 +148,7 @@ EOF
     # aliaser dir "zsh_config" "~/zsh-config"
     dirname="${2}"
     dirpath="${3}"
+    # lib::error.missing_value "${dirname}" "${dirpath}"
     composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${aliaser_self}"
@@ -164,6 +165,7 @@ EOF
         /usr/bin/awk '{first=$1; $1=""; print $0;}' |
         /usr/bin/awk '{$1=$1}1'
     )
+    # lib::error.missing_value "${2}" "NONE"
     composed_alias="alias ${2}='${prev}'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${aliaser_self}"
@@ -175,6 +177,8 @@ EOF
   cmd_aliaser_search() {
     # aliaser search <query>
     query="${2}"
+    # lib::error.missing_value "${query}" "NONE"
+    # matches=$(cmd::list | /usr/bin/awk '/'"${query}"'/')
     matches=$(_list | /usr/bin/awk '/'"${query}"'/')
     test -z "${matches}" && {
       echo "No match found for '${query}'"

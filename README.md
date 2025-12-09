@@ -13,6 +13,8 @@ This tool was created to manage persistent aliases when using `bash` or `zsh` in
 > [!IMPORTANT]
 > `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. This script has not been tested on any Linux-based systems (Linux compatibility coming soon).
 
+The source code for `aliaser` can be found at [github.com/unforswearing/aliaser](https://github.com/unforswearing/aliaser)
+
 ## Installation
 
 Clone this repo and source `aliaser/aliaser.sh` to get started.

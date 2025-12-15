@@ -13,17 +13,19 @@ Tasks to complete for aliaser version 3.0.0:
   - Run shellcheck against newly created aliases?
   - Etc?
 - [ ] Add method to bulk add new aliases from a file.
-  - `aliaser addbulk "bash_aliases.sh"`
+  - `aliaser import "bash_aliases.sh"`
 - [ ] Add an internal method to update aliaser
-  - `aliaser updateself`
-    - Curl script from github
-    - Check if update is needed (via script version, or etc (TBD))
-    - If update needed
-      - Export aliases to temporary file
+  - `aliaser update`
+    - Curl `version` file from github
+    - Extract version from aliaser script
+      - Build this command into aliaser itself as `aliaser version`
+    - If `version` file is more recent than `aliaser version`, an update is needed
+      - Export aliases to temporary file (`aliaser clearall`)
       - Replace aliaser.sh with new version
-      - Import aliases to new aliaser.sh script
+      - Import aliases to new aliaser.sh script (`aliaser import /tmp/aliaser_clearall.bkp`)
+        - The command `aliaser import <file>` is to be written.
       - Confirm success
-    - If no update needed, confirm script is latest version.
+    - If no update needed, output current script version.
 - [ ] Add Linux compatibility (test on Debian 13)
   - Check for GNU `sed`
   - Use correct `base64` flags

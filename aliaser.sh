@@ -33,17 +33,7 @@ function _aliaser() {
       return 1
     fi
   done
-  # command -v gsed >|/dev/null 2>&1 || {
-  #   echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
-  #   echo "https://www.gnu.org/software/sed/"
-  #   return
-  # }
-  # command -v fzf >|/dev/null 2>&1 || {
-  #   echo "'fzf' not found. aliaser requires FZF for use with the 'search' option."
-  #   echo "https://github.com/junegunn/fzf"
-  #   return
-  # }
-  #
+  # `aliaser help` or `aliaser ""` (no argument)
   lib::help() {
     cat <<EOF
 aliaser <option> [alias name]
@@ -122,7 +112,7 @@ EOF
   # aliaser edit
   cmd::edit() {
     tmp_aliases_list="/tmp/aliaser_aliases_list_${$}.txt"
-    _list >"${tmp_aliases_list}"
+    cmd::list >"${tmp_aliases_list}"
     "${EDITOR}" "${tmp_aliases_list}"
     # shellcheck disable=SC2016
     gsed -i '/'"$(lib::encoded_header)"'/,$d' "${ALIASER_SOURCE}"
@@ -177,13 +167,22 @@ EOF
   }
   # aliaser clearall
   cmd::clearall() {
-    # shellcheck disable=SC2016
-    local aliaser_bkp="/tmp/aliaser_clearall.bkp"
-    cmd::list >>"${aliaser_bkp}"
-    gsed -i '/'"$(lib::decoded_header)"'/,$d' "${ALIASER_SOURCE}"
-    lib::decoded_header >>"${ALIASER_SOURCE}"
-    echo "All aliases have been deleted."
-    echo "A backup of your aliases has been saved to ${aliaser_bkp}."
+    lib::color.red "Error: 'cmd::clearall'"
+    lib::color.red "Expressions don't expand in single quotes, use double quotes for that. [SC2016]"
+    return 1
+#    \shellcheck disable=SC2016
+#    local aliaser_bkp="/tmp/aliaser_clearall.bkp"
+#    cmd::list >>"${aliaser_bkp}"
+# *************************************************************************
+    # This gsed command removes aliases from the this alias file.
+    # The command currently does not pass shellcheck due to the weird
+    #   quoting when using the decoded header function.
+    #   TODO: Replace this command with a bash loop.
+    # gsed -i '/'"$(lib::decoded_header)"'/,$d' "${ALIASER_SOURCE}"
+# *************************************************************************
+#    lib::decoded_header >>"${ALIASER_SOURCE}"
+#    echo "All aliases have been deleted."
+#    echo "A backup of your aliases has been saved to ${aliaser_bkp}."
   }
   # --------------------------
   ## Argument processing begins here:

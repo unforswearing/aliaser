@@ -31,13 +31,14 @@ function aliaser() {
   }
   # Check MacOS dependencies. This doesn't need to be a function
   # TODO: Remove dependency on gsed.
-  local requirements=("gsed" "fzf")
-  for item in "${requirements[@]}"; do
-    if ! command -v "${item}" >|/dev/null 2>&1; then
-      echo "'${item}' not found. aliaser on MacOS requires '${item}'"
-      return 1
-    fi
-  done
+  # Update - gsed has been replaced with bash or sed commands. CURRENTLY TESTING.
+  # local requirements=("gsed" "fzf")
+  # for item in "${requirements[@]}"; do
+  if ! command -v "fzf" >|/dev/null 2>&1; then
+    echo "'fzf' not found. aliaser on MacOS requires 'fzf'"
+    return 1
+  fi
+  # done
   #######################################################################
   # ------------
   # Aliaser library helper commands
@@ -63,7 +64,7 @@ Options:
     edit      edit alias file in '\$EDITOR' (${EDITOR:=not set})
     search    search alias file, select and print matches
     open      open the 'aliaser.sh' script in '\$EDITOR' (${EDITOR:=not set})
-    clearall  remove all aliases from this alias file
+    clear_all  remove all aliases from this alias file
 
   Running 'aliaser' without an option flag will allow you to save aliases
   to this script in a slightly more traditional manner:
@@ -135,11 +136,11 @@ EOF
   # }
   declare -a lib_paths;
   # ref. 'cmd::edit' -- temporary aliases file
-  lib_paths[0]="/tmp/aliaser_aliases_list${$}.txt"
-  # ref. 'cmd::edit' and 'cmd::clearall' -- temporary container aliaser.sh script without aliases
+  lib_paths[0]="/tmp/aliaser_aliases_list_${RANDOM}.txt"
+  # ref. 'cmd::edit' and 'cmd::clear_all' -- temporary container aliaser.sh script without aliases
   lib_paths[1]="/tmp/aliaser_raw.tmp"
-  # ref. 'cmd::clearall' -- backup for 'cmd::list' specific to 'clearall'
-  lib_paths[2]="/tmp/aliaser_clearall.bkp"
+  # ref. 'cmd::clear_all' -- backup for 'cmd::list' specific to 'clear_all'
+  lib_paths[2]="/tmp/aliaser_clear_all.bkp"
   #######################################################################
   # ------------
   # Aliaser option commands
@@ -153,7 +154,7 @@ EOF
   }
   # aliaser edit
   cmd::edit() {
-    tmp_aliases_list="/tmp/aliaser_aliases_list_${$}.txt"
+    tmp_aliases_list="/tmp/aliaser_aliases_list_${RANDOM}.txt"
     cmd::list >"${tmp_aliases_list}"
     "${EDITOR}" "${tmp_aliases_list}"
     # This gsed command extracts the "decoded_header" from the alias list.
@@ -214,10 +215,10 @@ EOF
       # This sed command should work on MacOS and Linux
       sed -e "s/^'//" -e "s/'$//"
   }
-  # aliaser clearall
-  cmd::clearall() {
-    local aliaser_bkp="/tmp/aliaser_clearall.bkp"
-    cmd::list >>"/tmp/aliaser_clearall.bkp"
+  # aliaser clear_all
+  cmd::clear_all() {
+    local aliaser_bkp="/tmp/aliaser_clear_all.bkp"
+    cmd::list >>"/tmp/aliaser_clear_all.bkp"
     lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
     {
       cat "/tmp/aliaser_raw.tmp";
@@ -237,7 +238,7 @@ EOF
   dir) cmd::dir "$@" ;;
   lastcmd) cmd::lastcmd "$@" ;;
   search) cmd::search "$@" ;;
-  clearall) cmd::clearall ;;
+  clear_all) cmd::clear_all ;;
   "") lib::error.empty_arg ;;
   *)
     # aliaser "zsh_config='cd ~/zsh-config'"

@@ -4,8 +4,6 @@ Tasks to complete for aliaser version 3.0.0:
 
 ## To Do
 
-- [ ] Remove dependency on `gsed`
-  - Achieves the goal of "Linux Compatibility" (see below)
 - [ ] Create 'dev_aliaser.sh' and tooling.
   - To avoid breaking things / improve developer experience.
 - [ ] Confirmation of newly created aliases should be a single function.
@@ -33,6 +31,9 @@ Tasks to complete for aliaser version 3.0.0:
 
 ## Completed
 
+- [x] Remove dependency on `gsed`
+  - Achieves the goal of "Linux Compatibility"
+  - `gsed` has been replaced with standard `bash` commands
 - [x] Consolidate dependency checks.
 - [x] Add some sort of error checking.
   - [x] Error if args are missing

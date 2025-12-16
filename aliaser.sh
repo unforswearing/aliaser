@@ -26,6 +26,7 @@ function _aliaser() {
     return
   }
   # Check MacOS dependencies. This doesn't need to be a function
+  # TODO: Remove dependency on gsed.
   local requirements=("gsed" "fzf")
   for item in "${requirements[@]}"; do
     if ! command -v "${item}" >|/dev/null 2>&1; then
@@ -93,7 +94,7 @@ EOF
   lib::encoded_header() {
     echo "IyM6On4gQWxpYXNlcyB+OjojIw=="
   }
-  lib::decoded_header() {
+  lib::decoded_header() { # TODO: see line 177 ***********************************
     lib::encoded_header | /usr/bin/base64 -D
   }
   # TODO: Confirmation of newly created aliases should be a single function.
@@ -106,6 +107,7 @@ EOF
   # ------------
   # aliaser list
   cmd::list() {
+    # This gsed command prints all aliases after the "$decoded_header"
     # shellcheck disable=SC2016
     gsed -n '/\#\#\:\:\~ Aliases \~\:\:\#\#/,$p' "${ALIASER_SOURCE}"
   }
@@ -114,6 +116,7 @@ EOF
     tmp_aliases_list="/tmp/aliaser_aliases_list_${$}.txt"
     cmd::list >"${tmp_aliases_list}"
     "${EDITOR}" "${tmp_aliases_list}"
+    # This gsed command extracts the "decoded_header" from the alias list.
     # shellcheck disable=SC2016
     gsed -i '/'"$(lib::encoded_header)"'/,$d' "${ALIASER_SOURCE}"
     /bin/cat "${tmp_aliases_list}" >>"${ALIASER_SOURCE}"
@@ -163,6 +166,7 @@ EOF
       /usr/bin/grep -v "$(lib::decoded_header)" |
       fzf --disabled --select-1 --exit-0 |
       /usr/bin/awk -F= '{print $2}' |
+      # This gsed command is a simple match/replace and doesn't require gsed
       gsed -E "s/^'//g;s/'$//g"
   }
   # aliaser clearall
@@ -178,7 +182,17 @@ EOF
     # The command currently does not pass shellcheck due to the weird
     #   quoting when using the decoded header function.
     #   TODO: Replace this command with a bash loop.
-    # gsed -i '/'"$(lib::decoded_header)"'/,$d' "${ALIASER_SOURCE}"
+    #         in Ruby this looks something like (modded from bin/build.rb):
+    #         ```
+    #         File.open(aliaser_script, "a+").each_line do |scriptline|
+    #           if not scriptline =~ /#{decoded_header}$/
+    #             script_collector.append(scriptline)
+    #           else
+    #             exit 0
+    #           end
+    #         end
+    #         ```
+    ### gsed -i '/'"$(lib::decoded_header)"'/,$d' "${ALIASER_SOURCE}"
 # *************************************************************************
 #    lib::decoded_header >>"${ALIASER_SOURCE}"
 #    echo "All aliases have been deleted."

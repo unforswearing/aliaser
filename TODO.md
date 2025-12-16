@@ -6,10 +6,12 @@ Tasks to complete for aliaser version 3.0.0:
 
 - [ ] Remove dependency on `gsed`
   - Achieves the goal of "Linux Compatibility" (see below)
+- [ ] Create 'dev_aliaser.sh' and tooling.
+  - To avoid breaking things / improve developer experience.
 - [ ] Confirmation of newly created aliases should be a single function.
 - [ ] Add method to bulk add new aliases from a file.
   - `aliaser import "bash_aliases.sh"`
-  - Easy implmentation: only match lines that start with 'alias', ignore everthing else.
+  - Easy implmentation: only match file lines that start with 'alias', ignore everthing else.
 - [ ] Add an internal method to update aliaser
   - `aliaser update`
     - Curl `version` file from github
@@ -28,7 +30,6 @@ Tasks to complete for aliaser version 3.0.0:
   - Use correct `base64` flags
   - Stop using hardcoded paths
   - Etc?
-
 
 ## Completed
 

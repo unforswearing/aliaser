@@ -10,7 +10,7 @@
 
 # aliaser is a self-editing alias management tool.
 ##:: aliaser-version=v2.2.1
-function _aliaser() {
+function aliaser() {
   readonly flag="${1}"
   # Check for the value of ALIASER_SOURCE environment variable.
   # Stop and exit if this value does not exist.

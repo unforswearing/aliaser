@@ -99,7 +99,7 @@ EOF
   lib::error.empty_arg() {
     lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
   }
-  lib::decoded_header() { # TODO: see line 177 ***********************************
+  lib::decoded_header() {
     echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D
   }
   lib::count_lines() {
@@ -128,12 +128,12 @@ EOF
     done <"${ALIASER_SOURCE}"
   }
   # TODO: Confirmation of newly created aliases should be a single function.
-  # lib::confirm_alias() {
-  #   local name="${1}"
-  #   local value="${2}"
-  #   lib::color.green "Added: alias '${name} = ${value}'"
-  #   echo
-  # }
+  lib::confirm_alias() {
+    local name="${1}"
+    local value="${2}"
+    lib::color.green "Added: alias '${name} = ${value}'"
+    echo
+  }
   declare -a lib_paths;
   # ref. 'cmd::edit' -- temporary aliases file
   lib_paths[0]="/tmp/aliaser_aliases_list_${RANDOM}.txt"
@@ -179,9 +179,9 @@ EOF
     composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
-    # lib::confirm_alias "${dirname}" "${dirpath}"
-    echo "Added: alias '${dirname}':"
-    echo "  > cd \"${dirpath}\""
+    lib::confirm_alias "${dirname}" "${dirpath}"
+    # echo "Added: alias '${dirname}':"
+    # echo "  > cd \"${dirpath}\""
   }
   # aliaser lastcmd "name"
   cmd::lastcmd() {
@@ -196,8 +196,8 @@ EOF
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
     lib::confirm_alias "${2}" "${prev}"
-    echo "Added: alias '${2}':"
-    echo "  > \"${prev}\""
+    # echo "Added: alias '${2}':"
+    # echo "  > \"${prev}\""
   }
   # aliaser search <query>
   cmd::search() {
@@ -244,8 +244,7 @@ EOF
     # aliaser "zsh_config='cd ~/zsh-config'"
     eval "alias ${*}"
     echo "alias ${*}" >>"${ALIASER_SOURCE}"
-    echo "Added:"
-    echo "  > alias ${*}"
+    lib::color.green "Added: alias '${*}'"
     ;;
   esac
 }

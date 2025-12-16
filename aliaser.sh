@@ -43,12 +43,6 @@ function _aliaser() {
   #   echo "https://github.com/junegunn/fzf"
   #   return
   # }
-  # lib::confirm_alias() {
-  #   local name="${1}"
-  #   local value="${2}"
-  #   echo "Added: alias '${alias_name} = ${alias_value}'"
-  #   echo
-  #  }
   #
   lib::help() {
     cat <<EOF
@@ -87,14 +81,24 @@ EOF
   # make a generic "error" function that will cover multiple scenarios?
   # colorize error output?
   # ------------
+  lib::color.red() {
+  	local red; red=$(/usr/bin/tput setaf 1)
+    local message="${*}"
+    printf '%s%s\n' "${red}" "${message}"
+  }
+  # lib::color.green() {
+	#   local green; green=$(/usr/bin/tput setaf 2)
+  #   local message="${*}"
+  #   printf '%s%s\n' "${green}" "${message}"
+  # }
   lib::error.missing_value() {
     if [[ -z "${1}" || -z "${2}" ]]; then
-      echo "Error: Missing Value."
+      lib::color.red "Error: Missing Value."
       return 1
     fi
   }
   lib::error.empty_arg() {
-    echo "Error: Empty argument. Run 'aliaser help' for assistance."
+    lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
   }
   lib::encoded_header() {
     echo "IyM6On4gQWxpYXNlcyB+OjojIw=="
@@ -102,6 +106,13 @@ EOF
   lib::decoded_header() {
     lib::encoded_header | /usr/bin/base64 -D
   }
+  # TODO: Confirmation of newly created aliases should be a single function.
+  # lib::confirm_alias() {
+  #   local name="${1}"
+  #   local value="${2}"
+  #   lib::color.green "Added: alias '${name} = ${value}'"
+  #   echo
+  # }
   # ------------
   # aliaser list
   cmd::list() {
@@ -121,7 +132,6 @@ EOF
     source "${ALIASER_SOURCE}"
     echo "Updated aliases."
   }
-  # TODO: Confirmation of newly created aliases should be a single function.
   # aliaser dir "zsh_config" "~/zsh-config"
   cmd::dir() {
     dirname="${2}"
@@ -142,7 +152,7 @@ EOF
         /usr/bin/awk '{first=$1; $1=""; print $0;}' |
         /usr/bin/awk '{$1=$1}1'
     )
-    lib::error.missing_value "${2}" "NONE"
+    lib::error.missing_value "${2}"
     composed_alias="alias ${2}='${prev}'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
@@ -153,7 +163,7 @@ EOF
   # aliaser search <query>
   cmd::search() {
     query="${2}"
-    lib::error.missing_value "${query}" "NONE"
+    lib::error.missing_value "${query}"
     matches=$(cmd::list | /usr/bin/awk '/'"${query}"'/')
     test -z "${matches}" && {
       echo "No match found for '${query}'"

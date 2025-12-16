@@ -12,6 +12,10 @@
 ##:: aliaser-version=v2.2.1
 function aliaser() {
   readonly flag="${1}"
+  #######################################################################
+  # ------------
+  # Runtime checks
+  # ------------
   # Check for the value of ALIASER_SOURCE environment variable.
   # Stop and exit if this value does not exist.
   test -z ${ALIASER_SOURCE+x} && {
@@ -34,6 +38,10 @@ function aliaser() {
       return 1
     fi
   done
+  #######################################################################
+  # ------------
+  # Aliaser library helper commands
+  # ------------
   # `aliaser help` or `aliaser ""` (no argument)
   lib::help() {
     cat <<EOF
@@ -67,7 +75,6 @@ Source:
   https://github.com/unforswearing/aliaser
 EOF
   }
-
   # ------------
   # make a generic "error" function that will cover multiple scenarios?
   # colorize error output?
@@ -91,11 +98,33 @@ EOF
   lib::error.empty_arg() {
     lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
   }
-  lib::encoded_header() {
-    echo "IyM6On4gQWxpYXNlcyB+OjojIw=="
-  }
   lib::decoded_header() { # TODO: see line 177 ***********************************
-    lib::encoded_header | /usr/bin/base64 -D
+    echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | /usr/bin/base64 -D
+  }
+  lib::count_lines() {
+    wc -l <"${ALIASER_SOURCE}" | awk '{$1=$1};1'
+  }
+  lib::dump.without_aliases() {
+    local header; header="$(lib::decoded_header)"
+    while read -r line; do
+      if [[ "${line}" =~ ${header} ]]; then
+        return
+      else
+        echo "${line}"
+      fi
+    done <"${ALIASER_SOURCE}"
+  }
+  lib::dump.aliases() {
+    local count=1
+    local header; header="$(lib::decoded_header)"
+    while read -r line; do
+      if [[ "${line}" =~ ${header} ]]; then
+        local linecount; linecount="$(lib::count_lines)"
+        local taillines=$((linecount - count))
+        tail -n "${taillines}"
+      fi
+      count=$((count + 1))
+    done <"${ALIASER_SOURCE}"
   }
   # TODO: Confirmation of newly created aliases should be a single function.
   # lib::confirm_alias() {
@@ -104,12 +133,23 @@ EOF
   #   lib::color.green "Added: alias '${name} = ${value}'"
   #   echo
   # }
+  declare -a lib_paths;
+  # ref. 'cmd::edit' -- temporary aliases file
+  lib_paths[0]="/tmp/aliaser_aliases_list${$}.txt"
+  # ref. 'cmd::edit' and 'cmd::clearall' -- temporary container aliaser.sh script without aliases
+  lib_paths[1]="/tmp/aliaser_raw.tmp"
+  # ref. 'cmd::clearall' -- backup for 'cmd::list' specific to 'clearall'
+  lib_paths[2]="/tmp/aliaser_clearall.bkp"
+  #######################################################################
+  # ------------
+  # Aliaser option commands
   # ------------
   # aliaser list
   cmd::list() {
-    # This gsed command prints all aliases after the "$decoded_header"
-    # shellcheck disable=SC2016
-    gsed -n '/\#\#\:\:\~ Aliases \~\:\:\#\#/,$p' "${ALIASER_SOURCE}"
+    # This gsed command prints all aliases starting at (and including) the "$decoded_header"
+    # \shellcheck disable=SC2016
+    # gsed -n '/'"$(lib::decoded_header)"'/,$p' "${ALIASER_SOURCE}"
+    lib::dump.aliases
   }
   # aliaser edit
   cmd::edit() {
@@ -117,9 +157,14 @@ EOF
     cmd::list >"${tmp_aliases_list}"
     "${EDITOR}" "${tmp_aliases_list}"
     # This gsed command extracts the "decoded_header" from the alias list.
-    # shellcheck disable=SC2016
-    gsed -i '/'"$(lib::encoded_header)"'/,$d' "${ALIASER_SOURCE}"
-    /bin/cat "${tmp_aliases_list}" >>"${ALIASER_SOURCE}"
+    # \shellcheck disable=SC2016
+    # gsed -i '/'"$(lib::encoded_header)"'/,$d' "${ALIASER_SOURCE}"
+    lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
+    {
+      cat "/tmp/aliaser_raw.tmp";
+      lib::decoded_header;
+      /bin/cat "${tmp_aliases_list}";
+    } >"${ALIASER_SOURCE}"
     # /bin/rm "${tmp_aliases_list}"
     # shellcheck disable=SC1090
     source "${ALIASER_SOURCE}"
@@ -171,12 +216,17 @@ EOF
   }
   # aliaser clearall
   cmd::clearall() {
-    lib::color.red "Error: 'cmd::clearall'"
-    lib::color.red "Expressions don't expand in single quotes, use double quotes for that. [SC2016]"
-    return 1
-#    \shellcheck disable=SC2016
-#    local aliaser_bkp="/tmp/aliaser_clearall.bkp"
-#    cmd::list >>"${aliaser_bkp}"
+    # lib::color.red "Error: 'cmd::clearall'"
+    # lib::color.red "Expressions don't expand in single quotes, use double quotes for that. [SC2016]"
+    # return 1
+    local aliaser_bkp="/tmp/aliaser_clearall.bkp"
+    cmd::list >>"/tmp/aliaser_clearall.bkp"
+    lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
+    {
+      cat "/tmp/aliaser_raw.tmp";
+      lib::decoded_header ;
+    } >>"${ALIASER_SOURCE}"
+
 # *************************************************************************
     # This gsed command removes aliases from the this alias file.
     # The command currently does not pass shellcheck due to the weird
@@ -194,9 +244,8 @@ EOF
     #         ```
     ### gsed -i '/'"$(lib::decoded_header)"'/,$d' "${ALIASER_SOURCE}"
 # *************************************************************************
-#    lib::decoded_header >>"${ALIASER_SOURCE}"
-#    echo "All aliases have been deleted."
-#    echo "A backup of your aliases has been saved to ${aliaser_bkp}."
+    echo "All aliases have been deleted."
+    echo "A backup of your aliases has been saved to ${aliaser_bkp}."
   }
   # --------------------------
   ## Argument processing begins here:

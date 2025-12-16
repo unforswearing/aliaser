@@ -85,11 +85,12 @@ EOF
     local message="${*}"
     printf '%s%s\n' "${red}" "${message}"
   }
-  # lib::color.green() {
-	#   local green; green=$(tput setaf 2)
-  #   local message="${*}"
-  #   printf '%s%s\n' "${green}" "${message}"
-  # }
+  lib::color.green() {
+	  local green; green=$(tput setaf 2)
+    local message="${*}"
+    printf '%s%s\n' "${green}" "${message}"
+  }
+  # Needs to be tested [12/16/2025].
   lib::error.missing_value() {
     if [[ -z "${1}" || -z "${2}" ]]; then
       lib::color.red "Error: Missing Value."
@@ -102,9 +103,11 @@ EOF
   lib::decoded_header() {
     echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D
   }
+  # Needs to be tested [12/16/2025].
   lib::count_lines() {
     wc -l <"${ALIASER_SOURCE}" | awk '{$1=$1};1'
   }
+  # Needs to be tested [12/16/2025].
   lib::dump.without_aliases() {
     local header; header="$(lib::decoded_header)"
     while read -r line; do
@@ -115,6 +118,8 @@ EOF
       fi
     done <"${ALIASER_SOURCE}"
   }
+  # Only print aliases, without script contents
+  # Needs to be tested [12/16/2025].
   lib::dump.aliases() {
     local count=1
     local header; header="$(lib::decoded_header)"
@@ -127,13 +132,16 @@ EOF
       count=$((count + 1))
     done <"${ALIASER_SOURCE}"
   }
-  # TODO: Confirmation of newly created aliases should be a single function.
+  # A standard way to confirm alias creation.
+  # Needs to be tested [12/16/2025].
   lib::confirm_alias() {
     local name="${1}"
     local value="${2}"
     lib::color.green "Added: alias '${name} = ${value}'"
     echo
   }
+  # Store paths that are used more than once.
+  # Currently unused. Needs to be tested [12/16/2025].
   declare -a lib_paths;
   # ref. 'cmd::edit' -- temporary aliases file
   lib_paths[0]="/tmp/aliaser_aliases_list_${RANDOM}.txt"
@@ -147,9 +155,6 @@ EOF
   # ------------
   # aliaser list
   cmd::list() {
-    # This gsed command prints all aliases starting at (and including) the "$decoded_header"
-    # \shellcheck disable=SC2016
-    # gsed -n '/'"$(lib::decoded_header)"'/,$p' "${ALIASER_SOURCE}"
     lib::dump.aliases
   }
   # aliaser edit
@@ -157,16 +162,13 @@ EOF
     tmp_aliases_list="/tmp/aliaser_aliases_list_${RANDOM}.txt"
     cmd::list >"${tmp_aliases_list}"
     "${EDITOR}" "${tmp_aliases_list}"
-    # This gsed command extracts the "decoded_header" from the alias list.
-    # \shellcheck disable=SC2016
-    # gsed -i '/'"$(lib::encoded_header)"'/,$d' "${ALIASER_SOURCE}"
     lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
     {
       cat "/tmp/aliaser_raw.tmp";
       lib::decoded_header;
-      /bin/cat "${tmp_aliases_list}";
+      cat "${tmp_aliases_list}";
     } >"${ALIASER_SOURCE}"
-    # /bin/rm "${tmp_aliases_list}"
+    # Shellcheck "Can't follow non-constant source" is irrelevant here.
     # shellcheck disable=SC1090
     source "${ALIASER_SOURCE}"
     echo "Updated aliases."

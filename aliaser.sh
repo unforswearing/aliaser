@@ -80,12 +80,12 @@ EOF
   # colorize error output?
   # ------------
   lib::color.red() {
-  	local red; red=$(/usr/bin/tput setaf 1)
+  	local red; red=$(tput setaf 1)
     local message="${*}"
     printf '%s%s\n' "${red}" "${message}"
   }
   # lib::color.green() {
-	#   local green; green=$(/usr/bin/tput setaf 2)
+	#   local green; green=$(tput setaf 2)
   #   local message="${*}"
   #   printf '%s%s\n' "${green}" "${message}"
   # }
@@ -99,7 +99,7 @@ EOF
     lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
   }
   lib::decoded_header() { # TODO: see line 177 ***********************************
-    echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | /usr/bin/base64 -D
+    echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D
   }
   lib::count_lines() {
     wc -l <"${ALIASER_SOURCE}" | awk '{$1=$1};1'
@@ -186,15 +186,15 @@ EOF
   cmd::lastcmd() {
     prev=$(
       history |
-        /usr/bin/tail -n 1 |
-        /usr/bin/awk '{first=$1; $1=""; print $0;}' |
-        /usr/bin/awk '{$1=$1}1'
+        tail -n 1 |
+        awk '{first=$1; $1=""; print $0;}' |
+        awk '{$1=$1}1'
     )
     lib::error.missing_value "${2}"
     composed_alias="alias ${2}='${prev}'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
-    # lib::confirm_alias "${2}" "${prev}"
+    lib::confirm_alias "${2}" "${prev}"
     echo "Added: alias '${2}':"
     echo "  > \"${prev}\""
   }
@@ -202,23 +202,20 @@ EOF
   cmd::search() {
     query="${2}"
     lib::error.missing_value "${query}"
-    matches=$(cmd::list | /usr/bin/awk '/'"${query}"'/')
+    matches=$(cmd::list | awk '/'"${query}"'/')
     test -z "${matches}" && {
       echo "No match found for '${query}'"
       return
     }
     printf '%s\n' "${matches}" |
-      /usr/bin/grep -v "$(lib::decoded_header)" |
+      grep -v "$(lib::decoded_header)" |
       fzf --disabled --select-1 --exit-0 |
-      /usr/bin/awk -F= '{print $2}' |
-      # This gsed command is a simple match/replace and doesn't require gsed
-      gsed -E "s/^'//g;s/'$//g"
+      awk -F= '{print $2}' |
+      # This sed command should work on MacOS and Linux
+      sed -e "s/^'//" -e "s/'$//"
   }
   # aliaser clearall
   cmd::clearall() {
-    # lib::color.red "Error: 'cmd::clearall'"
-    # lib::color.red "Expressions don't expand in single quotes, use double quotes for that. [SC2016]"
-    # return 1
     local aliaser_bkp="/tmp/aliaser_clearall.bkp"
     cmd::list >>"/tmp/aliaser_clearall.bkp"
     lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
@@ -226,24 +223,6 @@ EOF
       cat "/tmp/aliaser_raw.tmp";
       lib::decoded_header ;
     } >>"${ALIASER_SOURCE}"
-
-# *************************************************************************
-    # This gsed command removes aliases from the this alias file.
-    # The command currently does not pass shellcheck due to the weird
-    #   quoting when using the decoded header function.
-    #   TODO: Replace this command with a bash loop.
-    #         in Ruby this looks something like (modded from bin/build.rb):
-    #         ```
-    #         File.open(aliaser_script, "a+").each_line do |scriptline|
-    #           if not scriptline =~ /#{decoded_header}$/
-    #             script_collector.append(scriptline)
-    #           else
-    #             exit 0
-    #           end
-    #         end
-    #         ```
-    ### gsed -i '/'"$(lib::decoded_header)"'/,$d' "${ALIASER_SOURCE}"
-# *************************************************************************
     echo "All aliases have been deleted."
     echo "A backup of your aliases has been saved to ${aliaser_bkp}."
   }

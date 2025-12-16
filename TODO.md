@@ -4,14 +4,7 @@ Tasks to complete for aliaser version 3.0.0:
 
 ## To Do
 
-- [ ] Consolidate dependency checks.
 - [ ] Confirmation of newly created aliases should be a single function.
-- [ ] Add some sort of error checking.
-  - Error if more args than expected
-  - Error if args are missing
-  - Check exit status
-  - Run shellcheck against newly created aliases?
-  - Etc?
 - [ ] Add method to bulk add new aliases from a file.
   - `aliaser import "bash_aliases.sh"`
 - [ ] Add an internal method to update aliaser
@@ -32,8 +25,12 @@ Tasks to complete for aliaser version 3.0.0:
   - Stop using hardcoded paths
   - Etc?
 
+
 ## Completed
 
+- [x] Consolidate dependency checks.
+- [x] Add some sort of error checking.
+  - [x] Error if args are missing
 - [x] Remove test / check for presence of `osascript`
   - Not needed, not sure why I added this?
 - [x] Make variables readonly where relevant.

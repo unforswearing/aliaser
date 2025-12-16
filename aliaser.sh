@@ -178,9 +178,9 @@ EOF
   # aliaser clearall
   cmd::clearall() {
     # shellcheck disable=SC2016
-    gsed -i '/'"$(lib::decoded_header)"'/,$d' "${ALIASER_SOURCE}"
     local aliaser_bkp="/tmp/aliaser_clearall.bkp"
     cmd::list >>"${aliaser_bkp}"
+    gsed -i '/'"$(lib::decoded_header)"'/,$d' "${ALIASER_SOURCE}"
     lib::decoded_header >>"${ALIASER_SOURCE}"
     echo "All aliases have been deleted."
     echo "A backup of your aliases has been saved to ${aliaser_bkp}."

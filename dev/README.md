@@ -35,8 +35,7 @@ source "$ALIASER_SOURCE"
 
 ## Dependencies
 
-- [`fzf`](https://github.com/junegunn/fzf)
-- `gnu-sed` as `gsed` on MacOS
+`aliaser` depends on [`fzf`](https://github.com/junegunn/fzf). See [installation instructions](https://github.com/junegunn/fzf?tab=readme-ov-file#installation).
 
 ## Usage
 
@@ -130,7 +129,8 @@ Added: alias 'wakeup':
 
 ## To Do / Roadmap
 
-Work is currently uderway to update `aliaser`. See [TODO.md](TODO.md)
+See [TODO.md](TODO.md)
+
 
 <!--
 ### Search for an alias and use the matching command in a script

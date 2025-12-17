@@ -4,8 +4,10 @@ Tasks to complete for aliaser version 3.0.0:
 
 ## To Do
 
-- [ ] Create 'dev_aliaser.sh' and tooling.
+- [ ] Create development env and tools
   - To avoid breaking things / improve developer experience.
+  - [ ] Add tools to move / copy / rsync `dev_aliaser.sh` and `dev_README.md` to project root.
+  - [x] Create dev dir, move relevant files. Restore last stable version of `aliaser.sh`
 - [ ] Standardize path names for `lib_paths` variable.
 - [ ] Add `aliaser version` command.
 - [ ] Add method to bulk add new aliases from a file.

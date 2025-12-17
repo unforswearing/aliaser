@@ -9,15 +9,19 @@
 # shellcheck enable=require-variable-braces
 
 # aliaser is a self-editing alias management tool.
-##:: aliaser-version=v2.2.1
+##:: aliaser-version=v2.2.0
 function aliaser() {
-  readonly flag="${1}"
-  #######################################################################
-  # ------------
-  # Runtime checks
-  # ------------
-  # Check for the value of ALIASER_SOURCE environment variable.
-  # Stop and exit if this value does not exist.
+  flag="${1}"
+  command -v gsed >|/dev/null 2>&1 || {
+    echo "'gsed' not found. aliaser on MacOS requires 'gsed'."
+    echo "https://www.gnu.org/software/sed/"
+    return
+  }
+  command -v fzf >|/dev/null 2>&1 || {
+    echo "'fzf' not found. aliaser requires FZF for use with the 'search' option."
+    echo "https://github.com/junegunn/fzf"
+    return
+  }
   test -z ${ALIASER_SOURCE+x} && {
     echo "The 'aliaser' function can only work when the '\$ALIASER_SOURCE'"
     echo "environment variable is set. Please add the following code to your dotfiles:"
@@ -29,35 +33,7 @@ function aliaser() {
     echo "the 'aliaser' command."
     return
   }
-  # Check MacOS dependencies. This doesn't need to be a function
-  # TODO: Remove dependency on gsed.
-  # Update - gsed has been replaced with bash or sed commands. CURRENTLY TESTING.
-  # local requirements=("gsed" "fzf")
-  # for item in "${requirements[@]}"; do
-  if ! command -v "fzf" >|/dev/null 2>&1; then
-    echo "'fzf' not found. aliaser on MacOS requires 'fzf'"
-    return 1
-  fi
-  # done
-  #######################################################################
-  # ------------
-  # Aliaser library helper commands
-  # ------------
-  # Store paths that are used more than once.
-  # TODO: standardize these path names
-  # Currently unused. Needs to be tested [12/16/2025].
-  declare -a lib_paths;
-  # ref. 'cmd::edit' -- temporary aliases file
-  lib_paths[0]="/tmp/aliaser_aliases_list_${RANDOM}.txt"
-  # ref. 'cmd::edit' and 'cmd::clear_all' -- temporary container aliaser.sh script without aliases
-  lib_paths[1]="/tmp/aliaser_raw.tmp"
-  # ref. 'cmd::clear_all' -- backup for 'cmd::list' specific to 'clear_all'
-  lib_paths[2]="/tmp/aliaser_clear_all.bkp"
-  # ref. 'lib::dump.aliases' -- store a tmp copy of "${ALIASER_SOURCE}"
-  lib_paths[3]="/tmp/aliaser_full.tmp"
-  ## --------------------------------
-  # `aliaser help` or `aliaser ""` (no argument)
-  lib::help() {
+  helpp() {
     cat <<EOF
 aliaser <option> [alias name]
 
@@ -74,10 +50,10 @@ Options:
     list      list aliases saved in alias file
     dir       create an alias to cd to a directory with a nickname
     lastcmd   create an alias from the previous command in your history
-    edit      edit alias file in '\$EDITOR' (${EDITOR:=not set})
+    edit      edit alias file in ${EDITOR}
     search    search alias file, select and print matches
-    open      open the 'aliaser.sh' script in '\$EDITOR' (${EDITOR:=not set})
-    clear_all  remove all aliases from this alias file
+    open      open the 'aliaser.sh' script in ${EDITOR}
+    clearall  remove all aliases from this alias file
 
   Running 'aliaser' without an option flag will allow you to save aliases
   to this script in a slightly more traditional manner:
@@ -89,150 +65,94 @@ Source:
   https://github.com/unforswearing/aliaser
 EOF
   }
+  aliaser_self="${ALIASER_SOURCE}"
+  # _encoded_header() {
+  #  echo "IyM6On4gQWxpYXNlcyB+OjojIw=="
+  # }
+  _decoded_header() {
+    echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | /usr/bin/base64 -D
+  }
+  _aliaser_debug() {
+    echo "[DEBUG]"
+    debug_cmd_types() {
+      type -a cat
+      type -a awk
+      type -a grep
+      type -a rm
+      type -a tail
+      type -a fzf
+      type -a gsed
+    }
+    debug_cmd_types
+  }
   # ------------
-  # make a generic "error" function that will cover multiple scenarios?
-  # colorize error output?
+  error_empty_arg() {
+    echo "Error: Empty argument. Run 'aliaser help' for assistance."
+  }
   # ------------
-  lib::color.red() {
-  	local red; red=$(tput setaf 1)
-    local message="${*}"
-    printf '%s%s\n' "${red}" "${message}"
+  cmd_aliaser_list() {
+    # shellcheck disable=SC2016
+    gsed -n '/\#\#\:\:\~ Aliases \~\:\:\#\#/,$p' "${aliaser_self}"
   }
-  lib::color.green() {
-	  local green; green=$(tput setaf 2)
-    local message="${*}"
-    printf '%s%s\n' "${green}" "${message}"
-  }
-  # Needs to be tested [12/16/2025].
-  lib::error.missing_value() {
-    if [[ -z "${1}" || -z "${2}" ]]; then
-      lib::color.red "Error: Missing Value."
-      return 1
-    fi
-  }
-  lib::error.empty_arg() {
-    lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
-  }
-  lib::decoded_header() {
-    echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D
-  }
-  # Needs to be tested [12/16/2025].
-  lib::count_lines() {
-    wc -l <"${ALIASER_SOURCE}" | awk '{$1=$1};1'
-  }
-  # Needs to be tested [12/16/2025].
-  lib::dump.without_aliases() {
-    local header; header="$(lib::decoded_header)"
-    while read -r line; do
-      if [[ "${line}" =~ ${header} ]]; then
-        return
-      else
-        echo "${line}"
-      fi
-    done <"${ALIASER_SOURCE}"
-  }
-  # Only print aliases, without script contents
-  # Needs to be tested [12/16/2025].
-  lib::dump.aliases() {
-    local count=1
-    local header; header="$(lib::decoded_header)"
-    cat "${ALIASER_SOURCE}" >/tmp/aliaser_full.tmp
-    while read -r line; do
-      if [[ "${line}" =~ ${header} ]]; then
-        local linecount; linecount="$(lib::count_lines)"
-        local taillines=$((linecount - count))
-        tail -n "${taillines}" "/tmp/aliaser_full.tmp"
-        return 0
-      fi
-      count=$((count + 1))
-    done <"${ALIASER_SOURCE}"
-  }
-  # A standard way to confirm alias creation.
-  # Needs to be tested [12/16/2025].
-  lib::confirm_alias() {
-    local name="${1}"
-    local value="${2}"
-    lib::color.green "Added: alias '${name} = ${value}'"
-    echo
-  }
-
-  #######################################################################
-  # ------------
-  # Aliaser option commands
-  # ------------
-  # aliaser list
-  cmd::list() {
-    lib::dump.aliases
-  }
-  # aliaser edit
-  cmd::edit() {
-    tmp_aliases_list="/tmp/aliaser_aliases_list_${RANDOM}.txt"
-    cmd::list >"${tmp_aliases_list}"
+  cmd_aliaser_edit() {
+    # aliaser edit
+    tmp_aliases_list="/tmp/aliaser_aliases_list.txt"
+    _list >"${tmp_aliases_list}"
     "${EDITOR}" "${tmp_aliases_list}"
-    lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
-    {
-      cat "/tmp/aliaser_raw.tmp";
-      lib::decoded_header;
-      cat "${tmp_aliases_list}";
-    } >"${ALIASER_SOURCE}"
-    # Shellcheck "Can't follow non-constant source" is irrelevant here.
+    header="$(_decoded_header)"
+    # shellcheck disable=SC2016
+    gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
+    /bin/cat "${tmp_aliases_list}" >>"${aliaser_self}"
+    # /bin/rm "${tmp_aliases_list}"
     # shellcheck disable=SC1090
-    source "${ALIASER_SOURCE}"
+    source "${aliaser_self}"
     echo "Updated aliases."
   }
-  # aliaser dir "zsh_config" "~/zsh-config"
-  cmd::dir() {
+  cmd_aliaser_dir() {
+    # aliaser dir "zsh_config" "~/zsh-config"
     dirname="${2}"
     dirpath="${3}"
-    lib::error.missing_value "${dirname}" "${dirpath}"
     composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
     eval "${composed_alias}"
-    echo "${composed_alias}" >>"${ALIASER_SOURCE}"
-    lib::confirm_alias "${dirname}" "${dirpath}"
-    # echo "Added: alias '${dirname}':"
-    # echo "  > cd \"${dirpath}\""
+    echo "${composed_alias}" >>"${aliaser_self}"
+    echo "Added: alias '${dirname}':"
+    echo "  > cd \"${dirpath}\""
   }
-  # aliaser lastcmd "name"
-  cmd::lastcmd() {
+  cmd_aliaser_lastcmd() {
+    # aliaser lastcmd "name"
     prev=$(
       history |
-        tail -n 1 |
-        awk '{first=$1; $1=""; print $0;}' |
-        awk '{$1=$1}1'
+        /usr/bin/tail -n 1 |
+        /usr/bin/awk '{first=$1; $1=""; print $0;}' |
+        /usr/bin/awk '{$1=$1}1'
     )
-    lib::error.missing_value "${2}"
     composed_alias="alias ${2}='${prev}'"
     eval "${composed_alias}"
-    echo "${composed_alias}" >>"${ALIASER_SOURCE}"
-    lib::confirm_alias "${2}" "${prev}"
-    # echo "Added: alias '${2}':"
-    # echo "  > \"${prev}\""
+    echo "${composed_alias}" >>"${aliaser_self}"
+    echo "Added: alias '${2}':"
+    echo "  > \"${prev}\""
   }
-  # aliaser search <query>
-  cmd::search() {
+  cmd_aliaser_search() {
+    # aliaser search <query>
     query="${2}"
-    lib::error.missing_value "${query}"
-    matches=$(cmd::list | awk '/'"${query}"'/')
+    matches=$(_list | /usr/bin/awk '/'"${query}"'/')
     test -z "${matches}" && {
       echo "No match found for '${query}'"
       return
     }
     printf '%s\n' "${matches}" |
-      grep -v "$(lib::decoded_header)" |
+      /usr/bin/grep -v "$(_decoded_header)" |
       fzf --disabled --select-1 --exit-0 |
-      awk -F= '{print $2}' |
-      # This sed command should work on MacOS and Linux
-      sed -e "s/^'//" -e "s/'$//"
+      /usr/bin/awk -F= '{print $2}' |
+      gsed -E "s/^'//g;s/'$//g"
   }
-  # aliaser clear_all
-  cmd::clear_all() {
-    local aliaser_bkp="/tmp/aliaser_clear_all.bkp"
-    cmd::list >>"/tmp/aliaser_clear_all.bkp"
-    lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
-    {
-      cat "/tmp/aliaser_raw.tmp";
-      lib::decoded_header ;
-    } >>"${ALIASER_SOURCE}"
+  cmd_aliaser_clearall() {
+    header="$(_decoded_header)"
+    # shellcheck disable=SC2016
+    gsed -i '/'"${header}"'/,$d' "${aliaser_self}"
+    local aliaser_bkp="/tmp/aliaser_clearall.bkp"
+    cmd_aliaser_list >>"${aliaser_bkp}"
+    echo "${header}" >>"${aliaser_self}"
     echo "All aliases have been deleted."
     echo "A backup of your aliases has been saved to ${aliaser_bkp}."
   }
@@ -240,23 +160,28 @@ EOF
   ## Argument processing begins here:
   # $flag is set at the start of the aliaser function
   case "${flag}" in
-  help | -h) lib::help ;;
-  open) "${EDITOR}" "${ALIASER_SOURCE}" ;;
-  list) cmd::list ;;
-  edit) cmd::edit ;;
-  dir) cmd::dir "$@" ;;
-  lastcmd) cmd::lastcmd "$@" ;;
-  search) cmd::search "$@" ;;
-  clear_all) cmd::clear_all ;;
-  "") lib::error.empty_arg ;;
+  help | -h) helpp ;;
+  open) "${EDITOR}" "${aliaser_self}" ;;
+  list) cmd_aliaser_list ;;
+  edit) cmd_aliaser_edit ;;
+  dir) cmd_aliaser_dir "$@" ;;
+  lastcmd) cmd_aliaser_lastcmd "$@" ;;
+  search) cmd_aliaser_search "$@" ;;
+  clearall) cmd_aliaser_clearall ;;
+  debug) _aliaser_debug ;;
+  "") error_empty_arg ;;
   *)
     # aliaser "zsh_config='cd ~/zsh-config'"
     eval "alias ${*}"
-    echo "alias ${*}" >>"${ALIASER_SOURCE}"
-    lib::color.green "Added: alias '${*}'"
+    echo "alias ${*}" >>"${aliaser_self}"
+    echo "Added:"
+    echo "  > alias ${*}"
     ;;
   esac
+  # Backup aliaser somewhere just in case (actual location TBD)
+  # cat "${aliaser_self}" > "${aliaser_self}.bkp"
 }
+
 ## ---------------
 
 ##::~ Aliases ~::##

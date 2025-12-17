@@ -6,10 +6,11 @@ Tasks to complete for aliaser version 3.0.0:
 
 - [ ] Create 'dev_aliaser.sh' and tooling.
   - To avoid breaking things / improve developer experience.
-- [ ] Confirmation of newly created aliases should be a single function.
+- [ ] Add `aliaser version` command.
 - [ ] Add method to bulk add new aliases from a file.
   - `aliaser import "bash_aliases.sh"`
   - Easy implmentation: only match file lines that start with 'alias', ignore everthing else.
+  - This `import` command will also help to update aliaser internally (see below).
 - [ ] Add an internal method to update aliaser
   - `aliaser update`
     - Curl `version` file from github
@@ -23,14 +24,16 @@ Tasks to complete for aliaser version 3.0.0:
       - Confirm success
     - If no update needed, output current script version.
 - [ ] Add Linux compatibility (test on Debian 13)
-  - Check for GNU `sed`
-    - Note: Attempting to remove the dependency on `sed` / `gsed`. See above.
   - Use correct `base64` flags
-  - Stop using hardcoded paths
-  - Etc?
+  - Make sure other linux commands work correctly on both Linux and MacOS
+    - `awk`, `grep`, `tail`, `printf`, `sed`, `cat`, `eval`, `test`, etc
+  - [x] Remove the dependency on `sed` / `gsed`. See above.
+  - [x] Stop using hardcoded paths
+    - Paths have been removed for shell commands
 
 ## Completed
 
+- [x] Confirmation of newly created aliases should be a single function.
 - [x] Remove dependency on `gsed`
   - Achieves the goal of "Linux Compatibility"
   - `gsed` has been replaced with standard `bash` commands

@@ -35,10 +35,7 @@ source "$ALIASER_SOURCE"
 
 ## Dependencies
 
-`aliaser` will warn you if either or both of these tools are not found in your environment:
-
-- [`fzf`](https://github.com/junegunn/fzf)
-- [`gnu-sed`](https://www.gnu.org/software/sed/) (as `gsed` on MacOS)
+`aliaser` depends on [`fzf`](https://github.com/junegunn/fzf). See [installation instructions](https://github.com/junegunn/fzf?tab=readme-ov-file#installation).
 
 ## Usage
 
@@ -46,7 +43,7 @@ source "$ALIASER_SOURCE"
 
 Typing `aliaser help` prints  help documentation, including the following list of options:
 
-```
+```txt
 Options:
     help      display this help message
     list      list aliases saved in alias file

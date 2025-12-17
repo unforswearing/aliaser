@@ -6,6 +6,7 @@ Tasks to complete for aliaser version 3.0.0:
 
 - [ ] Create 'dev_aliaser.sh' and tooling.
   - To avoid breaking things / improve developer experience.
+- [ ] Standardize path names for `lib_paths` variable.
 - [ ] Add `aliaser version` command.
 - [ ] Add method to bulk add new aliases from a file.
   - `aliaser import "bash_aliases.sh"`

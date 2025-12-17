@@ -43,6 +43,19 @@ function aliaser() {
   # ------------
   # Aliaser library helper commands
   # ------------
+  # Store paths that are used more than once.
+  # TODO: standardize these path names
+  # Currently unused. Needs to be tested [12/16/2025].
+  declare -a lib_paths;
+  # ref. 'cmd::edit' -- temporary aliases file
+  lib_paths[0]="/tmp/aliaser_aliases_list_${RANDOM}.txt"
+  # ref. 'cmd::edit' and 'cmd::clear_all' -- temporary container aliaser.sh script without aliases
+  lib_paths[1]="/tmp/aliaser_raw.tmp"
+  # ref. 'cmd::clear_all' -- backup for 'cmd::list' specific to 'clear_all'
+  lib_paths[2]="/tmp/aliaser_clear_all.bkp"
+  # ref. 'lib::dump.aliases' -- store a tmp copy of "${ALIASER_SOURCE}"
+  lib_paths[3]="/tmp/aliaser_full.tmp"
+  ## --------------------------------
   # `aliaser help` or `aliaser ""` (no argument)
   lib::help() {
     cat <<EOF
@@ -123,11 +136,13 @@ EOF
   lib::dump.aliases() {
     local count=1
     local header; header="$(lib::decoded_header)"
+    cat "${ALIASER_SOURCE}" >/tmp/aliaser_full.tmp
     while read -r line; do
       if [[ "${line}" =~ ${header} ]]; then
         local linecount; linecount="$(lib::count_lines)"
         local taillines=$((linecount - count))
-        tail -n "${taillines}"
+        tail -n "${taillines}" "/tmp/aliaser_full.tmp"
+        return 0
       fi
       count=$((count + 1))
     done <"${ALIASER_SOURCE}"
@@ -140,15 +155,7 @@ EOF
     lib::color.green "Added: alias '${name} = ${value}'"
     echo
   }
-  # Store paths that are used more than once.
-  # Currently unused. Needs to be tested [12/16/2025].
-  declare -a lib_paths;
-  # ref. 'cmd::edit' -- temporary aliases file
-  lib_paths[0]="/tmp/aliaser_aliases_list_${RANDOM}.txt"
-  # ref. 'cmd::edit' and 'cmd::clear_all' -- temporary container aliaser.sh script without aliases
-  lib_paths[1]="/tmp/aliaser_raw.tmp"
-  # ref. 'cmd::clear_all' -- backup for 'cmd::list' specific to 'clear_all'
-  lib_paths[2]="/tmp/aliaser_clear_all.bkp"
+
   #######################################################################
   # ------------
   # Aliaser option commands

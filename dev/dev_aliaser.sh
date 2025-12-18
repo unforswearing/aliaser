@@ -43,18 +43,19 @@ function dev_aliaser() {
   # ------------
   # Aliaser library helper commands
   # ------------
-  # Store paths that are used more than once.
-  # TODO: standardize these path names
-  # Currently unused. Needs to be tested [12/16/2025].
-  # declare -a lib_paths;
-  # ref. 'cmd::edit' -- temporary aliases file
-  # lib_paths[0]="/tmp/aliaser_aliases_list_${RANDOM}.txt"
-  # ref. 'cmd::edit' and 'cmd::clear_all' -- temporary container aliaser.sh script without aliases
-  # lib_paths[1]="/tmp/aliaser_raw.tmp"
-  # ref. 'cmd::clear_all' -- backup for 'cmd::list' specific to 'clear_all'
-  # lib_paths[2]="/tmp/aliaser_clear_all.bkp"
-  # ref. 'lib::dump.aliases' -- store a tmp copy of "${ALIASER_SOURCE}"
-  # lib_paths[3]="/tmp/aliaser_full.tmp"
+  # lib::get_path has been added to the script but needs testing [12/17/2025]
+  # lib::get_path() {
+  #   case "$1" in
+  #       bkp_aliases)
+  #         echo "/tmp/aliaser_aliases_${$}.bkp" ;;
+  #       bkp_without_aliases)
+  #         echo "/tmp/aliaser_without_aliases_${$}.bkp" ;;
+  #       bkp_complete)
+  #         echo "/tmp/aliaser_full.${$}.bkp" ;;
+  #       *)
+  #         return 1 ;;
+  #   esac
+  # }
   ## --------------------------------
   # `aliaser help` or `aliaser ""` (no argument)
   lib::help() {
@@ -94,22 +95,20 @@ EOF
   # colorize error output?
   # ------------
   lib::color.red() {
-  	local red; red=$(tput setaf 1)
     local message="${*}"
-    printf '%s%s\n' "${red}" "${message}"
+    printf '\033[31m%s\033[0m\n' "${message}"
   }
   lib::color.green() {
-	  local green; green=$(tput setaf 2)
     local message="${*}"
-    printf '%s%s\n' "${green}" "${message}"
+    printf '\033[32m%s\033[0m\n' "${message}"
   }
-  # Needs to be tested [12/16/2025].
-  lib::error.missing_value() {
-    if [[ -z "${1}" || -z "${2}" ]]; then
-      lib::color.red "Error: Missing Value."
-      return 1
-    fi
-  }
+  # lib::error.missing_value Needs to be tested [12/16/2025].
+  # lib::error.missing_value() {
+  #   if [[ -z "${1}" || -z "${2}" ]]; then
+  #     lib::color.red "Error: Missing Value."
+  #     return 1
+  #   fi
+  # }
   lib::error.empty_arg() {
     lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
   }
@@ -146,11 +145,16 @@ EOF
   lib::dump.aliases() {
     local count=1
     local header; header="$(lib::decoded_header)"
+    # local bkp_file; bkp_file="$(lib::get_path bkp_complete)"
+    # cat "${ALIASER_SOURCE}" >"${bkp_file}"
+    # REMOVE the following 1 line
     cat "${ALIASER_SOURCE}" >/tmp/aliaser_full.tmp
     while read -r line; do
       if [[ "${line}" =~ ${header} ]]; then
         local linecount; linecount="$(lib::count_lines)"
         local taillines=$((linecount - (count - 1)))
+        # tail -n "${taillines}" "${bkp_file}"
+        # REMOVE the following 1 line
         tail -n "${taillines}" "/tmp/aliaser_full.tmp"
         return 0
       fi
@@ -176,11 +180,18 @@ EOF
   }
   # aliaser edit
   cmd::edit() {
-    tmp_aliases_list="/tmp/aliaser_aliases_list_${RANDOM}.txt"
+    # local tmp_aliases_list="$(lib::get_path bkp_aliases)"
+    # local tmp_without_aliases="$(lib::get_path bkp_without_aliases)""
+    # REMOVE the following 1 line
+    local tmp_aliases_list="/tmp/aliaser_aliases_list_${RANDOM}.txt"
     cmd::list >"${tmp_aliases_list}"
     "${EDITOR}" "${tmp_aliases_list}"
+    # lib::dump.without_aliases >>"${tmp_without_aliases}"
+    # REMOVE the following 1 line
     lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
     {
+      # cat "${tmp_without_aliases}";
+      # REMOVE the following 1 line
       cat "/tmp/aliaser_raw.tmp";
       lib::decoded_header;
       cat "${tmp_aliases_list}";
@@ -194,6 +205,7 @@ EOF
   cmd::dir() {
     dirname="${2}"
     dirpath="${3}"
+    # lib::error.missing_value Needs to be tested [12/16/2025].
     # lib::error.missing_value "${dirname}" "${dirpath}"
     composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
     eval "${composed_alias}"
@@ -210,7 +222,8 @@ EOF
         # awk '{first=$1; $1=""; print $0;}' |
         { read -r _ contents; echo "${contents}"; }
     )
-    lib::error.missing_value "${2}"
+    # lib::error.missing_value Needs to be tested [12/16/2025].
+    # lib::error.missing_value "${2}"
     composed_alias="alias ${2}='${prev}'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
@@ -221,6 +234,7 @@ EOF
   # aliaser search <query>
   cmd::search() {
     query="${2}"
+    # lib::error.missing_value Needs to be tested [12/16/2025].
     # lib::error.missing_value "${query}"
     matches=$(cmd::list | tail -n 2 | grep -F "${query}")
     test -z "${matches}" && {
@@ -238,10 +252,17 @@ EOF
   }
   # aliaser clear_all
   cmd::clear_all() {
+    # local bkp_without_aliases="$(lib::get_path bkp_without_aliases)"
+    # local aliaser_bkp="$(lib::get_path bkp_aliases)"
+    # REMOVE the following 1 line
     local aliaser_bkp="/tmp/aliaser_clear_all.bkp"
-    cmd::list >>"/tmp/aliaser_clear_all.bkp"
+    cmd::list >>"${aliaser_bkp}"
+    # lib::dump.without_aliases >>"${bkp_without_aliases}"
+    # REMOVE the following 1 line
     lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
     {
+      # cat "${bkp_without_aliases}";
+      # REMOVE the following 1 line
       cat "/tmp/aliaser_raw.tmp";
       lib::decoded_header ;
     } >>"${ALIASER_SOURCE}"

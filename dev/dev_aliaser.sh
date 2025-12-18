@@ -116,6 +116,10 @@ EOF
   lib::error.empty_arg() {
     lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
   }
+  # The base64 encoded text is the "aliases" header which indicates
+  # where the script should store its created aliases. This string
+  # should only appear as a decoded string at the end of the file.
+  # Otherwise, use lib::decoded_header for everything else.
   lib::decoded_header() {
     echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D
   }

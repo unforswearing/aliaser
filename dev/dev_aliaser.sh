@@ -203,11 +203,11 @@ EOF
   }
   # aliaser dir "zsh_config" "~/zsh-config"
   cmd::dir() {
-    dirname="${2}"
-    dirpath="${3}"
+    local dirname="${2}"
+    local dirpath="${3}"
     # lib::error.missing_value Needs to be tested [12/16/2025].
     # lib::error.missing_value "${dirname}" "${dirpath}"
-    composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
+    local composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
     lib::confirm_alias "${dirname}" "${dirpath}"
@@ -216,7 +216,7 @@ EOF
   }
   # aliaser lastcmd "name"
   cmd::lastcmd() {
-    prev=$(
+    local prev; prev=$(
       history |
         tail -n 1 |
         # awk '{first=$1; $1=""; print $0;}' |
@@ -224,7 +224,7 @@ EOF
     )
     # lib::error.missing_value Needs to be tested [12/16/2025].
     # lib::error.missing_value "${2}"
-    composed_alias="alias ${2}='${prev}'"
+    local composed_alias="alias ${2}='${prev}'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
     lib::confirm_alias "${2}" "${prev}"
@@ -233,10 +233,10 @@ EOF
   }
   # aliaser search <query>
   cmd::search() {
-    query="${2}"
+    local query="${2}"
     # lib::error.missing_value Needs to be tested [12/16/2025].
     # lib::error.missing_value "${query}"
-    matches=$(cmd::list | tail -n 2 | grep -F "${query}")
+    local matches; matches=$(cmd::list | tail -n 2 | grep -F "${query}")
     test -z "${matches}" && {
       echo "No match found for '${query}'"
       return
@@ -246,7 +246,7 @@ EOF
       fzf --disabled --select-1 --exit-0 |
       cut -d= -f2- |
       while read -r selection; do
-        selection="${selection##\'}"
+        local selection="${selection##\'}"
         echo "${selection%%\'}"
       done
   }

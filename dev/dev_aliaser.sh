@@ -11,6 +11,10 @@
 # aliaser is a self-editing alias management tool.
 ##:: aliaser-version=v2.2.1
 function dev_aliaser() {
+  # set -o errexit
+  # set -o nounset
+  # set -o pipefail
+  #######################################################################
   local flag="${1}"
   #######################################################################
   # ------------
@@ -27,7 +31,7 @@ function dev_aliaser() {
     echo
     echo "Or run 'export ALIASER_SOURCE=\"path/to/aliaser.sh\"' before executing"
     echo "the 'aliaser' command."
-    return
+    return 1
   }
   # Check MacOS dependencies. This doesn't need to be a function
   # TODO: Remove dependency on gsed.
@@ -152,10 +156,11 @@ EOF
     while read -r line; do
       if [[ "${line}" =~ ${header} ]]; then
         local linecount; linecount="$(lib::count_lines)"
-        local taillines=$((linecount - (count - 1)))
+        local taillines=$((linecount - (count)))
         # tail -n "${taillines}" "${bkp_file}"
         # REMOVE the following 1 line
         tail -n "${taillines}" "/tmp/aliaser_full.tmp"
+        echo
         return 0
       fi
       count=$((count + 1))

@@ -11,21 +11,21 @@ This tool was created to manage persistent aliases when using `bash` or `zsh` in
 `aliaser` small `bash` script that stores its own aliases. Each alias crated with `aliaser` is appended to the [bottom of the `aliaser.sh` script itself](aliaser.sh#L178). When you execute `aliaser.sh` you add aliases created with `aliaser` to your environment.
 
 > [!IMPORTANT]
-> `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. This script has not been tested on any Linux-based systems (Linux compatibility coming soon).
+> `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. This script aims for Linux compatibility by preferring POSIX-compatible commands where possible.
 
 The source code for `aliaser` can be found at [github.com/unforswearing/aliaser](https://github.com/unforswearing/aliaser)
 
 ## Installation
 
-Clone this repo and source `aliaser/aliaser.sh` to get started.
+To get started, clone this repo and make `aliaser.sh` executable:
 
 ```console
-$ git clone https://github.com/unforswearing/aliaser.git .
-$ cd aliaser
-$ chmod +x aliaser.sh
+git clone https://github.com/unforswearing/aliaser.git .
+cd aliaser
+chmod +x aliaser.sh
 ```
 
-The `aliaser` script must know its own location, so be sure to set up the `ALIASER_SOURCE` environment variable so that it points to `aliaser.sh`. To do this, add the following line to your `.bashrc`, `.zshrc`, or other shell configuration / dotfiles:
+Before running `aliaser`, the script must know its own location. Do this by creating an `ALIASER_SOURCE` environment variable whose value points to `aliaser.sh`. For persistent use, add the following line to your `.bashrc`, `.zshrc`, or other shell configuration / dotfiles:
 
 ```bash
 # in your $dotfiles:
@@ -35,8 +35,8 @@ export ALIASER_SOURCE="path/to/aliaser/aliaser.sh"
 Now, reload your dotfiles and you are ready to use `aliaser.sh`:
 
 ```console
-$ source .bashrc
-$ ./aliaser.sh help
+source .bashrc
+./aliaser.sh help
 ```
 
 ## Dependencies

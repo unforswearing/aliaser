@@ -11,7 +11,7 @@
 # aliaser is a self-editing alias management tool.
 ##:: aliaser-version=v2.2.1
 function dev_aliaser() {(
-  # set -o errexit
+  set -o errexit
   # set -o nounset
   # set -o pipefail
   #######################################################################
@@ -175,7 +175,6 @@ EOF
     lib::color.green "Added: alias '${name} = ${value}'"
     echo
   }
-
   #######################################################################
   # ------------
   # Aliaser option commands

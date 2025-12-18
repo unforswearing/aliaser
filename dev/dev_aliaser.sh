@@ -11,7 +11,7 @@
 # aliaser is a self-editing alias management tool.
 ##:: aliaser-version=v2.2.1
 function dev_aliaser() {
-  readonly flag="${1}"
+  local flag="${1}"
   #######################################################################
   # ------------
   # Runtime checks
@@ -116,9 +116,19 @@ EOF
   lib::decoded_header() {
     echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D
   }
-  # Needs to be tested [12/16/2025].
+  lib::trim() {
+    # if arg $1 is unset, use previous value from pipe
+    # meaning, both of these work:
+    # `lib::trim "  text   "`
+    # `echo "  text  " | lib::trim`
+    local text; text="${1:=$(cat -)}"
+    text="${text## }"
+    text="${text%% }"
+    echo "${text}"
+  }
+ # Needs to be tested [12/16/2025].
   lib::count_lines() {
-    wc -l <"${ALIASER_SOURCE}" | awk '{$1=$1};1'
+    wc -l <"${ALIASER_SOURCE}" | lib::trim # awk '{$1=$1};1'
   }
   # Needs to be tested [12/16/2025].
   lib::dump.without_aliases() {
@@ -140,7 +150,7 @@ EOF
     while read -r line; do
       if [[ "${line}" =~ ${header} ]]; then
         local linecount; linecount="$(lib::count_lines)"
-        local taillines=$((linecount - count))
+        local taillines=$((linecount - (count - 1)))
         tail -n "${taillines}" "/tmp/aliaser_full.tmp"
         return 0
       fi
@@ -184,7 +194,7 @@ EOF
   cmd::dir() {
     dirname="${2}"
     dirpath="${3}"
-    lib::error.missing_value "${dirname}" "${dirpath}"
+    # lib::error.missing_value "${dirname}" "${dirpath}"
     composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
@@ -197,8 +207,8 @@ EOF
     prev=$(
       history |
         tail -n 1 |
-        awk '{first=$1; $1=""; print $0;}' |
-        awk '{$1=$1}1'
+        # awk '{first=$1; $1=""; print $0;}' |
+        { read -r _ contents; echo "${contents}"; }
     )
     lib::error.missing_value "${2}"
     composed_alias="alias ${2}='${prev}'"
@@ -211,8 +221,8 @@ EOF
   # aliaser search <query>
   cmd::search() {
     query="${2}"
-    lib::error.missing_value "${query}"
-    matches=$(cmd::list | awk '/'"${query}"'/')
+    # lib::error.missing_value "${query}"
+    matches=$(cmd::list | tail -n 2 | grep -F "${query}")
     test -z "${matches}" && {
       echo "No match found for '${query}'"
       return
@@ -220,9 +230,11 @@ EOF
     printf '%s\n' "${matches}" |
       grep -v "$(lib::decoded_header)" |
       fzf --disabled --select-1 --exit-0 |
-      awk -F= '{print $2}' |
-      # This sed command should work on MacOS and Linux
-      sed -e "s/^'//" -e "s/'$//"
+      cut -d= -f2- |
+      while read -r selection; do
+        selection="${selection##\'}"
+        echo "${selection%%\'}"
+      done
   }
   # aliaser clear_all
   cmd::clear_all() {

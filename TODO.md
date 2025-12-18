@@ -29,7 +29,7 @@ Tasks to complete for aliaser version 3.0.0:
 - [ ] Add Linux compatibility (test on Debian 13)
   - Use correct `base64` flags
   - Make sure other linux commands work correctly on both Linux and MacOS
-    - `awk`, `grep`, `tail`, `printf`, `sed`, `cat`, `eval`, `test`, etc
+    - Aiming for general POSIX compatibility. This will exclude `awk` and most `sed` commands.
   - [x] Remove the dependency on `sed` / `gsed`. See above.
   - [x] Stop using hardcoded paths
     - Paths have been removed for shell commands

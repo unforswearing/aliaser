@@ -181,7 +181,6 @@ EOF
   # Backup aliaser somewhere just in case (actual location TBD)
   # cat "${aliaser_self}" > "${aliaser_self}.bkp"
 }
-
 ## ---------------
 
 ##::~ Aliases ~::##

@@ -12,6 +12,7 @@ This tool was created to manage persistent aliases when using `bash` or `zsh` in
 
 > [!IMPORTANT]
 > While `aliaser` is currently a sourceable function, the next major version of the tool will exist as a standalone `bash` script. This will ensure `aliaser.sh` is isolated from the base shell environment.
+<!-- -->
 > [!IMPORTANT]
 > `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. This script has not been tested on any Linux-based systems (Linux compatibility coming soon).
 

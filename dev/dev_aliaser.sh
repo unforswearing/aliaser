@@ -10,7 +10,7 @@
 
 # aliaser is a self-editing alias management tool.
 ##:: aliaser-version=v2.2.1
-function dev_aliaser() {
+function dev_aliaser() {(
   # set -o errexit
   # set -o nounset
   # set -o pipefail
@@ -120,11 +120,8 @@ EOF
     echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D
   }
   lib::trim() {
-    # if arg $1 is unset, use previous value from pipe
-    # meaning, both of these work:
-    # `lib::trim "  text   "`
     # `echo "  text  " | lib::trim`
-    local text; text="${1:=$(cat -)}"
+    local text; text="$(cat -)"
     text="${text## }"
     text="${text%% }"
     echo "${text}"
@@ -252,7 +249,7 @@ EOF
       cut -d= -f2- |
       while read -r selection; do
         local selection="${selection##\'}"
-        echo "${selection%%\'}"
+        lib::color.green "${selection%%\'}"
       done
   }
   # aliaser clear_all
@@ -271,7 +268,7 @@ EOF
       cat "/tmp/aliaser_raw.tmp";
       lib::decoded_header ;
     } >>"${ALIASER_SOURCE}"
-    echo "All aliases have been deleted."
+    lib::color.green "All aliases have been deleted."
     echo "A backup of your aliases has been saved to ${aliaser_bkp}."
   }
   # --------------------------
@@ -294,7 +291,9 @@ EOF
     lib::color.green "Added: alias '${*}'"
     ;;
   esac
-}
+)}
+## ---------------
+dev_aliaser "${@}"
 ## ---------------
 
 ##::~ Aliases ~::##

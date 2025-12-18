@@ -8,7 +8,7 @@
 
 This tool was created to manage persistent aliases when using `bash` or `zsh` interactively.
 
-`aliaser` consists of a single bash function that stores its own aliases. Each alias crated with `aliaser` is appended to the [bottom of the `aliaser.sh` script itself](aliaser.sh#L178). When you source `aliaser.sh` you add the `aliaser` function, and all of the aliases created with this function, to your environment. Please see [aliaser.sh](aliaser.sh) to see how this works.
+`aliaser` small `bash` script that stores its own aliases. Each alias crated with `aliaser` is appended to the [bottom of the `aliaser.sh` script itself](aliaser.sh#L178). When you execute `aliaser.sh` you add aliases created with `aliaser` to your environment.
 
 > [!IMPORTANT]
 > `aliaser` is written in `bash`, tested interactively in `zsh` on MacOS and passes most `shellcheck` tests. This script has not been tested on any Linux-based systems (Linux compatibility coming soon).
@@ -21,16 +21,22 @@ Clone this repo and source `aliaser/aliaser.sh` to get started.
 
 ```console
 $ git clone https://github.com/unforswearing/aliaser.git .
-$ source aliaser.sh
-$ aliaser help
+$ cd aliaser
+$ chmod +x aliaser.sh
 ```
 
-For persistent use you may source `aliaser` from your `.bashrc`, `.zshrc`, or other shell configuration files. The `aliaser` script must know its own location, so be sure to set up the `ALIASER_SOURCE` environment variable so that it points to `aliaser.sh`.
+The `aliaser` script must know its own location, so be sure to set up the `ALIASER_SOURCE` environment variable so that it points to `aliaser.sh`. To do this, add the following line to your `.bashrc`, `.zshrc`, or other shell configuration / dotfiles:
 
 ```bash
 # in your $dotfiles:
 export ALIASER_SOURCE="path/to/aliaser/aliaser.sh"
-source "$ALIASER_SOURCE"
+```
+
+Now, reload your dotfiles and you are ready to use `aliaser.sh`:
+
+```console
+$ source .bashrc
+$ ./aliaser.sh help
 ```
 
 ## Dependencies

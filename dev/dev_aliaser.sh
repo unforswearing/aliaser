@@ -33,16 +33,11 @@ function dev_aliaser() {
     echo "the 'aliaser' command."
     return 1
   }
-  # Check MacOS dependencies. This doesn't need to be a function
-  # TODO: Remove dependency on gsed.
-  # Update - gsed has been replaced with bash or sed commands. CURRENTLY TESTING.
-  # local requirements=("gsed" "fzf")
-  # for item in "${requirements[@]}"; do
+  # Check for a local copy of fzf.
   if ! command -v "fzf" >|/dev/null 2>&1; then
     echo "'fzf' not found. aliaser on MacOS requires 'fzf'"
     return 1
   fi
-  # done
   #######################################################################
   # ------------
   # Aliaser library helper commands
@@ -121,8 +116,12 @@ EOF
   #   lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
   # }
   # The base64 encoded text is the "aliases" header which indicates
-  # where the script should store its created aliases. This string
-  # should only appear as a decoded string at the end of the file.
+  # where the script should store its created aliases. Commands such as
+  # `aliaser list` will pattern match this header to print the list of
+  # aliases stored in the script. Using the decoded (plain text) header
+  # elsewhere in the script will break the pattern matching and cause errors.
+  # This decoded text should only appear above the list of aliases at
+  # the end of the file, separated from the alias list by a single new line.
   # Otherwise, use lib::decoded_header for everything else.
   lib::decoded_header() {
     echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D

@@ -61,7 +61,7 @@ function dev_aliaser() {
   #   esac
   # }
   ## --------------------------------
-  # `aliaser help` or `aliaser ""` (no argument)
+  # usage (cli): `aliaser help` or `aliaser ""` (no argument)
   lib::help() {
     cat <<EOF
 aliaser <option> [alias name]
@@ -128,7 +128,7 @@ EOF
     echo "IyM6On4gQWxpYXNlcyB+OjojIw==" | base64 -D
   }
   lib::trim() {
-    # `echo "  text  " | lib::trim`
+    # usage (internal): `echo "  text  " | lib::trim`
     local text; text="$(cat -)"
     text="${text## }"
     text="${text%% }"
@@ -142,11 +142,15 @@ EOF
   # current shell environment.
   # Needs to be tested [12/16/2025].
   lib::import_aliases() {
+    # To Be Implemented::: -------
     # local tmp_aliases_bkp="/tmp/aliaser_aliases_list_${RANDOM}.txt"
     # lib::dump.aliases >"${tmp_aliases_bkp}"
     # source "/tmp/aliaser_aliases_list_${RANDOM}.txt"
+    # --------
     local alias_list; alias_list="$(cmd::list)"
+    # To Be Implemented::: -------
     # shellcheck source=/dev/null
+    # --------
     source <("${alias_list}")
   }
   # Needs to be tested [12/16/2025].
@@ -165,16 +169,22 @@ EOF
   lib::dump.aliases() {
     local count=1
     local header; header="$(lib::decoded_header)"
+    # To Be Implemented::: -------
     # local bkp_file; bkp_file="$(lib::get_path bkp_complete)"
     # cat "${ALIASER_SOURCE}" >"${bkp_file}"
+    # --------
     # REMOVE the following 1 line
     cat "${ALIASER_SOURCE}" >/tmp/aliaser_full.tmp
     while read -r line; do
+      # To Be Implemented::: -------
       # if [[ "${line}" == "" ]]; then continue; fi
+      # --------
       if [[ "${line}" =~ ${header} ]]; then
         local linecount; linecount="$(lib::count_lines)"
         local taillines=$((linecount - (count + 1)))
+        # To Be Implemented::: -------
         # tail -n "${taillines}" "${bkp_file}"
+        # --------
         # REMOVE the following 1 line
         tail -n "${taillines}" "/tmp/aliaser_full.tmp"
         echo
@@ -201,17 +211,23 @@ EOF
   }
   # aliaser edit
   cmd::edit() {
+    # To Be Implemented::: -------
     # local tmp_aliases_list="$(lib::get_path bkp_aliases)"
     # local tmp_without_aliases="$(lib::get_path bkp_without_aliases)""
+    # --------
     # REMOVE the following 1 line
     local tmp_aliases_list="/tmp/aliaser_aliases_list_${RANDOM}.txt"
     cmd::list >"${tmp_aliases_list}"
     "${EDITOR}" "${tmp_aliases_list}"
+    # To Be Implemented::: -------
     # lib::dump.without_aliases >>"${tmp_without_aliases}"
+    # --------
     # REMOVE the following 1 line
     lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
     {
+      # To Be Implemented::: -------
       # cat "${tmp_without_aliases}";
+      # --------
       # REMOVE the following 1 line
       cat "/tmp/aliaser_raw.tmp";
       lib::decoded_header;
@@ -222,41 +238,50 @@ EOF
     source "${ALIASER_SOURCE}"
     echo "Updated aliases."
   }
-  # aliaser dir "zsh_config" "~/zsh-config"
+  # usage (cli) `aliaser dir "zsh_config" "~/zsh-config"`
   cmd::dir() {
     local dirname="${2}"
     local dirpath="${3}"
     # lib::error.missing_value Needs to be tested [12/16/2025].
+    # To Be Implemented::: -------
     # lib::error.missing_value "${dirname}" "${dirpath}"
+    # --------
     local composed_alias="alias ${dirname}='cd \"${dirpath}\"'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
     lib::confirm_alias "${dirname}" "${dirpath}"
+    # REMOVE the following 2 comments:
     # echo "Added: alias '${dirname}':"
     # echo "  > cd \"${dirpath}\""
   }
-  # aliaser lastcmd "name"
+  # usage (cli): `aliaser lastcmd "name"`
   cmd::lastcmd() {
     local prev; prev=$(
       history |
         tail -n 1 |
+        # REMOVE the following 1 comments:
         # awk '{first=$1; $1=""; print $0;}' |
         { read -r _ contents; echo "${contents}"; }
     )
+    # To Be Implemented::: -------
     # lib::error.missing_value Needs to be tested [12/16/2025].
     # lib::error.missing_value "${2}"
+    # --------
     local composed_alias="alias ${2}='${prev}'"
     eval "${composed_alias}"
     echo "${composed_alias}" >>"${ALIASER_SOURCE}"
     lib::confirm_alias "${2}" "${prev}"
+    # REMOVE the following 2 comments:
     # echo "Added: alias '${2}':"
     # echo "  > \"${prev}\""
   }
-  # aliaser search <query>
+  # usage (cli): `aliaser search <query>`
   cmd::search() {
     local query="${2}"
+    # To Be Implemented::: -------
     # lib::error.missing_value Needs to be tested [12/16/2025].
     # lib::error.missing_value "${query}"
+    # --------
     local matches; matches=$(cmd::list | tail -n 2 | grep -F "${query}")
     test -z "${matches}" && {
       echo "No match found for '${query}'"
@@ -271,17 +296,22 @@ EOF
         lib::color.green "${selection%%\'}"
       done
   }
-  # aliaser clear_all
+  # usage (cli): `aliaser clear_all`
   cmd::clear_all() {
+    # To Be Implemented::: -------
     # local bkp_without_aliases="$(lib::get_path bkp_without_aliases)"
     # local aliaser_bkp="$(lib::get_path bkp_aliases)"
+    # --------
     # REMOVE the following 1 line
     local aliaser_bkp="/tmp/aliaser_clear_all.bkp"
     cmd::list >>"${aliaser_bkp}"
+    # To Be Implemented::: -------
     # lib::dump.without_aliases >>"${bkp_without_aliases}"
+    # --------
     # REMOVE the following 1 line
     lib::dump.without_aliases >>"/tmp/aliaser_raw.tmp"
     {
+      # REMOVE the following 1 comment
       # cat "${bkp_without_aliases}";
       # REMOVE the following 1 line
       cat "/tmp/aliaser_raw.tmp";
@@ -303,7 +333,9 @@ EOF
   search) cmd::search "$@" ;;
   clear_all) cmd::clear_all ;;
   "")
+    # To Be Implemented::: -------
     # lib::error.empty_arg
+    # --------
     # running aliaser without an argument will evaluate the
     # aliases listed at the bottom of the file, allowing them
     # to be used in the current environment.
@@ -311,7 +343,7 @@ EOF
     # eval "$(lib::dump.aliases)"
     ;;
   *)
-    # aliaser "zsh_config='cd ~/zsh-config'"
+    # usage (cli): `aliaser "zsh_config='cd ~/zsh-config'"`
     eval "alias ${*}"
     echo "alias ${*}" >>"${ALIASER_SOURCE}"
     lib::color.green "Added: alias '${*}'"

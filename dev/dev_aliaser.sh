@@ -10,7 +10,7 @@
 
 # aliaser is a self-editing alias management tool.
 ##:: aliaser-version=v2.2.1
-function dev_aliaser() {(
+function dev_aliaser() {
   set -o errexit
   # set -o nounset
   # set -o pipefail
@@ -94,14 +94,18 @@ Source:
   https://github.com/unforswearing/aliaser
 EOF
   }
+  # Run command in the background using 'async':
+  # lib::async() {
+  #   ({ eval "$@"; } &) >/dev/null 2>&1;
+  # }
   # ------------
   # make a generic "error" function that will cover multiple scenarios?
   # colorize error output?
   # ------------
-  lib::color.red() {
-    local message="${*}"
-    printf '\033[31m%s\033[0m\n' "${message}"
-  }
+  # lib::color.red() {
+  #   local message="${*}"
+  #   printf '\033[31m%s\033[0m\n' "${message}"
+  # }
   lib::color.green() {
     local message="${*}"
     printf '\033[32m%s\033[0m\n' "${message}"
@@ -113,9 +117,9 @@ EOF
   #     return 1
   #   fi
   # }
-  lib::error.empty_arg() {
-    lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
-  }
+  # lib::error.empty_arg() {
+  #   lib::color.red "Error: Empty argument. Run 'aliaser help' for assistance."
+  # }
   # The base64 encoded text is the "aliases" header which indicates
   # where the script should store its created aliases. This string
   # should only appear as a decoded string at the end of the file.
@@ -133,6 +137,17 @@ EOF
  # Needs to be tested [12/16/2025].
   lib::count_lines() {
     wc -l <"${ALIASER_SOURCE}" | lib::trim # awk '{$1=$1};1'
+  }
+  # source aliases from the bottom of this file (aliaser.sh) into
+  # current shell environment.
+  # Needs to be tested [12/16/2025].
+  lib::import_aliases() {
+    # local tmp_aliases_bkp="/tmp/aliaser_aliases_list_${RANDOM}.txt"
+    # lib::dump.aliases >"${tmp_aliases_bkp}"
+    # source "/tmp/aliaser_aliases_list_${RANDOM}.txt"
+    local alias_list; alias_list="$(cmd::list)"
+    # shellcheck source=/dev/null
+    source <("${alias_list}")
   }
   # Needs to be tested [12/16/2025].
   lib::dump.without_aliases() {
@@ -155,9 +170,10 @@ EOF
     # REMOVE the following 1 line
     cat "${ALIASER_SOURCE}" >/tmp/aliaser_full.tmp
     while read -r line; do
+      # if [[ "${line}" == "" ]]; then continue; fi
       if [[ "${line}" =~ ${header} ]]; then
         local linecount; linecount="$(lib::count_lines)"
-        local taillines=$((linecount - (count)))
+        local taillines=$((linecount - (count + 1)))
         # tail -n "${taillines}" "${bkp_file}"
         # REMOVE the following 1 line
         tail -n "${taillines}" "/tmp/aliaser_full.tmp"
@@ -286,7 +302,14 @@ EOF
   lastcmd) cmd::lastcmd "$@" ;;
   search) cmd::search "$@" ;;
   clear_all) cmd::clear_all ;;
-  "") lib::error.empty_arg ;;
+  "")
+    # lib::error.empty_arg
+    # running aliaser without an argument will evaluate the
+    # aliases listed at the bottom of the file, allowing them
+    # to be used in the current environment.
+    # echo "Loading aliases"
+    # eval "$(lib::dump.aliases)"
+    ;;
   *)
     # aliaser "zsh_config='cd ~/zsh-config'"
     eval "alias ${*}"
@@ -294,7 +317,7 @@ EOF
     lib::color.green "Added: alias '${*}'"
     ;;
   esac
-)}
+}
 ## ---------------
 dev_aliaser "${@}"
 ## ---------------
@@ -303,3 +326,4 @@ dev_aliaser "${@}"
 
 alias projects_dir='cd "$HOME/projects"'
 alias wakeup='sleep 2 && echo awake'
+alias gumps='echo GRUMPS; echo GRUMPS; echo GRUMPS'

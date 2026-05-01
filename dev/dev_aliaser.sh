@@ -46,11 +46,11 @@ function dev_aliaser() {
   # lib::get_path() {
   #   case "$1" in
   #       bkp_aliases)
-  #         echo "/tmp/aliaser_aliases_${$}.bkp" ;;
+  #         echo "/tmp/aliaser_aliases.${$}${RANDOM}.bkp" ;;
   #       bkp_without_aliases)
-  #         echo "/tmp/aliaser_without_aliases_${$}.bkp" ;;
+  #         echo "/tmp/aliaser_without_aliases.${$}${RANDOM}.bkp" ;;
   #       bkp_complete)
-  #         echo "/tmp/aliaser_full.${$}.bkp" ;;
+  #         echo "/tmp/aliaser_full.${$}${RANDOM}.bkp" ;;
   #       *)
   #         return 1 ;;
   #   esac
@@ -135,15 +135,15 @@ EOF
   }
  # Needs to be tested [12/16/2025].
   lib::count_lines() {
-    wc -l <"${ALIASER_SOURCE}" | lib::trim # awk '{$1=$1};1'
+    wc -l <"${ALIASER_SOURCE}" | lib::trim
   }
   # source aliases from the bottom of this file (aliaser.sh) into
   # current shell environment.
   # Needs to be tested [12/16/2025].
   lib::import_aliases() {
     # To Be Implemented::: -------
-    # local tmp_aliases_bkp="/tmp/aliaser_aliases_list_${RANDOM}.txt"
-    # lib::dump.aliases >"${tmp_aliases_bkp}"
+    # local aliases_bkp="$(lib::get_path bkp_aliases)"
+    # lib::dump.aliases >"${aliases_bkp}"
     # source "/tmp/aliaser_aliases_list_${RANDOM}.txt"
     # --------
     local alias_list; alias_list="$(cmd::list)"
@@ -211,7 +211,7 @@ EOF
   # aliaser edit
   cmd::edit() {
     # To Be Implemented::: -------
-    # local tmp_aliases_list="$(lib::get_path bkp_aliases)"
+    # local aliases_bkp="$(lib::get_path bkp_aliases)"
     # local tmp_without_aliases="$(lib::get_path bkp_without_aliases)""
     # --------
     # REMOVE the following 1 line
@@ -299,10 +299,14 @@ EOF
   cmd::clear_all() {
     # To Be Implemented::: -------
     # local bkp_without_aliases="$(lib::get_path bkp_without_aliases)"
-    # local aliaser_bkp="$(lib::get_path bkp_aliases)"
+    # local aliases_bkp="$(lib::get_path bkp_aliases)"
     # --------
     # REMOVE the following 1 line
     local aliaser_bkp="/tmp/aliaser_clear_all.bkp"
+    # To Be Implemented::: -------
+    # cmd::list >>"${aliaser_bkp}"
+    # --------
+    # REMOVE the following 1 line
     cmd::list >>"${aliaser_bkp}"
     # To Be Implemented::: -------
     # lib::dump.without_aliases >>"${bkp_without_aliases}"

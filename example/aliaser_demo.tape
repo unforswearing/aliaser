@@ -3,76 +3,51 @@ Output aliaser_demo.gif
 Set Height 1000
 Set Width 1600
 
-Type "# A simple example of sourcing and using aliaser."
-Sleep 500ms
+Type "# a simple example of using aliaser"
 Enter
-Sleep 2s
-
-Type "# First, we source aliaser."
+Sleep 3s
+Type "# first we source aliaser from the parent directory"
 Enter
-Type "# In this example, aliaser lives in the parent directory."
-Enter
+Sleep 1s
 Type "source ../aliaser.sh"
-Sleep 500ms
 Enter
-Sleep 4s
-
-Type `# FYI - aliaser will use the value of `
+Sleep 3s
+Type "# typing `aliaser help` will show a list of available commands"
 Enter
-Type `$EDITOR for 'open' and 'edit' commands.`
-Enter
-Type `echo "editor = $EDITOR"`
-Enter
-Sleep 4s
-
-
-Type `# Typing 'aliaser help' will print a list of available commands.`
 Type "aliaser help"
-Sleep 500ms
 Enter
-Sleep 4s
-
-Hide
+Sleep 5s
+Ctrl+L
+Type "# now lets run through an example"
+Enter
+Sleep 1s
+Type "# use the `aliaser list` command to see all of your aliases."
+Enter
+Sleep 1s
+Type "aliaser list"
+Enter
+Sleep 1s
+Type "# lets get rid of these aliases for this demo."
+Enter
+Type "# the `aliaser clearall` command will remove them for us."
+Enter
+Sleep 1s
 Type "aliaser clearall"
 Enter
-Show
-
-Type "# Now, let's run through a few quick examples."
-Sleep 500ms
-Enter
-Sleep 4s
-
+Sleep 3s
 Ctrl+L
-
-Type "aliaser"
-Sleep 500ms
+Type "# lets use the `aliaser dir` command to easily navigate to our 'files' directory."
 Enter
-Sleep 2s
-Type "aliaser list"
-Sleep 500ms
+Sleep 1s
+Type "aliaser dir filedir files"
 Enter
-Sleep 2s
-
-Ctrl+L
-
-Type `aliaser "sayhi='echo hello'"`
-Sleep 500ms
+Sleep 3s
+Type "# lets visit our 'files' directory using the alias named 'filedir' that we just created."
 Enter
-Sleep 4s
-Type "sayhi"
-Sleep 500ms
+Type "filedir && ls"
 Enter
-Sleep 4s
-
-Type "aliaser list"
-Sleep 500ms
-Enter
-Sleep 8s
-
-Ctrl+L
-
-Type "# Done. Find more at github.com/unforswearing/aliaser"
-Sleep 500ms
+Sleep 5s
+Type "# done. find more at github.com/unforswearing/aliaser"
 Enter
 Sleep 8s
 

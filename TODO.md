@@ -1,8 +1,14 @@
 # `aliaser` To Do
 
-Tasks to complete for aliaser version 3.0.0:
+## Aliaser rewrite
 
-## To Do
+Instead of completing the tasks below, I will likely not waste any additional time on a purely shell version of aliaser, and instead focus on rewriting the script in a different language -- ruby or python is most likely, but would consider javascript (only via something like quickJS; not interested in node/deno/bun/etc).
+
+The shell verision of the script will act as 1) as runner for the main script, and 2) storage for the newly created aliases. This way I have the benefits of a less fiddly, non-shell language while retaining the original goal of being a "self-editing alias management tool."
+
+Tasks for 3.0.0 remain for posterity, though they likely will change.
+
+## Tasks to complete for aliaser version 3.0.0
 
 - [ ] Create development env and tools
   - To avoid breaking things / improve developer experience.

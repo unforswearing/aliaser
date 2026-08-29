@@ -42,7 +42,7 @@ function dev_aliaser() {
   # ------------
   # Aliaser library helper commands
   # ------------
-  # lib::get_path has been added to the script but needs testing [12/17/2025]
+  # lib::get_path has bee23n added to the script but needs testing [12/17/2025]
   # lib::get_path() {
   #   case "$1" in
   #       bkp_aliases)
